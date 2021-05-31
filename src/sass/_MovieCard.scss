@@ -20,6 +20,7 @@
 		box-shadow: $card-shadow;
 		cursor: pointer;
 		overflow: hidden;
+		filter: contrast(105%) saturate(130%);
 
 		transition-property: transform;
 

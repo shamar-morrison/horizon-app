@@ -1,4 +1,4 @@
-// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 :root {
@@ -36,8 +36,11 @@ ul {
 	list-style: none;
 }
 
+.navbar-wrapper,
 .movie__card--img,
+button,
 img,
+ul,
 li,
 i,
 a {

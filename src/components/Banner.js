@@ -8,10 +8,11 @@ const Banner = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await instance.get(requests.fetchPopularTvSHows);
+				const response = await instance.get(requests.fetchPopularTvShows);
 				if (response.status !== 200 || !response) throw Error(response.statusText);
 
 				const data = response.data.results;
+				// set random movie
 				setBanner(data[Math.floor(Math.random() * data.length - 1)]);
 			} catch (e) {
 				console.error(e);
@@ -27,8 +28,6 @@ const Banner = () => {
 		backgroundPosition: 'center center',
 	};
 
-	console.log(banner);
-
 	return (
 		<header className="banner" style={headerStyles}>
 			<div className="container">
@@ -37,14 +36,14 @@ const Banner = () => {
 						<i className="fas fa-star star"></i>
 						{Number(banner?.vote_average).toFixed(1)}
 					</p>
-					<h1 className="banner__body--title">{banner?.name ? banner?.name : banner?.original_name}</h1>
+					<h1 className="banner__body--title">{banner?.name || banner?.original_name || banner?.title}</h1>
 					<p className="banner__body--desc">{banner?.overview}</p>
 					<ul className="banner__body--btns">
 						<li className="watch-btn">
-							<i class="fas fa-play"></i>Watch
+							<i className="fas fa-play"></i>Watch
 						</li>
 						<li className="add-list-btn">
-							<i class="fas fa-plus"></i>Add List
+							<i className="fas fa-plus"></i>Add List
 						</li>
 					</ul>
 				</div>
