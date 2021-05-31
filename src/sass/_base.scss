@@ -1,0 +1,54 @@
+// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+	--clr-red: #e50914;
+	--clr-primary-900: #16151a;
+	--clr-primary-800: #1e1d22;
+	--clr-primary-500: #6f6e76;
+	--clr-primary-600: #292830;
+	--clr-yellow: #ffb70c;
+}
+
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+	line-height: 1.6;
+	font-size: 1.125rem; // 18px
+	color: #fff;
+	background-color: var(--clr-primary-900);
+	overflow-x: hidden;
+}
+
+a {
+	text-decoration: none;
+}
+
+ul {
+	list-style: none;
+}
+
+.movie__card--img,
+img,
+li,
+i,
+a {
+	transition: 700ms cubic-bezier(0.17, 0.85, 0.438, 0.99);
+}
+
+// override swiper styles so that slidesPerView='auto' works
+.swiper-container {
+	width: 100%;
+}
+
+.swiper-slide {
+	width: auto;
+}

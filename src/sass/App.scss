@@ -1,0 +1,17 @@
+// BOOTSTRAP
+@import '../../node_modules/bootstrap/dist/css/bootstrap-grid.css';
+
+// SWIPER SLIDE
+@import '../../node_modules/swiper/swiper.scss';
+@import '../../node_modules/swiper/components/navigation/navigation.scss';
+@import '../../node_modules/swiper/components/pagination/pagination.scss';
+
+// MAIN
+@import 'variables';
+@import 'scrollbars';
+@import 'base';
+
+// COMPONENTS
+@import 'MovieCard';
+@import 'MovieRow';
+@import 'Banner';
