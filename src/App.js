@@ -1,11 +1,14 @@
 import './css/App.min.css';
 import MovieRow from './components/MovieRow';
+import Navbar from './components/Navbar';
+import Banner from './components/Banner';
 import requests from './logic/requests';
 
 const App = () => {
 	return (
 		<>
-			<header className="banner"></header>
+			<Navbar />
+			<Banner />
 			<section className="container">
 				<MovieRow title="Trending Now" fetchUrl={requests.fetchTrending} />
 				<MovieRow title="Top Rated" fetchUrl={requests.fetchTopRated} />

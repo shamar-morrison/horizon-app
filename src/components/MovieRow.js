@@ -9,7 +9,6 @@ SwiperCore.use([Navigation, Pagination]);
 
 const MovieRow = ({ title, fetchUrl }) => {
 	const [movies, setMovies] = useState([]);
-	let swiperID = 0;
 
 	useEffect(() => {
 		// get movies data
@@ -25,23 +24,37 @@ const MovieRow = ({ title, fetchUrl }) => {
 		fetchData();
 	}, [fetchUrl]);
 
-	// console.log(movies, title);
-
 	return (
 		<div className="section">
 			<div className="section__header">
 				<h2 className="section__title">{title}</h2>
 				<ul className="swiper-nav">
-					<li className={`swiper-nav-next-${swiperID}`}>
+					<li className="swiper-nav-prev">
 						<i className="fas fa-arrow-left"></i>
 					</li>
-					<li className={`swiper-nav-prev-${swiperID}`}>
+					<li className="swiper-nav-next">
 						<i className="fas fa-arrow-right"></i>
 					</li>
 				</ul>
 			</div>
-			<Swiper slidesPerView={'auto'} spaceBetween={32} navigation>
-				<div className="section__movies swiper-wrapper">
+			<Swiper
+				slidesPerView={'auto'}
+				spaceBetween={32}
+				onSwiper={swiper => {
+					document.querySelector('.swiper-nav-prev').onclick = function () {
+						console.log('closest', swiper);
+						swiper.slidePrev();
+					};
+					document.querySelector('.swiper-nav-next').onclick = function () {
+						console.log('closest', swiper);
+						swiper.slideNext();
+					};
+
+					// console.log('swiper.navigation.nextEl', swiper.navigation.nextEl);
+					// swiper.navigation.prevEl = swiper.wrapperEl.closest('.swiper-nav-prev');
+				}}
+			>
+				<div className="section__movies">
 					{movies &&
 						movies.map((mov, ind) => {
 							return (
