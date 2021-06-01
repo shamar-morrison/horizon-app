@@ -1,0 +1,32 @@
+.large__card {
+	position: relative;
+	padding: 90px 100px;
+	width: 100%;
+	height: 500px;
+	border-radius: 15px;
+	background-color: #fff;
+	margin-bottom: 50px;
+	box-shadow: $navbar-shadow;
+	overflow: hidden;
+	@include filter;
+
+	&::before {
+		@include radial-gradient;
+	}
+
+	&::after {
+		@include bg-shadow;
+	}
+
+	&--body {
+		position: relative;
+		z-index: 10;
+	}
+
+	&--title {
+		width: 70%;
+		font-family: 'Poppins', sans-serif;
+		font-size: 3rem;
+		line-height: 1.3;
+	}
+}

@@ -4,26 +4,14 @@
 	min-width: 100vw;
 	margin-bottom: 70px;
 
-	filter: contrast(105%) saturate(130%);
+	@include filter;
 
 	&::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-		background: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.897) 100%);
+		@include radial-gradient;
 	}
 
 	&::after {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-		background-color: rgba(0, 0, 0, 0.521);
+		@include bg-shadow;
 	}
 
 	&__body {
@@ -50,6 +38,7 @@
 			display: -webkit-box;
 			-webkit-line-clamp: 3;
 			-webkit-box-orient: vertical;
+
 			-moz-line-clamp: 3;
 			-moz-box-orient: vertical;
 			overflow: hidden;
@@ -72,7 +61,8 @@
 			gap: 20px;
 			margin-top: 35px;
 
-			li {
+			.watch-btn,
+			.add-list-btn {
 				padding: 8px 40px;
 				font-size: 1rem;
 				border-radius: 100px;

@@ -7,7 +7,6 @@ const Navbar = () => {
 	const navBarAnim = () => {
 		if (window.scrollY > 100) navbar.current.classList.add('navbar-black');
 		else navbar.current.classList.remove('navbar-black');
-		console.log('scroll event');
 	};
 
 	// sticky navbar anim
