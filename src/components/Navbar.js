@@ -7,6 +7,7 @@ const Navbar = () => {
 	const navBarAnim = () => {
 		if (window.scrollY > 100) navbar.current.classList.add('navbar-black');
 		else navbar.current.classList.remove('navbar-black');
+		console.log('scroll event');
 	};
 
 	// sticky navbar anim
@@ -22,7 +23,9 @@ const Navbar = () => {
 			<div className="navbar-wrapper" ref={navbar}>
 				<nav className="navbar">
 					<div className="navbar-brand">
-						<img src={logo} alt="Logo" srcSet={logo} />
+						<a href="#home">
+							<img src={logo} alt="Logo" srcSet={logo} />
+						</a>
 					</div>
 					<ul className="navbar-links">
 						<li className="nav-link link-active">Home</li>

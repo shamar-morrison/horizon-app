@@ -8,7 +8,7 @@ const Banner = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await instance.get(requests.fetchPopularTvShows);
+				const response = await instance.get(requests.fetchHorrorMovies);
 				if (response.status !== 200 || !response) throw Error(response.statusText);
 
 				const data = response.data.results;
@@ -29,7 +29,7 @@ const Banner = () => {
 	};
 
 	return (
-		<header className="banner" style={headerStyles}>
+		<header id="home" className="banner" style={headerStyles}>
 			<div className="container">
 				<div className="banner__body">
 					<p className="banner__body--rating">
