@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import instance from '../logic/axios';
 import MovieCard from './MovieCard';
 import MovieCardLarge from './MovieCardLarge';
@@ -13,8 +13,14 @@ const MovieRow = ({ title, fetchUrl }) => {
 	const [movieCardLarge, setMovieCardLarge] = useState('');
 
 	const handleMovieClick = mov => {
-		setMovieCardLarge(false);
-		setMovieCardLarge(mov);
+		if (movieCardLarge) {
+			setMovieCardLarge('');
+			setTimeout(() => {
+				setMovieCardLarge(mov);
+			}, 50);
+		} else {
+			setMovieCardLarge(mov);
+		}
 	};
 
 	useEffect(() => {

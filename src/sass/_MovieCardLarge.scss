@@ -2,10 +2,11 @@
 	position: relative;
 	padding: 90px 100px;
 	width: 100%;
-	height: 500px;
+	min-height: 500px;
+	margin-bottom: 50px;
+
 	border-radius: 15px;
 	background-color: #fff;
-	margin-bottom: 50px;
 	box-shadow: $navbar-shadow;
 	overflow: hidden;
 	@include filter;
@@ -26,7 +27,11 @@
 	&--title {
 		width: 70%;
 		font-family: 'Poppins', sans-serif;
-		font-size: 3rem;
+		font-size: 2.7rem;
 		line-height: 1.3;
+	}
+
+	.close-card {
+		cursor: pointer;
 	}
 }
