@@ -39,11 +39,11 @@ const Banner = () => {
 					<h1 className="banner__body--title">{banner?.name || banner?.original_name || banner?.title}</h1>
 					<p className="banner__body--desc">{banner?.overview}</p>
 					<ul className="banner__body--btns">
-						<li className="watch-btn">
+						<li className="btn btn-lg watch-btn">
 							<i className="fas fa-play"></i>Watch
 						</li>
-						<li className="add-list-btn">
-							<i className="fas fa-plus"></i>Add List
+						<li className="btn btn-lg add-list-btn">
+							<i className="fas fa-plus"></i>see more
 						</li>
 					</ul>
 				</div>

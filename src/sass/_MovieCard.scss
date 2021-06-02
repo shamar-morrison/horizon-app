@@ -1,6 +1,7 @@
 .movie__card {
 	margin-bottom: 70px;
 	max-width: 175px;
+	cursor: pointer;
 
 	&--title {
 		font-size: 1.1rem;
@@ -18,7 +19,6 @@
 		width: 100%;
 		border-radius: 10px;
 		box-shadow: $card-shadow;
-		cursor: pointer;
 		overflow: hidden;
 		@include filter;
 

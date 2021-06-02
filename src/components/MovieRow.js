@@ -11,31 +11,35 @@ SwiperCore.use([Navigation, Pagination]);
 const MovieRow = ({ title, fetchUrl }) => {
 	const [movies, setMovies] = useState([]);
 	const [movieCardLarge, setMovieCardLarge] = useState('');
+	const [url, setUrl] = useState(fetchUrl);
 
 	const handleMovieClick = mov => {
-		if (movieCardLarge) {
-			setMovieCardLarge('');
-			setTimeout(() => {
-				setMovieCardLarge(mov);
-			}, 50);
-		} else {
-			setMovieCardLarge(mov);
+		setMovieCardLarge(mov);
+	};
+
+	// handle MovieCardLarge
+	const handleOnClose = () => {
+		if (url) {
+			setUrl('');
+			return;
 		}
+		setUrl(fetchUrl);
 	};
 
 	useEffect(() => {
 		// get movies data
 		const fetchData = async () => {
 			try {
-				const response = await instance.get(fetchUrl);
+				const response = await instance.get(url);
 				if (response.status !== 200 || !response) throw Error(response.statusText);
 				setMovies(response.data.results);
 			} catch (e) {
-				console.error(e);
+				console.error('MovieRow.js', e);
 			}
 		};
 		fetchData();
-	}, [fetchUrl]);
+		setMovieCardLarge('');
+	}, [url]);
 
 	return (
 		<div className="section">
@@ -62,7 +66,7 @@ const MovieRow = ({ title, fetchUrl }) => {
 						})}
 				</div>
 			</Swiper>
-			{movieCardLarge && <MovieCardLarge movie={movieCardLarge} />}
+			{movieCardLarge && <MovieCardLarge movie={movieCardLarge} onClose={handleOnClose} onWatch={() => {}} />}
 		</div>
 	);
 };

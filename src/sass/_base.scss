@@ -58,6 +58,45 @@ i.star {
 	color: var(--clr-yellow);
 }
 
+.btn {
+	font-size: 1rem;
+	border-radius: 100px;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.btn-lg {
+	padding: 8px 40px;
+}
+
+.btn-sm {
+	padding: 5px 30px;
+}
+
+.watch-btn {
+	background-color: var(--clr-red);
+	box-shadow: 0 10px 15px 0 rgb(229 9 20 / 20%);
+}
+
+.add-list-btn {
+	background-color: #000;
+}
+
+.watch-btn,
+.add-list-btn {
+	transition-property: transform;
+
+	&:hover,
+	&:focus {
+		transform: scale(0.97);
+	}
+
+	i {
+		font-size: 0.87rem;
+		margin-right: 12px;
+	}
+}
+
 // override swiper styles so that slidesPerView='auto' works
 .swiper-container {
 	width: 100%;

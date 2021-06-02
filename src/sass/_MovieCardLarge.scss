@@ -32,6 +32,15 @@
 	}
 
 	.close-card {
+		position: absolute;
+		top: -24%;
+		right: -5%;
 		cursor: pointer;
 	}
+}
+
+.youtube-player {
+	position: relative;
+	z-index: 10;
+	margin-top: 40px;
 }
