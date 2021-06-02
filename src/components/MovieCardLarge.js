@@ -8,25 +8,6 @@ const MovieCardLarge = ({ movie, onClose }) => {
 	const [trailerUrl, setTrailerUrl] = useState('');
 	const [hasTrailer, setHasTrailer] = useState(false); // if true, 'trailer not found' error message is shown
 
-	// getTrailer(movie, setTrailerUrl, setHasTrailer);
-
-	// const showTrailer = mov => {
-	// 	// get movie trailer url
-	// 	movieTrailer(mov.name || mov.title || mov.original_title || '')
-	// 		.then(url => {
-	// 			console.debug('URL', url);
-	// 			// get the trailer search ID
-	// 			const urlParams = new URLSearchParams(new URL(url).search);
-	// 			setTrailerUrl(urlParams.get('v'));
-	// 			setHasTrailer(); // clear 'no trailer found' error message if active
-	// 		})
-	// 		.catch(e => {
-	// 			console.error('movieTrailer function', e);
-	// 			setHasTrailer(true);
-	// 			setTrailerUrl();
-	// 		});
-	// };
-
 	// remove trailer url and error msg when switching cards
 	useEffect(() => {
 		setHasTrailer();

@@ -9,8 +9,16 @@ const Banner = () => {
 	const [trailerUrl, setTrailerUrl] = useState('');
 	const [hasTrailer, setHasTrailer] = useState(false);
 
+	const closeTrailer = () => {
+		setTrailerUrl();
+	};
+
+	const clearTrailerErrorMsg = () => {
+		setHasTrailer();
+	};
+
 	const youtubeOpts = {
-		height: '500px',
+		height: '500px', // height and width overriden in CSS
 		width: '720px',
 		playerVars: {
 			autoplay: 1,
@@ -20,7 +28,7 @@ const Banner = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await instance.get(requests.fetchHorrorMovies);
+				const response = await instance.get(requests.fetchRomanceMovies);
 				if (response.status !== 200 || !response) throw Error(response.statusText);
 
 				const data = response.data.results;
@@ -62,15 +70,15 @@ const Banner = () => {
 				</div>
 			</div>
 			{trailerUrl && (
-				<div className="banner-youtube-player">
-					<span className="close-banner-player" onClick={() => setTrailerUrl('')}>
+				<div className="banner-youtube-player" onClick={closeTrailer}>
+					<span className="close-banner-player">
 						<i class="fas fa-times"></i>
 					</span>
 					<Youtube videoId={trailerUrl} opts={youtubeOpts} />
 				</div>
 			)}
 			{hasTrailer && (
-				<div className="banner-no-trailer">
+				<div className="banner-no-trailer" onClick={clearTrailerErrorMsg}>
 					<h1>No Trailer Found</h1>
 				</div>
 			)}

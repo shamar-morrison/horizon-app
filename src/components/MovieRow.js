@@ -11,19 +11,26 @@ SwiperCore.use([Navigation, Pagination]);
 const MovieRow = ({ title, fetchUrl }) => {
 	const [movies, setMovies] = useState([]);
 	const [movieCardLarge, setMovieCardLarge] = useState('');
-	const [url, setUrl] = useState(fetchUrl);
+	const [url, setUrl] = useState(title.startsWith('Trending') ? fetchUrl[0] : fetchUrl);
 
 	const handleMovieClick = mov => {
 		setMovieCardLarge(mov);
 	};
 
-	// handle MovieCardLarge
 	const handleOnClose = () => {
-		if (url) {
-			setUrl('');
-			return;
+		setMovieCardLarge('');
+	};
+
+	const sortTrendingNow = target => {
+		if (target.classList.contains('sort-by-movies')) {
+			document.querySelector('.sort-by .selected').classList.remove('selected');
+			target.classList.add('selected');
+			setUrl(fetchUrl[0]); // fetch movies
+		} else {
+			document.querySelector('.sort-by .selected').classList.remove('selected');
+			target.classList.add('selected');
+			setUrl(fetchUrl[1]); // fetch TV Shows
 		}
-		setUrl(fetchUrl);
 	};
 
 	useEffect(() => {
@@ -53,6 +60,19 @@ const MovieRow = ({ title, fetchUrl }) => {
 					<i className="fas fa-arrow-right"></i>
 					</li>
 				</ul> */}
+				{title.startsWith('Trending') && (
+					<div className="sort">
+						<p>Sort by:</p>
+						<ul className="sort-by">
+							<li className="sort-by-movies selected" onClick={event => sortTrendingNow(event.target)}>
+								Movies
+							</li>
+							<li className="sort-by-tv" onClick={event => sortTrendingNow(event.target)}>
+								TV Shows
+							</li>
+						</ul>
+					</div>
+				)}
 			</div>
 			<Swiper slidesPerView={'auto'} spaceBetween={32}>
 				<div className="section__movies">
