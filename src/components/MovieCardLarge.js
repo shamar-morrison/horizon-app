@@ -1,23 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BANNER_IMG_URL } from '../logic/requests';
 import Youtube from 'react-youtube';
 import movieTrailer from 'movie-trailer';
+import getTrailer from '../logic/helpers';
 
 const MovieCardLarge = ({ movie, onClose }) => {
 	const [trailerUrl, setTrailerUrl] = useState('');
+	const [hasTrailer, setHasTrailer] = useState(false); // if true, 'trailer not found' error message is shown
 
-	const showTrailer = mov => {
-		// get movie trailer url
-		movieTrailer(mov.name || mov.title || mov.original_title || '')
-			.then(url => {
-				// get the trailer
-				const urlParams = new URLSearchParams(new URL(url).search);
-				setTrailerUrl(urlParams.get('v'));
-			})
-			.catch(e => {
-				console.error('movieTrailer function', e);
-			});
-	};
+	// getTrailer(movie, setTrailerUrl, setHasTrailer);
+
+	// const showTrailer = mov => {
+	// 	// get movie trailer url
+	// 	movieTrailer(mov.name || mov.title || mov.original_title || '')
+	// 		.then(url => {
+	// 			console.debug('URL', url);
+	// 			// get the trailer search ID
+	// 			const urlParams = new URLSearchParams(new URL(url).search);
+	// 			setTrailerUrl(urlParams.get('v'));
+	// 			setHasTrailer(); // clear 'no trailer found' error message if active
+	// 		})
+	// 		.catch(e => {
+	// 			console.error('movieTrailer function', e);
+	// 			setHasTrailer(true);
+	// 			setTrailerUrl();
+	// 		});
+	// };
+
+	// remove trailer url and error msg when switching cards
+	useEffect(() => {
+		setHasTrailer();
+		setTrailerUrl();
+	}, [movie.name, movie.title, movie.original_title]);
 
 	const cardStyle = {
 		backgroundImage: `url(${BANNER_IMG_URL}${movie?.backdrop_path})`,
@@ -43,7 +57,7 @@ const MovieCardLarge = ({ movie, onClose }) => {
 				<h1 className="large__card--title">{movie.name || movie.title || movie.original_title}</h1>
 				<p className="banner__body--desc">{movie.overview}</p>
 				<ul className="banner__body--btns">
-					<li className="btn btn-lg watch-btn" onClick={() => showTrailer(movie)}>
+					<li className="btn btn-lg watch-btn" onClick={() => getTrailer(movie, setTrailerUrl, setHasTrailer)}>
 						<i className="fas fa-play"></i>Watch
 					</li>
 					<li className="btn btn-lg add-list-btn">
@@ -54,6 +68,11 @@ const MovieCardLarge = ({ movie, onClose }) => {
 			{trailerUrl && (
 				<div className="youtube-player">
 					<Youtube videoId={trailerUrl} opts={youtubeOpts} />
+				</div>
+			)}
+			{hasTrailer && (
+				<div className="no-trailer-error">
+					<h1>No Trailer Found.</h1>
 				</div>
 			)}
 		</div>

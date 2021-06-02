@@ -62,3 +62,33 @@
 		}
 	}
 }
+
+.banner-youtube-player {
+	display: grid;
+	place-items: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	z-index: 9999;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		z-index: -1;
+		background-color: rgba(0, 0, 0, 0.89);
+	}
+
+	.close-banner-player {
+		position: relative;
+		right: -400px;
+		top: 100px;
+		font-size: 2rem;
+		cursor: pointer;
+	}
+}

@@ -66,7 +66,7 @@ const MovieRow = ({ title, fetchUrl }) => {
 						})}
 				</div>
 			</Swiper>
-			{movieCardLarge && <MovieCardLarge movie={movieCardLarge} onClose={handleOnClose} onWatch={() => {}} />}
+			{movieCardLarge && <MovieCardLarge movie={movieCardLarge} onClose={handleOnClose} />}
 		</div>
 	);
 };

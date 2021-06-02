@@ -1,9 +1,21 @@
 import { useState, useEffect } from 'react';
 import requests, { BANNER_IMG_URL } from '../logic/requests';
 import instance from '../logic/axios';
+import Youtube from 'react-youtube';
+import getTrailer from '../logic/helpers';
 
 const Banner = () => {
 	const [banner, setBanner] = useState([]);
+	const [trailerUrl, setTrailerUrl] = useState('');
+	const [hasTrailer, setHasTrailer] = useState(false);
+
+	const youtubeOpts = {
+		height: '500px',
+		width: '720px',
+		playerVars: {
+			autoplay: 1,
+		},
+	};
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -13,7 +25,8 @@ const Banner = () => {
 
 				const data = response.data.results;
 				// set random movie
-				setBanner(data[Math.floor(Math.random() * data.length - 1)]);
+				const randomMovie = data[Math.floor(Math.random() * data.length - 1)];
+				setBanner(randomMovie);
 			} catch (e) {
 				console.error(e);
 			}
@@ -39,7 +52,7 @@ const Banner = () => {
 					<h1 className="banner__body--title">{banner?.name || banner?.original_name || banner?.title}</h1>
 					<p className="banner__body--desc">{banner?.overview}</p>
 					<ul className="banner__body--btns">
-						<li className="btn btn-lg watch-btn">
+						<li className="btn btn-lg watch-btn" onClick={() => getTrailer(banner, setTrailerUrl, setHasTrailer)}>
 							<i className="fas fa-play"></i>Watch
 						</li>
 						<li className="btn btn-lg add-list-btn">
@@ -48,6 +61,19 @@ const Banner = () => {
 					</ul>
 				</div>
 			</div>
+			{trailerUrl && (
+				<div className="banner-youtube-player">
+					<span className="close-banner-player" onClick={() => setTrailerUrl('')}>
+						<i class="fas fa-times"></i>
+					</span>
+					<Youtube videoId={trailerUrl} opts={youtubeOpts} />
+				</div>
+			)}
+			{hasTrailer && (
+				<div className="banner-no-trailer">
+					<h1>No Trailer Found</h1>
+				</div>
+			)}
 		</header>
 	);
 };
