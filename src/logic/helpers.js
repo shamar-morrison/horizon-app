@@ -10,7 +10,6 @@ import movieTrailer from 'movie-trailer';
 const getTrailer = (mov, setTrailerUrl, setHasTrailer) => {
 	movieTrailer(mov.name || mov.title || mov.original_title || '')
 		.then(url => {
-			console.debug('URL', url);
 			// get the trailer search ID
 			const urlParams = new URLSearchParams(new URL(url).search);
 			setTrailerUrl(urlParams.get('v'));

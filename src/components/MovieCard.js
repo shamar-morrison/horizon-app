@@ -3,7 +3,7 @@ import { BASE_IMG_URL } from '../logic/requests';
 const MovieCard = ({ movie }) => {
 	const date = new Date(movie.release_date || movie.first_air_date).getFullYear();
 
-	const watchFav = event => {
+	const toggleFavIcons = event => {
 		event.target.classList.toggle('selected');
 	};
 
@@ -21,8 +21,8 @@ const MovieCard = ({ movie }) => {
 				<p className="movie__card--year">{date || 'TBA'}</p>
 				<div className="movie__card--rating">
 					<div className="movie__card--watch-fav">
-						<i className="fas fa-eye watched" onClick={watchFav}></i>
-						<i className="fas fa-heart fav" onClick={watchFav}></i>
+						<i className="fas fa-eye watched" onClick={toggleFavIcons}></i>
+						<i className="fas fa-heart fav" onClick={toggleFavIcons}></i>
 					</div>
 					<i className="fas fa-star star"></i>
 					<p className="rating">{Number(movie.vote_average).toFixed(1)}</p>

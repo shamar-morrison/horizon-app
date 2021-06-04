@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from 'react';
 import instance from '../logic/axios';
 import MovieCard from './MovieCard';
 import MovieCardLarge from './MovieCardLarge';
+import FilterCategory from './FilterCategory';
+import requests from '../logic/requests';
 
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,9 +13,9 @@ SwiperCore.use([Navigation, Pagination]);
 const MovieRow = ({ title, fetchUrl }) => {
 	const [movies, setMovies] = useState([]);
 	const [movieCardLarge, setMovieCardLarge] = useState('');
-	const [url, setUrl] = useState(title.startsWith('Trending') ? fetchUrl[0] : fetchUrl);
+	const [url, setUrl] = useState(fetchUrl);
 
-	const handleMovieClick = mov => {
+	const handleMovieCardClick = mov => {
 		setMovieCardLarge(mov);
 	};
 
@@ -22,17 +24,70 @@ const MovieRow = ({ title, fetchUrl }) => {
 	};
 
 	const sortTrendingNow = target => {
+		const toggleActiveSelection = () => {
+			document.querySelector('.sort-by .selected-trending').classList.remove('selected-trending');
+			target.classList.add('selected-trending');
+		};
+
+		// sort by movies
 		if (target.classList.contains('sort-by-movies')) {
-			document.querySelector('.sort-by .selected').classList.remove('selected');
-			target.classList.add('selected');
-			setUrl(fetchUrl[0]); // fetch movies
-		} else {
-			document.querySelector('.sort-by .selected').classList.remove('selected');
-			target.classList.add('selected');
-			setUrl(fetchUrl[1]); // fetch TV Shows
+			toggleActiveSelection();
+			setUrl(requests.fetchTrendingMovies);
+		}
+		// sort by TV Shows
+		else {
+			toggleActiveSelection();
+			setUrl(requests.fetchTrendingTvShows);
 		}
 	};
 
+	const sortTopRated = target => {
+		const toggleActiveSelection = () => {
+			document.querySelector('.sort-by .selected-top-rated').classList.remove('selected-top-rated');
+			target.classList.add('selected-top-rated');
+		};
+
+		if (target.classList.contains('sort-by-movies')) {
+			toggleActiveSelection();
+			setUrl(requests.fetchTopRatedMovies);
+		} else {
+			toggleActiveSelection();
+			setUrl(requests.fetchTopRatedTvShows);
+		}
+	};
+
+	const filterCategories = event => {
+		const { target } = event;
+		// get currently selected category
+		const selected = document.querySelector(`[data-category=${target.dataset.category}].selected`);
+
+		switch (target.dataset.category) {
+			case 'action': {
+				if (target.classList.contains('popular')) {
+					setUrl(requests.fetchMostPopularActionMovies);
+					selected.classList.remove('selected');
+					target.classList.add('selected');
+				}
+				if (target.classList.contains('latest')) {
+					setUrl(requests.fetchLatestActionMovies);
+					selected.classList.remove('selected');
+					target.classList.add('selected');
+				}
+				if (target.classList.contains('rating-asc')) {
+					setUrl(requests.fetchHighestRatedActionMovies);
+					selected.classList.remove('selected');
+					target.classList.add('selected');
+				}
+				if (target.classList.contains('rating-desc')) {
+					setUrl(requests.fetchLowestRatedActionMovies);
+					selected.classList.remove('selected');
+					target.classList.add('selected');
+				}
+			}
+		}
+	};
+
+	// SET MOVIES
 	useEffect(() => {
 		// get movies data
 		const fetchData = async () => {
@@ -63,15 +118,32 @@ const MovieRow = ({ title, fetchUrl }) => {
 				{title.startsWith('Trending') && (
 					<div className="sort">
 						<p>Sort by:</p>
-						<ul className="sort-by">
-							<li className="sort-by-movies selected" onClick={event => sortTrendingNow(event.target)}>
-								Movies
-							</li>
-							<li className="sort-by-tv" onClick={event => sortTrendingNow(event.target)}>
-								TV Shows
-							</li>
+						<ul className="sort-by" onClick={event => sortTrendingNow(event.target)}>
+							<li className="sort-by-movies trending selected-trending">Movies</li>
+							<li className="sort-by-tv trending">TV Shows</li>
 						</ul>
 					</div>
+				)}
+				{title.startsWith('Top') && (
+					<div className="sort">
+						<p>Sort by:</p>
+						<ul className="sort-by" onClick={event => sortTopRated(event.target)}>
+							<li className="sort-by-movies top-rated selected-top-rated">Movies</li>
+							<li className="sort-by-tv top-rated">TV Shows</li>
+						</ul>
+					</div>
+				)}
+				{title.startsWith('Action') && (
+					<FilterCategory category={'action'} onFilter={filterCategories} />
+
+					// <div className="sort">
+					// 	<ul className="sort-by">
+					// 		<li className="sort-by-popularity selected-top-rated">Most Popular</li>
+					// 		<li className="sort-by-latest">Most Recent</li>
+					// 		<li className="sort-by-rating-asc">Highest Rated</li>
+					// 		<li className="sort-by-rating-des">Lowest Rated</li>
+					// 	</ul>
+					// </div>
 				)}
 			</div>
 			<Swiper slidesPerView={'auto'} spaceBetween={32}>
@@ -79,8 +151,8 @@ const MovieRow = ({ title, fetchUrl }) => {
 					{movies &&
 						movies.map((mov, ind) => {
 							return (
-								<SwiperSlide onClick={() => handleMovieClick(mov)}>
-									<MovieCard movie={mov} key={ind} />
+								<SwiperSlide onClick={() => handleMovieCardClick(mov)}>
+									<MovieCard movie={mov} key={mov.id} />
 								</SwiperSlide>
 							);
 						})}

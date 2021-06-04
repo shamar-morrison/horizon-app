@@ -35,6 +35,7 @@ const Banner = () => {
 				// set random movie
 				const randomMovie = data[Math.floor(Math.random() * data.length - 1)];
 				setBanner(randomMovie);
+				console.log('BANNER MOVIE', randomMovie);
 			} catch (e) {
 				console.error(e);
 			}

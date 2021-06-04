@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BANNER_IMG_URL } from '../logic/requests';
 import Youtube from 'react-youtube';
-import movieTrailer from 'movie-trailer';
 import getTrailer from '../logic/helpers';
 
 const MovieCardLarge = ({ movie, onClose }) => {

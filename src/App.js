@@ -10,12 +10,13 @@ const App = () => {
 			<Navbar />
 			<Banner />
 			<section className="container">
-				<MovieRow title="Trending Now" fetchUrl={[requests.fetchTrendingMovies, requests.fetchTrendingTvShows]} />
-				<MovieRow title="Top Rated" fetchUrl={requests.fetchTopRated} />
+				<MovieRow title="Trending Now" fetchUrl={requests.fetchTrendingMovies} />
+				<MovieRow title="Top Rated" fetchUrl={requests.fetchTopRatedMovies} />
 				<MovieRow title="Action" fetchUrl={requests.fetchActionMovies} />
 				<MovieRow title="Comedy" fetchUrl={requests.fetchComedyMovies} />
 				<MovieRow title="Horror" fetchUrl={requests.fetchHorrorMovies} />
 				<MovieRow title="Romance" fetchUrl={requests.fetchRomanceMovies} />
+				<MovieRow title="TV Shows" fetchUrl={requests.fetchPopularTvShows} />
 				<MovieRow title="Documentaries" fetchUrl={requests.fetchDocumentaries} />
 			</section>
 		</>

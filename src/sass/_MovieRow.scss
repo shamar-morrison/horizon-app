@@ -3,7 +3,6 @@
 
 	&__movies {
 		display: flex;
-		// gap: 32px;
 	}
 
 	&__header {
@@ -50,6 +49,8 @@
 			cursor: pointer;
 		}
 
+		.selected-trending,
+		.selected-top-rated,
 		.selected {
 			background-color: var(--clr-red);
 		}
