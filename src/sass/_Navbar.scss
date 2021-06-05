@@ -1,11 +1,7 @@
 .navbar {
-	// position: fixed;
-	// z-index: 9999;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	// width: 100%;
-	// padding-top: 30px;
 }
 
 .navbar-wrapper {
@@ -14,7 +10,6 @@
 	top: 0;
 	left: 0;
 
-	// margin: auto;
 	width: 100%;
 	padding: 30px 7%;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.055);
@@ -46,7 +41,6 @@
 	gap: 65px;
 	font-size: 0.95rem;
 	color: rgba(255, 255, 255, 0.527);
-	// margin-left: auto;
 	transition-property: color;
 
 	.nav-link {
@@ -56,6 +50,10 @@
 		&:focus {
 			color: #fff;
 		}
+	}
+
+	a {
+		color: inherit;
 	}
 
 	.link-active {

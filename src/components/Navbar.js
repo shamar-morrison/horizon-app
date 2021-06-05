@@ -27,8 +27,12 @@ const Navbar = () => {
 						</a>
 					</div>
 					<ul className="navbar-links">
-						<li className="nav-link link-active">Home</li>
-						<li className="nav-link">Trending</li>
+						<a href="#home">
+							<li className="nav-link link-active">Home</li>
+						</a>
+						<a href="#trending">
+							<li className="nav-link">Trending</li>
+						</a>
 						<li className="nav-link">Top Rated</li>
 						<li className="nav-link">Action</li>
 						<li className="nav-link">Comedy</li>

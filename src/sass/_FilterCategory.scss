@@ -1,0 +1,26 @@
+.sort {
+	display: flex;
+	gap: 15px;
+	align-items: center;
+	margin-bottom: 50px;
+	font-size: 1rem;
+
+	.sort-by {
+		display: flex;
+		gap: 15px;
+		align-items: center;
+
+		li {
+			padding: 6px 40px;
+			background-color: var(--clr-primary-800);
+			border-radius: 100px;
+			cursor: pointer;
+		}
+
+		.selected-trending,
+		.selected-top-rated,
+		.selected {
+			background-color: var(--clr-red);
+		}
+	}
+}

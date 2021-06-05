@@ -56,6 +56,11 @@ const MovieRow = ({ title, fetchUrl }) => {
 		}
 	};
 
+	const toggleActiveCategory = (current, target) => {
+		current.classList.remove('selected');
+		target.classList.add('selected');
+	};
+
 	const filterCategories = event => {
 		const { target } = event;
 		// get currently selected category
@@ -65,47 +70,116 @@ const MovieRow = ({ title, fetchUrl }) => {
 			case 'action': {
 				if (target.classList.contains('popular')) {
 					setUrl(requests.fetchMostPopularActionMovies);
-					selected.classList.remove('selected');
-					target.classList.add('selected');
+					toggleActiveCategory(selected, target);
 				}
 				if (target.classList.contains('latest')) {
 					setUrl(requests.fetchLatestActionMovies);
-					selected.classList.remove('selected');
-					target.classList.add('selected');
+					toggleActiveCategory(selected, target);
 				}
 				if (target.classList.contains('rating-asc')) {
 					setUrl(requests.fetchHighestRatedActionMovies);
-					selected.classList.remove('selected');
-					target.classList.add('selected');
+					toggleActiveCategory(selected, target);
 				}
 				if (target.classList.contains('rating-desc')) {
 					setUrl(requests.fetchLowestRatedActionMovies);
-					selected.classList.remove('selected');
-					target.classList.add('selected');
+					toggleActiveCategory(selected, target);
+				}
+			}
+			case 'comedy': {
+				if (target.classList.contains('popular')) {
+					setUrl(requests.fetchMostPopularComedyMovies);
+					toggleActiveCategory(selected, target);
+				}
+				if (target.classList.contains('latest')) {
+					setUrl(requests.fetchLatestComedyMovies);
+					toggleActiveCategory(selected, target);
+				}
+				if (target.classList.contains('rating-asc')) {
+					setUrl(requests.fetchHighestRatedComedyMovies);
+					toggleActiveCategory(selected, target);
+				}
+				if (target.classList.contains('rating-desc')) {
+					setUrl(requests.fetchLowestRatedComedyMovies);
+					toggleActiveCategory(selected, target);
+				}
+			}
+			case 'horror': {
+				if (target.classList.contains('popular')) {
+					setUrl(requests.fetchMostPopularHorrorMovies);
+					toggleActiveCategory(selected, target);
+				}
+				if (target.classList.contains('latest')) {
+					setUrl(requests.fetchLatestHorrorMovies);
+					toggleActiveCategory(selected, target);
+				}
+				if (target.classList.contains('rating-asc')) {
+					setUrl(requests.fetchHighestRatedHorrorMovies);
+					toggleActiveCategory(selected, target);
+				}
+				if (target.classList.contains('rating-desc')) {
+					setUrl(requests.fetchLowestRatedHorrorMovies);
+					toggleActiveCategory(selected, target);
+				}
+			}
+			case 'romance': {
+				if (target.classList.contains('popular')) {
+					setUrl(requests.fetchMostPopularRomanceMovies);
+					toggleActiveCategory(selected, target);
+				}
+				if (target.classList.contains('latest')) {
+					setUrl(requests.fetchLatestRomanceMovies);
+					toggleActiveCategory(selected, target);
+				}
+				if (target.classList.contains('rating-asc')) {
+					setUrl(requests.fetchHighestRatedRomanceMovies);
+					toggleActiveCategory(selected, target);
+				}
+				if (target.classList.contains('rating-desc')) {
+					setUrl(requests.fetchLowestRatedRomanceMovies);
+					toggleActiveCategory(selected, target);
+				}
+			}
+			case 'documentaries': {
+				if (target.classList.contains('popular')) {
+					setUrl(requests.fetchMostPopularDocumentaries);
+					toggleActiveCategory(selected, target);
+				}
+				if (target.classList.contains('latest')) {
+					setUrl(requests.fetchLatestDocumentaries);
+					toggleActiveCategory(selected, target);
+				}
+				if (target.classList.contains('rating-asc')) {
+					setUrl(requests.fetchHighestRatedDocumentaries);
+					toggleActiveCategory(selected, target);
+				}
+				if (target.classList.contains('rating-desc')) {
+					setUrl(requests.fetchLowestRatedDocumentaries);
+					toggleActiveCategory(selected, target);
 				}
 			}
 		}
 	};
 
-	// SET MOVIES
+	// get movies data
+	const fetchMoviesData = async movie => {
+		try {
+			const response = await instance.get(movie);
+			if (response.status !== 200 || !response) throw Error(response.statusText);
+			setMovies(response.data.results);
+		} catch (e) {
+			console.error('MovieRow.js', e);
+		}
+	};
+
+	// set movies
 	useEffect(() => {
-		// get movies data
-		const fetchData = async () => {
-			try {
-				const response = await instance.get(url);
-				if (response.status !== 200 || !response) throw Error(response.statusText);
-				setMovies(response.data.results);
-			} catch (e) {
-				console.error('MovieRow.js', e);
-			}
-		};
-		fetchData();
+		fetchMoviesData(url);
 		setMovieCardLarge('');
 	}, [url]);
 
 	return (
 		<div className="section">
-			<div className="section__header">
+			<div className="section__header" id={title.split(' ')[0].toLowerCase()}>
 				<h2 className="section__title">{title}</h2>
 				{/* <ul className="swiper-nav">
 					<li className="swiper-nav-prev">
@@ -133,20 +207,23 @@ const MovieRow = ({ title, fetchUrl }) => {
 						</ul>
 					</div>
 				)}
-				{title.startsWith('Action') && (
-					<FilterCategory category={'action'} onFilter={filterCategories} />
-
-					// <div className="sort">
-					// 	<ul className="sort-by">
-					// 		<li className="sort-by-popularity selected-top-rated">Most Popular</li>
-					// 		<li className="sort-by-latest">Most Recent</li>
-					// 		<li className="sort-by-rating-asc">Highest Rated</li>
-					// 		<li className="sort-by-rating-des">Lowest Rated</li>
-					// 	</ul>
-					// </div>
-				)}
+				{title.startsWith('Action') && <FilterCategory category={'action'} onFilter={filterCategories} />}
+				{title.startsWith('Comedy') && <FilterCategory category={'comedy'} onFilter={filterCategories} />}
+				{title.startsWith('Horror') && <FilterCategory category={'horror'} onFilter={filterCategories} />}
+				{title.startsWith('Romance') && <FilterCategory category={'romance'} onFilter={filterCategories} />}
+				{title.startsWith('Documentaries') && <FilterCategory category={'documentaries'} onFilter={filterCategories} />}
 			</div>
-			<Swiper slidesPerView={'auto'} spaceBetween={32}>
+			<Swiper
+				slidesPerView={'auto'}
+				spaceBetween={32}
+				centerInsufficientSlides={true}
+				breakpoints={{
+					1200: {
+						slidesPerView: 6.5,
+						spaceBetween: 32,
+					},
+				}}
+			>
 				<div className="section__movies">
 					{movies &&
 						movies.map((mov, ind) => {
