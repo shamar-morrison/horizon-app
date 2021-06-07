@@ -25,22 +25,24 @@ const Banner = () => {
 		},
 	};
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await instance.get(requests.fetchRomanceMovies);
-				if (response.status !== 200 || !response) throw Error(response.statusText);
+	// fetch random movie to set as banner
+	const fetchRandMovie = async () => {
+		try {
+			const response = await instance.get(requests.fetchRomanceMovies);
+			if (response.status !== 200 || !response) throw Error(response.statusText);
 
-				const data = response.data.results;
-				// set random movie
-				const randomMovie = data[Math.floor(Math.random() * data.length - 1)];
-				setBanner(randomMovie);
-				console.log('BANNER MOVIE', randomMovie);
-			} catch (e) {
-				console.error(e);
-			}
-		};
-		fetchData();
+			const data = response.data.results;
+			// set random movie
+			const randomMovie = data[Math.floor(Math.random() * data.length - 1)];
+			setBanner(randomMovie);
+			console.log('BANNER MOVIE', randomMovie);
+		} catch (e) {
+			console.error(e);
+		}
+	};
+
+	useEffect(() => {
+		fetchRandMovie();
 	}, []);
 
 	const headerStyles = {

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BANNER_IMG_URL } from '../logic/requests';
 import Youtube from 'react-youtube';
 import getTrailer from '../logic/helpers';
+import { Link } from 'react-router-dom';
 
 const MovieCardLarge = ({ movie, onClose }) => {
 	const [trailerUrl, setTrailerUrl] = useState('');
@@ -40,9 +41,18 @@ const MovieCardLarge = ({ movie, onClose }) => {
 					<li className="btn btn-lg watch-btn" onClick={() => getTrailer(movie, setTrailerUrl, setHasTrailer)}>
 						<i className="fas fa-play"></i>Watch
 					</li>
-					<li className="btn btn-lg add-list-btn">
-						<i className="fas fa-plus"></i>see more
-					</li>
+					<Link
+						to={{
+							pathname: '/details',
+							state: {
+								movieDetails: movie,
+							},
+						}}
+					>
+						<li className="btn btn-lg add-list-btn">
+							<i className="fas fa-plus"></i>see more
+						</li>
+					</Link>
 				</ul>
 			</div>
 			{trailerUrl && (

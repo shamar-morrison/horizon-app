@@ -1,25 +1,33 @@
 import { useEffect, useRef } from 'react';
 import logo from '../img/logo.png';
+import { Link, NavLink } from 'react-router-dom';
+
+/**
+ * Sticky navbar anim
+ *
+ * Apply the IntersectionObserver after 'DOMContentLoaded' fires
+ * in order to access the #home from this component
+ */
+window.addEventListener('DOMContentLoaded', () => {
+	const home = document.querySelector('#home');
+	const navbarObs = new IntersectionObserver(
+		event => {
+			const navbar = document.querySelector('.navbar-wrapper');
+			if (event[0].isIntersecting) {
+				navbar.classList.remove('navbar-black');
+			} else {
+				navbar.classList.add('navbar-black');
+			}
+		},
+		{ threshold: 0.8 }
+	);
+	navbarObs.observe(home);
+});
 
 const Navbar = () => {
-	const navbar = useRef();
-
-	const navBarAnim = () => {
-		if (window.scrollY > 100) navbar.current.classList.add('navbar-black');
-		else navbar.current.classList.remove('navbar-black');
-	};
-
-	// sticky navbar anim
-	useEffect(() => {
-		window.addEventListener('scroll', navBarAnim);
-		return () => {
-			window.removeEventListener('scroll', () => navBarAnim());
-		};
-	}, []);
-
 	return (
 		<div className="container">
-			<div className="navbar-wrapper" ref={navbar}>
+			<div className="navbar-wrapper">
 				<nav className="navbar">
 					<div className="navbar-brand">
 						<a href="#home">
@@ -30,9 +38,7 @@ const Navbar = () => {
 						<a href="#home">
 							<li className="nav-link link-active">Home</li>
 						</a>
-						<a href="#trending">
-							<li className="nav-link">Trending</li>
-						</a>
+						<li className="nav-link">Trending</li>
 						<li className="nav-link">Top Rated</li>
 						<li className="nav-link">Action</li>
 						<li className="nav-link">Comedy</li>

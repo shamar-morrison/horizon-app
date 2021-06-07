@@ -12,11 +12,11 @@ const MovieCard = ({ movie }) => {
 			<div className="movie__card--img">
 				<img
 					src={`${BASE_IMG_URL}${movie.poster_path}`}
-					alt={movie.original_title || movie.name}
+					alt={movie.title || movie.original_title || movie.name}
 					srcSet={`${BASE_IMG_URL}${movie.poster_path}`}
 				/>
 			</div>
-			<h3 className="movie__card--title">{movie.original_title || movie.name}</h3>
+			<h3 className="movie__card--title">{movie.title || movie.name || movie.original_title}</h3>
 			<div className="movie__card--bottom">
 				<p className="movie__card--year">{date || 'TBA'}</p>
 				<div className="movie__card--rating">
