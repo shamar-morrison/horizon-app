@@ -1,0 +1,35 @@
+.main-cast-list {
+	display: grid;
+	grid-template-columns: repeat(4, 160px);
+	gap: 30px;
+	row-gap: 40px;
+	align-items: center;
+
+	&--item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.item-img {
+			height: 100px;
+			width: 100px;
+			border-radius: 50%;
+			object-fit: cover;
+			margin-bottom: 5px;
+			text-align: center;
+		}
+
+		.item-name {
+			font-size: 1.1rem;
+			width: 99%;
+			text-align: center;
+		}
+
+		.item-role {
+			font-size: 0.95rem;
+			color: var(--clr-primary-500);
+			font-style: italic;
+			text-align: center;
+		}
+	}
+}

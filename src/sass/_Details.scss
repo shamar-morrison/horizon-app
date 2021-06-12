@@ -34,21 +34,23 @@
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
+		height: max-content;
 		border-radius: 4px;
 		overflow: hidden;
 		box-shadow: $card-shadow;
+		@include filter;
 
 		img {
 			border: 4px solid #fff;
 			max-width: 300px;
-			height: 100%;
+			max-height: 430px;
 			object-fit: cover;
 		}
 	}
 
 	&--title {
 		font-family: 'Poppins', sans-serif;
-		font-size: 2.35rem;
+		font-size: 2.38rem;
 	}
 
 	&--genre-date {
@@ -74,7 +76,7 @@
 	}
 
 	&--overview {
-		margin-top: 50px;
+		margin-top: 30px;
 
 		.overview {
 			width: 80%;
@@ -82,15 +84,121 @@
 			line-height: 1.85;
 		}
 	}
+
+	.tagline {
+		font-style: italic;
+		font-size: 1rem;
+		margin-top: 15px;
+		color: rgba(255, 255, 255, 0.418);
+	}
+
+	&--btns {
+		display: flex;
+		gap: 0px;
+		align-items: center;
+		margin-top: 40px;
+		padding-bottom: 45px;
+	}
+
+	.popularity {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+
+		&--rating {
+			display: grid;
+			place-items: center;
+			height: 75px;
+			width: 75px;
+			font-family: 'Poppins', sans-serif;
+
+			font-size: 1.45rem;
+			background-color: #081c22;
+			border-radius: 50%;
+			color: rgb(255, 255, 255);
+		}
+
+		&--text {
+			width: 40%;
+			font-size: 1rem;
+		}
+	}
+
+	&--bottom {
+		display: flex;
+		flex-direction: row;
+		// gap: 50px;
+		margin-top: 35px;
+
+		> *:nth-child(1) {
+			flex-basis: 65%;
+		}
+
+		.section__title {
+			margin-bottom: 30px;
+			margin-top: 35px;
+		}
+	}
+}
+
+.crew-list--short {
+	display: flex;
+	// justify-content: space-between;
+	gap: 150px;
+	padding-bottom: 50px;
+
+	.member-role {
+		font-size: 1rem;
+	}
+
+	.member-name {
+		font-size: 0.95rem;
+		font-style: italic;
+		margin-top: 2px;
+	}
+}
+
+.actions {
+	display: flex;
+	gap: 25px;
+	font-size: 0.7rem;
+
+	li {
+		position: relative;
+		display: grid;
+		place-items: center;
+		height: 45px;
+		width: 45px;
+		background-color: #081c22;
+		border-radius: 50%;
+		cursor: pointer;
+
+		&:hover,
+		&:focus {
+			&::after {
+				opacity: 1;
+			}
+		}
+
+		&::after {
+			content: attr(tooltip);
+			position: absolute;
+			bottom: -90%;
+			width: max-content;
+			font-size: 0.95rem;
+
+			background-color: inherit;
+			padding: 4px 10px;
+			opacity: 0;
+		}
+	}
 }
 
 .watch-trailer {
-	all: unset;
 	padding: 6px 20px;
 	border-radius: 4px;
 	background-color: var(--clr-red);
 	font-size: 1rem;
-	letter-spacing: 1px;
 
 	color: #fff;
 	cursor: pointer;
@@ -105,5 +213,40 @@
 	i {
 		margin-right: 10px;
 		font-size: 0.95rem;
+	}
+}
+
+.movie-img {
+	width: 160px;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+// SIMILAR MOVIES
+.similar-movies {
+	&--list {
+		display: grid;
+		gap: 8px;
+		row-gap: 2px;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-auto-columns: 1fr;
+	}
+
+	&--item {
+		width: 150px;
+		height: auto;
+		box-shadow: $card-shadow;
+		cursor: pointer;
+
+		img {
+			width: 100%;
+			object-fit: cover;
+			border-radius: 5px;
+			object-position: center;
+		}
 	}
 }
