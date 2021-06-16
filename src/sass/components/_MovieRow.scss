@@ -10,12 +10,22 @@
 		justify-content: space-between;
 		align-items: center;
 		gap: 60px;
+
+		@include xs-screens {
+			gap: 0;
+			flex-direction: column;
+		}
 	}
 
 	&__title {
 		position: relative;
 		transform: translateX(20px);
 		margin-bottom: 50px;
+
+		@include xs-screens {
+			transform: translateX(0);
+			margin-bottom: 25px;
+		}
 
 		&::before {
 			content: '';
@@ -26,6 +36,10 @@
 			border-radius: 100px;
 			left: -20px;
 			background-color: var(--clr-red);
+
+			@include xs-screens {
+				display: none;
+			}
 		}
 	}
 }

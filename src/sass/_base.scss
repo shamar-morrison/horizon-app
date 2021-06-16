@@ -46,6 +46,11 @@ button {
 	all: unset;
 }
 
+input,
+button {
+	font-family: inherit;
+}
+
 .navbar-wrapper,
 .navbar-links,
 .movie__card--img,
@@ -93,7 +98,7 @@ i.star {
 
 	&:hover,
 	&:focus {
-		transform: scale(0.97);
+		@include hover-scale;
 	}
 
 	i {

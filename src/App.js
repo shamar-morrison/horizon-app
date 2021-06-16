@@ -1,5 +1,6 @@
 import './css/App.min.css';
 import MovieRow from './components/MovieRow';
+import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Banner from './components/Banner';
 import requests from './logic/requests';
@@ -8,12 +9,16 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Details from './Details';
 
 const App = () => {
+	// const { ref, inView, entry } = useInView({
+	// 	/* Optional options */
+	// 	threshold: 0,
+	// });
 	return (
 		<>
 			<Router>
+				<Navbar />
 				<Switch>
 					<Route exact path="/">
-						<Navbar />
 						<Banner />
 						<section className="container">
 							<MovieRow title="Trending Now" fetchUrl={requests.fetchTrendingMovies} />
@@ -28,6 +33,7 @@ const App = () => {
 					<Route exact path="/details" component={Details} />
 				</Switch>
 			</Router>
+			<Footer />
 		</>
 	);
 };

@@ -4,10 +4,13 @@ import { useState, useEffect } from 'react';
 import instance from './logic/axios';
 import Cast from './components/Cast';
 import movieTrailer from 'movie-trailer';
+import Similar from './components/Similar';
 import FsLightbox from 'fslightbox-react';
+import * as lightbox from 'fslightbox';
 import noTrailerImg from './img/no-trailer.png';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import noImageFound from './img/no-img-found.png';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -17,10 +20,15 @@ const MovieDetails = () => {
 	const [movie, setMovie] = useState(movieDetails);
 	const [movieCast, setMovieCast] = useState('');
 	const [movieImages, setMovieImages] = useState('');
+	const [photosKey, setPhotosKey] = useState(0);
+	const [trailerKey, setTrailerKey] = useState(0);
 	const [similarMovies, setSimilarMovies] = useState('');
 	const [trailer, setTrailer] = useState([]);
 	const [trigger, setTrigger] = useState(false);
 	const [trailerToggler, setTrailerToggler] = useState(false);
+	const [photosToggler, setPhotosToggler] = useState(false);
+	const [photoIndx, setPhotoIndx] = useState(null);
+	let photos = [];
 
 	const fetchMovieTrailer = async () => {
 		try {
@@ -81,12 +89,26 @@ const MovieDetails = () => {
 		}
 	};
 
+	const handleSimilar = mov => {
+		setMovie(mov);
+		setTrigger(!trigger);
+		setPhotosKey(prev => prev + 1);
+		setTrailerKey(prev => prev + 1);
+	};
+
+	const handleGallery = swiper => {
+		setPhotoIndx(swiper.clickedIndex);
+		setPhotosToggler(!photosToggler);
+	};
+
 	useEffect(() => {
 		fetchMovieTrailer();
 		fetchMovieData();
 		fetchMovieCastData();
 		fetchMovieImages();
 		fetchSimilarMovies();
+		setPhotoIndx();
+		photos.length = 0;
 	}, [trigger]);
 
 	const detailsBG = {
@@ -106,9 +128,8 @@ const MovieDetails = () => {
 					<div className="movie-details--main">
 						<div className="movie-details--img">
 							<img
-								src={`${BASE_IMG_URL}${movie.poster_path}`}
+								src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
 								alt={movie.title || movie.name || movie.original_title}
-								srcSet={`${BASE_IMG_URL}${movie.poster_path}`}
 							/>
 							<button className="watch-trailer btn" onClick={() => setTrailerToggler(!trailerToggler)}>
 								<i className="fas fa-play"></i> watch trailer
@@ -176,49 +197,48 @@ const MovieDetails = () => {
 			</section>
 
 			{/* MOVIE TRAILER LIGHTBOX */}
-			<FsLightbox toggler={trailerToggler} sources={trailer ? [...trailer] : [noTrailerImg]} loadOnlyCurrentSource={true} />
+			<FsLightbox
+				toggler={trailerToggler}
+				sources={trailer ? [...trailer] : [noTrailerImg]}
+				loadOnlyCurrentSource={true}
+				key={trailerKey}
+			/>
 
 			<section className="container">
 				<div className="movie-details--bottom">
 					<div className="movie-details--bottom-cast">
 						<h2 className="section__title">Main Cast</h2>
-						{movieCast && <Cast movieCast={movieCast} />}
+						{movieCast.cast.length > 0 ? <Cast movieCast={movieCast} /> : <p>No cast found.</p>}
 					</div>
 					<div className="movie-details--similar-movies">
 						<h2 className="section__title">More like this</h2>
-						{similarMovies.length <= 0 ? (
-							'No similar movies found.'
-						) : (
-							<ul className="similar-movies--list">
-								{similarMovies.slice(0, 6).map(movie => {
-									return (
-										<li
-											className="similar-movies--item"
-											onClick={() => {
-												setMovie(movie);
-												setTrigger(!trigger);
-											}}
-										>
-											<img
-												src={`${BASE_IMG_URL}${movie.poster_path}`}
-												alt={movie.name || movie.title || movie.original_title}
-											/>
-										</li>
-									);
-								})}
-							</ul>
-						)}
+						{similarMovies && <Similar similarMovies={similarMovies} onClick={handleSimilar} />}
 					</div>
 				</div>
-				<div className="movie-details--bottom-two" style={{ marginTop: '30px', marginBottom: '0px' }}>
+				<div className="movie-details--bottom-two" style={{ marginTop: '30px', marginBottom: '70px' }}>
 					<div className="movie-details--bottom-gallery">
 						<h2 className="section__title">Photos</h2>
 						<div className="gallery-wrapper">
-							<Swiper slidesPerView={7.5} spaceBetween={32}>
-								{movieImages &&
-									movieImages.posters.map((mov, i) => {
+							{movieImages.posters.length > 0 ? (
+								<Swiper
+									slidesPerView={'auto'}
+									spaceBetween={30}
+									onClick={(swiper, _) => handleGallery(swiper)}
+									breakpoints={{
+										1200: {
+											slidesPerView: 7,
+											spaceBetween: 30,
+										},
+										1199: {
+											slidesPerView: 6,
+											spaceBetween: 30,
+										},
+									}}
+								>
+									{movieImages.posters.map((mov, i) => {
+										photos.push(`${BASE_IMG_URL}${mov.file_path}`);
 										return (
-											<SwiperSlide>
+											<SwiperSlide key={i}>
 												<div className="movie-img">
 													<img
 														src={`${BASE_IMG_URL}${mov.file_path}`}
@@ -229,7 +249,19 @@ const MovieDetails = () => {
 											</SwiperSlide>
 										);
 									})}
-							</Swiper>
+								</Swiper>
+							) : (
+								'No Photos found.'
+							)}
+
+							{/* PHOTOS LIGHTBOX */}
+							<FsLightbox
+								toggler={photosToggler}
+								sources={[...photos]}
+								loadOnlyCurrentSource={true}
+								sourceIndex={photoIndx}
+								key={photosKey}
+							/>
 						</div>
 					</div>
 				</div>

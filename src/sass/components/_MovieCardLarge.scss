@@ -11,6 +11,14 @@
 	overflow: hidden;
 	@include filter;
 
+	@include lg-screens {
+		padding: 90px 60px;
+	}
+
+	@include xs-screens {
+		padding: 90px 25px;
+	}
+
 	&::before {
 		@include radial-gradient;
 	}
@@ -29,6 +37,10 @@
 		font-family: 'Poppins', sans-serif;
 		font-size: 2.7rem;
 		line-height: 1.3;
+
+		@include xl-screens {
+			width: 100%;
+		}
 	}
 
 	.close-card {
@@ -36,6 +48,17 @@
 		top: -24%;
 		right: -5%;
 		cursor: pointer;
+
+		@include lg-screens {
+			top: -15%;
+			right: 0;
+		}
+	}
+
+	.banner__body--desc {
+		@include xl-screens {
+			width: 100%;
+		}
 	}
 }
 

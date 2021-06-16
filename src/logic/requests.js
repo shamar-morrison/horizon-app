@@ -1,5 +1,5 @@
 export const API_KEY = '276dbe36838cf9f1737fd88bce2c5bd9';
-export const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w500/';
+export const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w500';
 export const BANNER_IMG_URL = 'https://image.tmdb.org/t/p/original/';
 
 // ENDPOINTS
@@ -18,9 +18,11 @@ const romanceGenre = 'with_genres=10749';
 const documentaryGenre = 'with_genres=99';
 
 const requests = {
+	// TRENDING
 	fetchTrendingMovies: `/trending/movie/day?api_key=${API_KEY}&language=en-US`,
 	fetchTrendingTvShows: `/trending/tv/day?api_key=${API_KEY}&language=en-US`,
 
+	// TOP RATED
 	fetchTopRatedMovies: `/movie/top_rated?api_key=${API_KEY}&language=en-US`,
 	fetchTopRatedTvShows: `/tv/top_rated?api_key=${API_KEY}&language=en-US`,
 

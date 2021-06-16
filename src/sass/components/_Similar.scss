@@ -1,0 +1,43 @@
+// SIMILAR MOVIES
+.similar-movies {
+	&--list {
+		display: grid;
+		gap: 8px;
+		row-gap: 2px;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-auto-columns: 1fr;
+
+		@media (max-width: 1295px) {
+			display: flex;
+			gap: 8px;
+		}
+
+		@include lg-screens {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, 150px);
+			gap: 30px;
+		}
+
+		@include xs-screens {
+			justify-content: center;
+		}
+	}
+
+	&--item {
+		width: 150px;
+		height: max-content;
+		box-shadow: $card-shadow;
+		cursor: pointer;
+
+		img {
+			width: 100%;
+			object-fit: cover;
+			border-radius: 5px;
+		}
+
+		&:focus,
+		&:hover {
+			@include hover-scale;
+		}
+	}
+}

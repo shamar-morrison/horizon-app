@@ -1,0 +1,162 @@
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	@include xs-screens {
+		gap: 20px;
+		align-items: initial;
+	}
+}
+
+.navbar-wrapper {
+	position: fixed;
+	z-index: 9999;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+	padding: 30px 7%;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+
+	transition-property: background-color, padding;
+}
+
+.navbar-black {
+	background-color: #000;
+	padding: 25px 7%;
+	box-shadow: $navbar-shadow;
+
+	.navbar-links {
+		transform: translateY(-5px);
+		transition-property: transform;
+	}
+}
+
+.navbar-brand {
+	display: flex;
+
+	img {
+		max-width: 120px;
+
+		@include xs-screens {
+			max-width: 90px;
+			transform: translateY(5px);
+		}
+	}
+}
+
+.navbar-links {
+	display: flex;
+	gap: 65px;
+	font-size: 0.95rem;
+	color: rgba(255, 255, 255, 0.527);
+	transition-property: color;
+
+	@include xl-screens {
+		gap: 35px;
+	}
+
+	@media (max-width: 920px) {
+		display: none;
+	}
+
+	.nav-link {
+		cursor: pointer;
+
+		&:hover,
+		&:focus {
+			color: #fff;
+		}
+	}
+
+	a {
+		color: inherit;
+	}
+
+	.link-active {
+		position: relative;
+		color: #fff;
+
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: -13px;
+			left: 50%;
+			transform: translateX(-50%);
+			height: 8px;
+			width: 8px;
+			background-color: var(--clr-red);
+			border-radius: 50%;
+		}
+	}
+}
+
+// SEARCH
+.search-bar {
+	color: var(--clr-primary-500);
+	position: relative;
+
+	a {
+		color: inherit;
+	}
+
+	input {
+		border-radius: 100px;
+		background-color: transparent;
+		border: 1.5px solid var(--clr-primary-500);
+		padding: 5px 12px 5px 30px;
+		font-size: 1rem;
+		color: inherit;
+
+		@include xs-screens {
+			width: 100%;
+		}
+
+		&:focus {
+			outline: none;
+		}
+
+		&:active {
+			background-color: transparent;
+		}
+
+		&::placeholder {
+			font-size: 0.9rem;
+			color: inherit;
+		}
+	}
+
+	.search-icon {
+		position: absolute;
+		top: 9px;
+		left: 9px;
+		font-size: 0.85rem;
+		color: inherit;
+	}
+
+	.search-results {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 12px;
+		background-color: var(--clr-primary-800);
+		width: 100%;
+		border-radius: $border-radius;
+
+		position: absolute;
+		right: 0px;
+		top: 45px;
+
+		.search-result {
+			font-size: 1rem;
+			cursor: pointer;
+			line-height: 1.4;
+			padding-bottom: 10px;
+
+			&:not(:last-child) {
+				border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+			}
+		}
+	}
+}

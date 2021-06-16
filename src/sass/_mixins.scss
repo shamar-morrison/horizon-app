@@ -47,3 +47,39 @@
 		-webkit-backdrop-filter: blur(10px);
 	}
 }
+
+@mixin hover-scale($scale: 0.97) {
+	transform: scale($scale);
+}
+
+// MEDIA QUERIES
+
+@mixin xl-screens {
+	@media (max-width: 1200px) {
+		@content;
+	}
+}
+
+@mixin lg-screens {
+	@media (max-width: 992px) {
+		@content;
+	}
+}
+
+@mixin md-screens {
+	@media (max-width: 768px) {
+		@content;
+	}
+}
+
+@mixin sm-screens {
+	@media (max-width: 576px) {
+		@content;
+	}
+}
+
+@mixin xs-screens {
+	@media (max-width: 415px) {
+		@content;
+	}
+}

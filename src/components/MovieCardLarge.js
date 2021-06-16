@@ -36,7 +36,7 @@ const MovieCardLarge = ({ movie, onClose }) => {
 					<i class="fas fa-times"></i>
 				</span>
 				<h1 className="large__card--title">{movie.name || movie.title || movie.original_title}</h1>
-				<p className="banner__body--desc">{movie.overview}</p>
+				<p className="banner__body--desc">{movie.overview || 'No summary available.'}</p>
 				<ul className="banner__body--btns">
 					<li className="btn btn-lg watch-btn" onClick={() => getTrailer(movie, setTrailerUrl, setHasTrailer)}>
 						<i className="fas fa-play"></i>Watch

@@ -17,6 +17,9 @@ const MovieRow = ({ title, fetchUrl }) => {
 
 	const handleMovieCardClick = mov => {
 		setMovieCardLarge(mov);
+		// setTimeout(() => {
+		// 	document.querySelectorAll('.large__card')[0].scrollIntoView({ behavior: 'smooth' });
+		// }, 500);
 	};
 
 	const handleOnClose = () => {
@@ -217,9 +220,16 @@ const MovieRow = ({ title, fetchUrl }) => {
 				slidesPerView={'auto'}
 				spaceBetween={32}
 				centerInsufficientSlides={true}
+				mousewheel={{
+					invert: false,
+				}}
 				breakpoints={{
 					1200: {
 						slidesPerView: 6.5,
+						spaceBetween: 32,
+					},
+					1199: {
+						slidesPerView: 5.5,
 						spaceBetween: 32,
 					},
 				}}
@@ -229,7 +239,7 @@ const MovieRow = ({ title, fetchUrl }) => {
 						movies.map((mov, ind) => {
 							return (
 								<SwiperSlide onClick={() => handleMovieCardClick(mov)}>
-									<MovieCard movie={mov} key={mov.id} />
+									<MovieCard movie={mov} key={mov.ind} />
 								</SwiperSlide>
 							);
 						})}

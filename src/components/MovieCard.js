@@ -1,4 +1,5 @@
 import { BASE_IMG_URL } from '../logic/requests';
+import noImageFound from '../img/no-img-found.png';
 
 const MovieCard = ({ movie }) => {
 	const date = new Date(movie.release_date || movie.first_air_date).getFullYear();
@@ -11,9 +12,8 @@ const MovieCard = ({ movie }) => {
 		<div className="movie__card">
 			<div className="movie__card--img">
 				<img
-					src={`${BASE_IMG_URL}${movie.poster_path}`}
+					src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
 					alt={movie.title || movie.original_title || movie.name}
-					srcSet={`${BASE_IMG_URL}${movie.poster_path}`}
 				/>
 			</div>
 			<h3 className="movie__card--title">{movie.title || movie.name || movie.original_title}</h3>

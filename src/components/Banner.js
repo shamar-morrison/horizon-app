@@ -6,7 +6,7 @@ import movieTrailer from 'movie-trailer';
 import FsLightbox from 'fslightbox-react';
 import noTrailerImg from '../img/no-trailer.png';
 
-const Banner = () => {
+const Banner = ({ ref }) => {
 	const [banner, setBanner] = useState({});
 	const [trailer, setTrailer] = useState('');
 	const [trailerToggler, setTrailerToggler] = useState(false);

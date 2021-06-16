@@ -12,11 +12,13 @@
 @import 'base';
 
 // COMPONENTS
-@import 'Navbar';
-@import 'MovieCard';
-@import 'MovieRow';
-@import 'Details';
-@import 'Cast';
-@import 'Banner';
-@import 'MovieCardLarge';
-@import 'FilterCategory';
+@import 'components/Navbar';
+@import 'components/MovieCard';
+@import 'components/MovieRow';
+@import 'components/Similar';
+@import 'components/Details';
+@import 'components/Footer';
+@import 'components/Cast';
+@import 'components/Banner';
+@import 'components/MovieCardLarge';
+@import 'components/FilterCategory';

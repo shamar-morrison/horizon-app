@@ -1,0 +1,147 @@
+.banner {
+	position: relative;
+	min-height: 100vh;
+	min-width: 100vw;
+	margin-bottom: 70px;
+	@include filter;
+
+	&::before {
+		@include radial-gradient;
+	}
+
+	&::after {
+		@include bg-shadow;
+	}
+
+	&__body {
+		display: grid;
+		position: relative;
+		z-index: 10;
+		padding-top: 18%;
+
+		@include xl-screens {
+			padding-top: 25%;
+		}
+
+		@include lg-screens {
+			padding-top: 35%;
+		}
+
+		@include md-screens {
+			padding-top: 45%;
+		}
+
+		&--title {
+			font-family: 'Poppins', sans-serif;
+			width: 65%;
+			// font-size: 3.37vmax;
+			font-size: 3.25rem;
+			line-height: 1.25;
+
+			@include xl-screens {
+				width: 90%;
+			}
+
+			@include md-screens {
+				width: 95%;
+			}
+
+			@include xs-screens {
+				width: 100%;
+				font-size: 2.7rem;
+			}
+		}
+
+		&--desc {
+			width: 42%;
+			margin-top: 15px;
+			line-height: 2;
+			text-shadow: 3px 0px 4px rgba(0, 0, 0, 0.14);
+
+			@include xl-screens {
+				width: 70%;
+			}
+
+			@include lg-screens {
+				width: 80%;
+			}
+
+			@include md-screens {
+				width: 90%;
+			}
+
+			@include xs-screens {
+				line-height: 1.8;
+				font-size: 1rem;
+			}
+
+			// clamps text to max 3 lines
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+
+			-moz-line-clamp: 3;
+			-moz-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		&--rating {
+			font-size: 1.2rem;
+			margin-bottom: 8px;
+
+			.star {
+				font-size: 1rem;
+				margin-right: 6px;
+				transform: translateY(-2px);
+			}
+		}
+
+		&--btns {
+			display: flex;
+			gap: 20px;
+			margin-top: 35px;
+			padding-bottom: 35px;
+
+			@include xs-screens {
+				flex-direction: column;
+				width: max-content;
+			}
+
+			a {
+				color: #fff;
+			}
+		}
+	}
+}
+
+// .banner-youtube-player {
+// 	@include center;
+
+// 	.close-banner-player {
+// 		display: grid;
+// 		place-items: center;
+// 		position: relative;
+// 		right: -42vw;
+// 		top: 14vh;
+// 		font-size: 1.4rem;
+
+// 		// padding: 5px;
+// 		color: #000;
+// 		height: 30px;
+// 		width: 30px;
+// 		border-radius: 50%;
+// 		background-color: #fff;
+// 		cursor: pointer;
+// 	}
+
+// 	iframe {
+// 		width: 80vw;
+// 		height: 80vh;
+// 	}
+// }
+
+// .banner-no-trailer {
+// 	font-size: 3rem;
+// 	@include center;
+// }

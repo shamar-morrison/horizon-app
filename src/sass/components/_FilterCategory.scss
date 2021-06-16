@@ -5,16 +5,45 @@
 	margin-bottom: 50px;
 	font-size: 1rem;
 
+	p {
+		@include md-screens {
+			display: none;
+		}
+	}
+
 	.sort-by {
 		display: flex;
 		gap: 15px;
 		align-items: center;
+		text-align: center;
+
+		@include md-screens {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+		}
 
 		li {
 			padding: 6px 40px;
 			background-color: var(--clr-primary-800);
 			border-radius: 100px;
 			cursor: pointer;
+
+			&:focus,
+			&:hover {
+				@include hover-scale;
+			}
+
+			@include xl-screens {
+				padding: 6px 32px;
+			}
+
+			@include md-screens {
+				padding: 6px 30px;
+			}
+
+			@include xs-screens {
+				padding: 6px 20px;
+			}
 		}
 
 		.selected-trending,
