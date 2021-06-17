@@ -1,0 +1,22 @@
+@mixin default-spinner {
+	background-color: transparent;
+	border: 6px solid var(--clr-red);
+	border-top: 6px solid transparent;
+	border-radius: 50%;
+	animation: rotate 700ms linear infinite;
+}
+
+.loading-spinner {
+	height: 80px;
+	width: 80px;
+	@include default-spinner;
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}

@@ -9,7 +9,13 @@ const Similar = ({ similarMovies, onClick }) => {
 				<ul className="similar-movies--list">
 					{similarMovies.slice(0, 6).map(movie => {
 						return (
-							<li className="similar-movies--item" onClick={() => onClick(movie)}>
+							<li
+								className="similar-movies--item"
+								onClick={() => {
+									onClick(movie);
+									window.scrollTo(0, 0);
+								}}
+							>
 								<img src={`${BASE_IMG_URL}${movie.poster_path}`} alt={movie.name || movie.title || movie.original_title} />
 							</li>
 						);

@@ -9,10 +9,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Details from './Details';
 
 const App = () => {
-	// const { ref, inView, entry } = useInView({
-	// 	/* Optional options */
-	// 	threshold: 0,
-	// });
 	return (
 		<>
 			<Router>
@@ -30,7 +26,7 @@ const App = () => {
 							<MovieRow title="Documentaries" fetchUrl={requests.fetchDocumentaries} />
 						</section>
 					</Route>
-					<Route exact path="/details" component={Details} />
+					<Route exact path="/movie/:id" render={props => <Details {...props} key={Math.random() * 10000} />} />
 				</Switch>
 			</Router>
 			<Footer />

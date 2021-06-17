@@ -22,6 +22,10 @@ const Navbar = () => {
 		}
 	};
 
+	const clearSearch = () => {
+		setSearchVal();
+	};
+
 	/**
 	 * Sticky navbar anim
 	 */
@@ -55,7 +59,7 @@ const Navbar = () => {
 						<li className="nav-link">Action</li>
 						<li className="nav-link">Comedy</li>
 					</ul>
-					<SearchBar value={searchVal} results={searchResults} onChange={filterSearch} />
+					<SearchBar value={searchVal} results={searchResults} onChange={filterSearch} clearSearch={clearSearch} />
 				</nav>
 			</div>
 		</div>

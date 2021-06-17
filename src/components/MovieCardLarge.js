@@ -43,7 +43,7 @@ const MovieCardLarge = ({ movie, onClose }) => {
 					</li>
 					<Link
 						to={{
-							pathname: '/details',
+							pathname: `/movie/${movie.id}`,
 							state: {
 								movieDetails: movie,
 							},
