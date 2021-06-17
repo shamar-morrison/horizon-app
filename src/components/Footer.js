@@ -8,7 +8,7 @@ const Footer = () => {
 			</div>
 			<p className="built-by">
 				Built with <i class="fas fa-heart"></i> by{' '}
-				<a href="#" target="_blank">
+				<a href="https://github.com/shamar-morrison" target="_blank">
 					Shamar Morrison
 				</a>
 			</p>

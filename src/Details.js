@@ -146,14 +146,15 @@ const MovieDetails = ({ match }) => {
 								<ul className="movie-details--genre-date">
 									<li>{new Date(movie.release_date).getFullYear() || 'N/A'}</li>
 									<li>
-										{movie.genres &&
-											movie.genres.map((genre, i, arr) => {
-												if (i === arr.length - 1) {
-													return genre.name;
-												} else {
-													return genre.name + ', ';
-												}
-											})}
+										{movie?.genres?.length > 0
+											? movie.genres.map((genre, i, arr) => {
+													if (i === arr.length - 1) {
+														return genre.name;
+													} else {
+														return genre.name + ', ';
+													}
+											  })
+											: 'N/A'}
 									</li>
 									<li>{movie.runtime || 0} mins</li>
 								</ul>
