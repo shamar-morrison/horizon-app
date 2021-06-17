@@ -215,11 +215,25 @@ const MovieDetails = ({ match }) => {
 				<div className="movie-details--bottom">
 					<div className="movie-details--bottom-cast">
 						<h2 className="section__title">Main Cast</h2>
-						{movieCast && movieCast.cast.length > 0 ? <Cast movieCast={movieCast} /> : <p>No cast found.</p>}
+						{isLoading ? (
+							<div className="loading-spinner--similar">
+								<LoadingSpinner />
+							</div>
+						) : movieCast && movieCast.cast.length > 0 ? (
+							<Cast movieCast={movieCast} />
+						) : (
+							<p>No cast found.</p>
+						)}
 					</div>
 					<div className="movie-details--similar-movies">
 						<h2 className="section__title">More like this</h2>
-						{similarMovies && <Similar similarMovies={similarMovies} onClick={handleSimilar} />}
+						{isLoading ? (
+							<div className="loading-spinner--similar">
+								<LoadingSpinner />
+							</div>
+						) : (
+							similarMovies && <Similar similarMovies={similarMovies} onClick={handleSimilar} />
+						)}
 					</div>
 				</div>
 				<div className="movie-details--bottom-two" style={{ marginTop: '30px', marginBottom: '70px' }}>
