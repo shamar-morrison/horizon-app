@@ -68,10 +68,12 @@ const Banner = ({ ref }) => {
 						<div className="banner__body">
 							<p className="banner__body--rating">
 								<i className="fas fa-star star"></i>
-								{Number(banner?.vote_average).toFixed(1)}
+								{Number(banner?.vote_average).toFixed(1) || 'N/A'}
 							</p>
-							<h1 className="banner__body--title">{banner?.name || banner?.original_name || banner?.title}</h1>
-							<p className="banner__body--desc">{banner?.overview}</p>
+							<h1 className="banner__body--title">
+								{banner?.name || banner?.original_name || banner?.title || 'Error fetching banner :('}
+							</h1>
+							<p className="banner__body--desc">{banner?.overview || 'No summary available.'}</p>
 							<ul className="banner__body--btns">
 								<li
 									className="btn btn-lg watch-btn"
@@ -83,7 +85,7 @@ const Banner = ({ ref }) => {
 								</li>
 								<Link
 									to={{
-										pathname: `/movie/${banner.id}`,
+										pathname: `/movie/${banner?.id}`,
 										state: {
 											movieDetails: banner,
 										},

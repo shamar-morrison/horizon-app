@@ -13,21 +13,31 @@ const Footer = () => {
 				</a>
 			</p>
 			<ul className="social-footer">
-				<li className="social-footer--item">
-					<i class="fab fa-github-alt"></i>
-				</li>
-				<li className="social-footer--item">
-					<i class="fab fa-twitter"></i>
-				</li>
-				<li className="social-footer--item">
-					<i class="fab fa-linkedin-in"></i>
-				</li>
-				<li className="social-footer--item">
-					<i class="fab fa-youtube"></i>
-				</li>
-				<li className="social-footer--item">
-					<i class="fab fa-instagram"></i>
-				</li>
+				<a href="https://github.com/shamar-morrison" target="_blank">
+					<li className="social-footer--item">
+						<i class="fab fa-github-alt"></i>
+					</li>
+				</a>
+				<a href="https://twitter.com/TheAvgCoder" target="_blank">
+					<li className="social-footer--item">
+						<i class="fab fa-twitter"></i>
+					</li>
+				</a>
+				<a href="https://www.linkedin.com/in/shamar-morrison-57125220b/" target="_blank">
+					<li className="social-footer--item">
+						<i class="fab fa-linkedin-in"></i>
+					</li>
+				</a>
+				<a href="https://github.com/shamar-morrison" target="_blank">
+					<li className="social-footer--item">
+						<i class="fab fa-youtube"></i>
+					</li>
+				</a>
+				<a href="https://twitter.com/TheAvgCoder" target="_blank">
+					<li className="social-footer--item">
+						<i class="fab fa-instagram"></i>
+					</li>
+				</a>
 			</ul>
 		</footer>
 	);

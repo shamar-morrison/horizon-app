@@ -11,14 +11,18 @@ const MovieCard = ({ movie }) => {
 	return (
 		<div className="movie__card">
 			<div className="movie__card--img">
-				<img
-					src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
-					alt={movie.title || movie.original_title || movie.name}
-				/>
+				{movie.poster_path ? (
+					<img
+						src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
+						alt={movie.title || movie.original_title || movie.name}
+					/>
+				) : (
+					<img src={noImageFound} />
+				)}
 			</div>
 			<h3 className="movie__card--title">{movie.title || movie.name || movie.original_title}</h3>
 			<div className="movie__card--bottom">
-				<p className="movie__card--year">{date || 'TBA'}</p>
+				<p className="movie__card--year">{date || 'N/A'}</p>
 				<div className="movie__card--rating">
 					<div className="movie__card--watch-fav">
 						<i className="fas fa-eye watched" onClick={toggleFavIcons}></i>

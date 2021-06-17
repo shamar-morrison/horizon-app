@@ -7,7 +7,7 @@ const Similar = ({ similarMovies, onClick }) => {
 				'No similar movies found.'
 			) : (
 				<ul className="similar-movies--list">
-					{similarMovies.slice(0, 6).map(movie => {
+					{similarMovies.slice(0, 6).map((movie, i) => {
 						return (
 							<li
 								className="similar-movies--item"
@@ -15,6 +15,7 @@ const Similar = ({ similarMovies, onClick }) => {
 									onClick(movie);
 									window.scrollTo(0, 0);
 								}}
+								key={i}
 							>
 								<img src={`${BASE_IMG_URL}${movie.poster_path}`} alt={movie.name || movie.title || movie.original_title} />
 							</li>

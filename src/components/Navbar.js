@@ -47,7 +47,7 @@ const Navbar = () => {
 				<nav className="navbar">
 					<div className="navbar-brand">
 						<Link to="/">
-							<img src={logo} alt="Logo" srcSet={logo} />
+							<img src={logo} alt="Logo" onClick={() => window.scrollTo(0, 0)} />
 						</Link>
 					</div>
 					<ul className="navbar-links">

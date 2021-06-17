@@ -5,9 +5,9 @@ const Cast = ({ movieCast }) => {
 	return (
 		<ul className="main-cast-list">
 			{movieCast ? (
-				movieCast.cast.slice(0, 8).map(val => {
+				movieCast.cast.slice(0, 8).map((val, i) => {
 					return (
-						<li className="main-cast-list--item">
+						<li className="main-cast-list--item" key={i}>
 							<img
 								src={val.profile_path ? `${BASE_IMG_URL}${val.profile_path}` : noCastFound}
 								alt={val.name}

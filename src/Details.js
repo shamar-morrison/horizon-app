@@ -165,7 +165,7 @@ const MovieDetails = ({ match }) => {
 								<div className="movie-details--btns">
 									<div className="popularity">
 										<p className="popularity--rating">
-											{movie.vote_average ? Number(movie.vote_average).toFixed(1) : 'N.A.'}
+											{movie.vote_average ? Number(movie.vote_average).toFixed(1) : 'N/A'}
 										</p>
 										<p className="popularity--text">User Rating</p>
 									</div>

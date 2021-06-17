@@ -238,8 +238,8 @@ const MovieRow = ({ title, fetchUrl }) => {
 					{movies &&
 						movies.map((mov, ind) => {
 							return (
-								<SwiperSlide onClick={() => handleMovieCardClick(mov)}>
-									<MovieCard movie={mov} key={mov.ind} />
+								<SwiperSlide onClick={() => handleMovieCardClick(mov)} key={ind}>
+									<MovieCard movie={mov} />
 								</SwiperSlide>
 							);
 						})}
