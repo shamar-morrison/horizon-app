@@ -49,7 +49,7 @@ const MovieCardLarge = ({ movie, onClose }) => {
 							},
 						}}
 					>
-						<li className="btn btn-lg add-list-btn">
+						<li className="btn btn-lg add-list-btn" onClick={() => window.scrollTo(0, 0)}>
 							<i className="fas fa-plus"></i>see more
 						</li>
 					</Link>

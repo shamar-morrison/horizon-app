@@ -35,7 +35,8 @@ const SearchBar = ({ value, results, onChange, clearSearch }) => {
 										className="search-result"
 										onClick={() => {
 											clearSearch();
-											inputRef.current.value = '';
+											inputRef.current.value = ''; // clear input field
+											window.scrollTo(0, 0);
 										}}
 									>
 										{result.title || result.original_title || result.name} (

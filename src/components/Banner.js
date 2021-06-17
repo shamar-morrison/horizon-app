@@ -25,7 +25,6 @@ const Banner = ({ ref }) => {
 			const randomMovie = data[Math.floor(Math.random() * data.length - 1)];
 			setBanner(randomMovie);
 			setLoading(false);
-			console.log('BANNER MOVIE', banner);
 		} catch (e) {
 			console.error(e);
 		}

@@ -38,7 +38,6 @@ const Navbar = () => {
 			} else {
 				navbar.classList.remove('navbar-black');
 			}
-			// console.log('SCROLL');
 		};
 	}, []);
 
@@ -52,9 +51,7 @@ const Navbar = () => {
 						</Link>
 					</div>
 					<ul className="navbar-links">
-						<Link to="/#trending">
-							<li className="nav-link">Trending</li>
-						</Link>
+						<li className="nav-link">Trending</li>
 						<li className="nav-link">Top Rated</li>
 						<li className="nav-link">Action</li>
 						<li className="nav-link">Comedy</li>
