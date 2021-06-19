@@ -9,6 +9,7 @@ const Cast = ({ movieCast }) => {
 					return (
 						<li className="main-cast-list--item" key={i}>
 							<img
+								loading="lazy"
 								src={val.profile_path ? `${BASE_IMG_URL}${val.profile_path}` : noCastFound}
 								alt={val.name}
 								className="item-img"

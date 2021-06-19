@@ -2,29 +2,27 @@ import { useEffect, useRef, useState } from 'react';
 import logo from '../img/logo.png';
 import SearchBar from './SearchBar';
 import { Link, NavLink } from 'react-router-dom';
-import { API_KEY } from '../logic/requests';
-import instance from '../logic/axios';
 
 const Navbar = () => {
-	const [searchVal, setSearchVal] = useState('');
-	const [searchResults, setSearchResults] = useState([]);
+	// const [searchVal, setSearchVal] = useState('');
+	// const [searchResults, setSearchResults] = useState([]);
 
-	const filterSearch = async searchQuery => {
-		try {
-			setSearchVal(searchQuery);
-			const res = await instance.get(
-				`/search/movie?api_key=${API_KEY}&language=en-US&query=${searchQuery}&page=1&include_adult=false`
-			);
-			if (!res) throw Error('Error fetching search results.');
-			setSearchResults(res.data.results);
-		} catch (e) {
-			console.error(e);
-		}
-	};
+	// const filterSearch = async searchQuery => {
+	// 	try {
+	// 		setSearchVal(searchQuery);
+	// 		const res = await instance.get(
+	// 			`/search/movie?api_key=${API_KEY}&language=en-US&query=${searchQuery}&page=1&include_adult=false`
+	// 		);
+	// 		if (!res) throw Error('Error fetching search results.');
+	// 		setSearchResults(res.data.results);
+	// 	} catch (e) {
+	// 		console.error(e);
+	// 	}
+	// };
 
-	const clearSearch = () => {
-		setSearchVal();
-	};
+	// const clearSearch = () => {
+	// 	setSearchVal();
+	// };
 
 	/**
 	 * Sticky navbar anim
@@ -56,7 +54,7 @@ const Navbar = () => {
 						<li className="nav-link">Action</li>
 						<li className="nav-link">Comedy</li>
 					</ul>
-					<SearchBar value={searchVal} results={searchResults} onChange={filterSearch} clearSearch={clearSearch} />
+					<SearchBar />
 				</nav>
 			</div>
 		</div>

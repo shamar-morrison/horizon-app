@@ -36,18 +36,9 @@
 		}
 
 		&:focus,
+		&:active,
 		&:hover {
 			@include hover-scale;
 		}
 	}
-}
-
-// LOADING
-.loading-spinner--similar {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
 }

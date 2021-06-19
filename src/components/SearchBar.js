@@ -1,8 +1,30 @@
 import { Link } from 'react-router-dom';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import { API_KEY } from '../logic/requests';
+import instance from '../logic/axios';
 
-const SearchBar = ({ value, results, onChange, clearSearch }) => {
-	const inputRef = useRef();
+const SearchBar = () => {
+	const [searchVal, setSearchVal] = useState('');
+	const [searchResults, setSearchResults] = useState('');
+
+	const filterSearch = async searchQuery => {
+		try {
+			setSearchVal(searchQuery);
+			const res = await instance.get(
+				`/search/movie?api_key=${API_KEY}&language=en-US&query=${searchQuery}&page=1&include_adult=false`
+			);
+			if (!res) throw Error('Error fetching search results.');
+			setSearchResults(res.data.results);
+		} catch (e) {
+			console.error(e);
+		}
+	};
+
+	const clearSearch = () => {
+		// setSearchVal();
+		// setSearchResults();
+	};
+
 	return (
 		<div className="search-bar">
 			<i className="fas fa-search search-icon"></i>
@@ -12,16 +34,16 @@ const SearchBar = ({ value, results, onChange, clearSearch }) => {
 				id="search-bar"
 				placeholder="Quick Search"
 				autoComplete="off"
-				ref={inputRef}
-				value={value}
+				value={searchVal}
 				onChange={event => {
-					onChange(event.target.value);
+					// setSearchVal(event.target.value);
+					filterSearch(event.target.value);
 				}}
 			/>
-			{value && (
+			{searchVal && (
 				<ul className="search-results">
-					{results.length > 0 ? (
-						results.slice(0, 6).map(result => {
+					{searchResults?.length > 0 ? (
+						searchResults.slice(0, 6).map((result, i) => {
 							return (
 								<Link
 									to={{
@@ -30,12 +52,12 @@ const SearchBar = ({ value, results, onChange, clearSearch }) => {
 											movieDetails: result,
 										},
 									}}
+									key={i}
 								>
 									<li
 										className="search-result"
 										onClick={() => {
-											clearSearch();
-											inputRef.current.value = ''; // clear input field
+											setSearchVal(''); // clear input field
 											window.scrollTo(0, 0);
 										}}
 									>

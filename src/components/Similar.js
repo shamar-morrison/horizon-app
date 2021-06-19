@@ -17,7 +17,11 @@ const Similar = ({ similarMovies, onClick }) => {
 								}}
 								key={i}
 							>
-								<img src={`${BASE_IMG_URL}${movie.poster_path}`} alt={movie.name || movie.title || movie.original_title} />
+								<img
+									loading="lazy"
+									src={`${BASE_IMG_URL}${movie.poster_path}`}
+									alt={movie.name || movie.title || movie.original_title}
+								/>
 							</li>
 						);
 					})}

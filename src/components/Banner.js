@@ -17,8 +17,12 @@ const Banner = ({ ref }) => {
 	const fetchRandMovie = async () => {
 		try {
 			setLoading(true);
-			const response = await instance.get(requests.fetchLatestActionMovies);
-			if (response.status !== 200 || !response) throw Error(response.statusText);
+			const response = await instance.get(requests.fetchTrendingMovies);
+			if (response.status !== 200 || !response) {
+				console.log('FETCH RAND MOVIE RUNNING AGAIN');
+				fetchRandMovie();
+				// throw Error(response.statusText);
+			}
 
 			const data = response.data.results;
 			// set random movie
@@ -26,7 +30,7 @@ const Banner = ({ ref }) => {
 			setBanner(randomMovie);
 			setLoading(false);
 		} catch (e) {
-			console.error(e);
+			console.error('FETCH RAND MOVIE ERROR', e);
 		}
 	};
 
@@ -70,11 +74,9 @@ const Banner = ({ ref }) => {
 								<i className="fas fa-star star"></i>
 								{Number(banner?.vote_average).toFixed(1) || 'N/A'}
 							</p>
-							{banner && (
-								<h1 className="banner__body--title">
-									{banner?.name || banner?.original_name || banner?.title || 'Error fetching banner :('}
-								</h1>
-							)}
+							<h1 className="banner__body--title">
+								{banner?.name || banner?.original_name || banner?.title || 'Error fetching banner :('}
+							</h1>
 							<p className="banner__body--desc">{banner?.overview || 'No summary available.'}</p>
 							<ul className="banner__body--btns">
 								<li

@@ -15,8 +15,18 @@
 	animation: rotate 700ms linear infinite;
 }
 
+// LOADING
 .loading-spinner {
 	height: 80px;
 	width: 80px;
 	@include default-spinner;
+}
+
+.loading-spinner--similar {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
 }

@@ -13,6 +13,7 @@ const MovieCard = ({ movie }) => {
 			<div className="movie__card--img">
 				{movie.poster_path ? (
 					<img
+						loading="lazy"
 						src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
 						alt={movie.title || movie.original_title || movie.name}
 					/>

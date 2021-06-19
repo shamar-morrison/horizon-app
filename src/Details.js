@@ -1,12 +1,12 @@
 import { useLocation } from 'react-router';
 import { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from './logic/requests';
 import { useState, useEffect } from 'react';
-import instance from './logic/axios';
+import instance, { yts } from './logic/axios';
 import Cast from './components/Cast';
 import movieTrailer from 'movie-trailer';
 import Similar from './components/Similar';
 import FsLightbox from 'fslightbox-react';
-import * as lightbox from 'fslightbox';
+import Photos from './components/Photos';
 import noTrailerImg from './img/no-trailer.png';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -32,7 +32,8 @@ const MovieDetails = ({ match }) => {
 	const [trailerToggler, setTrailerToggler] = useState(false);
 	const [photosToggler, setPhotosToggler] = useState(false);
 	const [photoIndx, setPhotoIndx] = useState(null);
-	let photos = [];
+	const [torrents, setTorrents] = useState('');
+	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const fetchMovieTrailer = async () => {
 		try {
@@ -54,6 +55,7 @@ const MovieDetails = ({ match }) => {
 			const response = await instance.get(`/movie/${movie.id}?api_key=${API_KEY}&language=en-US`);
 			if (response.status !== 200 || !response) throw Error(response.statusText);
 			setMovie(response.data);
+			fetchTorrents(response.data.imdb_id); // fetch movie torrents using IMDB ID
 			setLoading();
 		} catch (e) {
 			console.error('FETCH MOVIE ERROR', e);
@@ -90,6 +92,18 @@ const MovieDetails = ({ match }) => {
 		}
 	};
 
+	const fetchTorrents = async id => {
+		try {
+			const { data } = await yts.get(`?query_term=${id}`);
+			if (data.status !== 'ok') return;
+
+			console.log('TORRENT DATA', data);
+			setTorrents(data.data.movies[0].torrents);
+		} catch (e) {
+			console.error('TORRENTS ERROR', e);
+		}
+	};
+
 	const handleSimilar = mov => {
 		setMovie(mov);
 		setTrigger(!trigger);
@@ -109,7 +123,7 @@ const MovieDetails = ({ match }) => {
 		fetchMovieImages();
 		fetchSimilarMovies();
 		setPhotoIndx();
-		photos.length = 0;
+		setTorrents('');
 	}, [trigger]);
 
 	const detailsBG = {
@@ -139,6 +153,9 @@ const MovieDetails = ({ match }) => {
 								/>
 								<button className="watch-trailer btn" onClick={() => setTrailerToggler(!trailerToggler)}>
 									<i className="fas fa-play"></i> watch trailer
+								</button>
+								<button className="download-torrent btn" onClick={() => setIsModalVisible(!isModalVisible)}>
+									<i class="fas fa-download"></i> Download
 								</button>
 							</div>
 							<div className="movie-details--body">
@@ -212,6 +229,41 @@ const MovieDetails = ({ match }) => {
 				key={trailerKey}
 			/>
 
+			{/* TORRENT DOWNLOAD MODAL */}
+			{isModalVisible && (
+				<>
+					<span className="modal-bg" onClick={() => setIsModalVisible(!isModalVisible)}></span>
+					<div className="torrent-download--modal">
+						<i className="fas fa-times-circle close-modal" onClick={() => setIsModalVisible(!isModalVisible)}></i>
+						<h3 className="modal-header">Select a movie quality</h3>
+						{isLoading ? (
+							<div className="loading-spinner--similar" style={{ margin: '50px 0' }}>
+								<LoadingSpinner />
+							</div>
+						) : torrents.length > 0 ? (
+							<ul className="torrent-list">
+								{torrents.map((torrent, ind) => (
+									<li className="torrent-list--item" key={ind}>
+										<h2 className="torrent-quality">{torrent.quality}</h2>
+										<p className="torrent-type">{torrent.type}</p>
+										<p className="torrent-size">File Size: {torrent.size}</p>
+										<a href={torrent.url} className="torrent-link">
+											<i class="fas fa-download"></i>
+											Download
+										</a>
+										<p className="torrent-seeds-peers">
+											P: {torrent.peers} • S: {torrent.seeds}
+										</p>
+									</li>
+								))}
+							</ul>
+						) : (
+							<h2 style={{ margin: '50px 0' }}>No download available.</h2>
+						)}
+					</div>
+				</>
+			)}
+
 			<section className="container">
 				<div className="movie-details--bottom">
 					<div className="movie-details--bottom-cast">
@@ -239,52 +291,22 @@ const MovieDetails = ({ match }) => {
 				</div>
 				<div className="movie-details--bottom-two" style={{ marginTop: '30px', marginBottom: '70px' }}>
 					<div className="movie-details--bottom-gallery">
-						<h2 className="section__title">Photos</h2>
-						<div className="gallery-wrapper">
-							{movieImages && movieImages.posters.length > 0 ? (
-								<Swiper
-									slidesPerView={'auto'}
-									spaceBetween={30}
-									onClick={(swiper, _) => handleGallery(swiper)}
-									breakpoints={{
-										1200: {
-											slidesPerView: 7,
-											spaceBetween: 30,
-										},
-										1199: {
-											slidesPerView: 6,
-											spaceBetween: 30,
-										},
-									}}
-								>
-									{movieImages.posters.map((mov, i) => {
-										photos.push(`${BASE_IMG_URL}${mov.file_path}`);
-										return (
-											<SwiperSlide key={i}>
-												<div className="movie-img">
-													<img
-														src={`${BASE_IMG_URL}${mov.file_path}`}
-														alt="movie-img"
-														className="movie-img-file"
-													/>
-												</div>
-											</SwiperSlide>
-										);
-									})}
-								</Swiper>
-							) : (
-								'No Photos found.'
-							)}
-
-							{/* PHOTOS LIGHTBOX */}
-							<FsLightbox
-								toggler={photosToggler}
-								sources={[...photos]}
-								loadOnlyCurrentSource={true}
-								sourceIndex={photoIndx}
-								key={photosKey}
-							/>
+						<div className="photos-title--wrapper">
+							<h2 className="section__title">
+								Posters {movieImages && <span className="posters-amount">({movieImages.posters.length})</span>}
+							</h2>
+							<div className="swiper-nav">
+								<i className="fas fa-arrow-left swiper-nav-prev"></i>
+								<i className="fas fa-arrow-right swiper-nav-next"></i>
+							</div>
 						</div>
+						<Photos
+							movieImages={movieImages}
+							photoIndx={photoIndx}
+							photosKey={photosKey}
+							photosToggler={photosToggler}
+							handleGallery={handleGallery}
+						/>
 					</div>
 				</div>
 			</section>
