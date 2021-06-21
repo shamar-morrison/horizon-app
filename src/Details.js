@@ -18,9 +18,9 @@ SwiperCore.use([Navigation, Pagination]);
 
 const MovieDetails = ({ match }) => {
 	const movieID = match.params.id;
-	const location = useLocation();
-	const { movieDetails } = location.state;
-	const [movie, setMovie] = useState(movieDetails);
+	// const location = useLocation();
+	// const { movieDetails } = location.state;
+	const [movie, setMovie] = useState('');
 	const [movieCast, setMovieCast] = useState('');
 	const [movieImages, setMovieImages] = useState('');
 	const [photosKey, setPhotosKey] = useState(0);
@@ -36,9 +36,9 @@ const MovieDetails = ({ match }) => {
 	const [torrents, setTorrents] = useState('');
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
-	const fetchMovieTrailer = async () => {
+	const fetchMovieTrailer = async movie => {
 		try {
-			movieTrailer(movie.title || movie.name || movie.original_title, { multi: true })
+			movieTrailer(movie.title || movie.name || movie.original_title || '', { multi: true })
 				.then(res => {
 					setTrailer(res);
 				})
@@ -50,10 +50,10 @@ const MovieDetails = ({ match }) => {
 		}
 	};
 
-	const fetchMovieData = async () => {
+	const fetchMovieData = async id => {
 		try {
 			setLoading(true);
-			const response = await instance.get(`/movie/${movie.id}?api_key=${API_KEY}&language=en-US`);
+			const response = await instance.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`);
 			if (response.status !== 200 || !response) throw Error(response.statusText);
 			setMovie(response.data);
 			fetchTorrents(response.data.imdb_id); // fetch movie torrents using IMDB ID
@@ -112,7 +112,7 @@ const MovieDetails = ({ match }) => {
 	};
 
 	const handleSimilar = mov => {
-		setMovie(mov);
+		fetchMovieData(mov.id);
 		setTrigger(!trigger);
 		setPhotosKey(prev => prev + 1);
 		setTrailerKey(prev => prev + 1);
@@ -124,15 +124,17 @@ const MovieDetails = ({ match }) => {
 	};
 
 	useEffect(() => {
-		fetchMovieTrailer();
-		fetchMovieData();
+		fetchMovieData(movieID);
+		setPhotoIndx();
+		setTorrents('');
+	}, [trigger]);
+
+	useEffect(() => {
+		fetchMovieTrailer(movie);
 		fetchMovieCastData();
 		fetchMovieImages();
 		fetchSimilarMovies();
-		setPhotoIndx();
-		setTorrents('');
-		console.log('MOVIE ID PARAM', movieID);
-	}, [trigger]);
+	}, [movie]);
 
 	const detailsBG = {
 		backgroundImage: `url(${BANNER_IMG_URL}${movie.backdrop_path})`,
