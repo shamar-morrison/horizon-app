@@ -1,6 +1,10 @@
 import { BASE_IMG_URL } from '../logic/requests';
+import noImageFound from '../img/no-img-found.png';
 
 const Similar = ({ similarMovies, onClick }) => {
+	const scrollToTop = () => {
+		window.scrollTo(0, 0);
+	};
 	return (
 		<>
 			{similarMovies.length <= 0 ? (
@@ -13,13 +17,13 @@ const Similar = ({ similarMovies, onClick }) => {
 								className="similar-movies--item"
 								onClick={() => {
 									onClick(movie);
-									window.scrollTo(0, 0);
+									scrollToTop();
 								}}
 								key={i}
 							>
 								<img
 									loading="lazy"
-									src={`${BASE_IMG_URL}${movie.poster_path}`}
+									src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
 									alt={movie.name || movie.title || movie.original_title}
 								/>
 							</li>

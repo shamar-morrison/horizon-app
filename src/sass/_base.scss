@@ -2,13 +2,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 :root {
-	--clr-red: hsl(357, 92%, 47%);
+	--clr-red: #e60a15;
 	--clr-primary-900: #16151a;
 	--clr-primary-800: #1e1d22;
 	--clr-primary-500: #6f6e76;
 	--clr-primary-600: #292830;
 	--clr-yellow: #ffb70c;
 	--clr-download: hsl(102, 49%, 51%);
+	--clr-download-icon: #428e21;
 }
 
 *,
@@ -52,6 +53,8 @@ button {
 	font-family: inherit;
 }
 
+.similar-movies--item,
+.similar-movies--item::after,
 .navbar-wrapper,
 .navbar-links,
 .movie__card--img,

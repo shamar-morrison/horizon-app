@@ -7,6 +7,7 @@ import movieTrailer from 'movie-trailer';
 import Similar from './components/Similar';
 import FsLightbox from 'fslightbox-react';
 import Photos from './components/Photos';
+import Downloads from './components/Downloads';
 import noTrailerImg from './img/no-trailer.png';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -77,6 +78,7 @@ const MovieDetails = ({ match }) => {
 			const response = await instance.get(`/movie/${movie.id}/images?api_key=${API_KEY}&include_image_language=en&language=en-US`);
 			if (response.status !== 200 || !response) throw Error(response.statusText);
 			setMovieImages(response.data);
+			console.log(response.data);
 		} catch (e) {
 			console.error(e);
 		}
@@ -87,6 +89,7 @@ const MovieDetails = ({ match }) => {
 			const response = await instance.get(`/movie/${movie.id}/similar?api_key=${API_KEY}&language=en-US&page=1`);
 			if (response.status !== 200 || !response) throw Error(response.statusText);
 			setSimilarMovies(response.data.results);
+			console.log('SIMILAR', response.data.results);
 		} catch (e) {
 			console.error('SIMILAR MOVIES ERROR', e);
 		}
@@ -102,6 +105,10 @@ const MovieDetails = ({ match }) => {
 		} catch (e) {
 			console.error('TORRENTS ERROR', e);
 		}
+	};
+
+	const setModalVisibility = () => {
+		setIsModalVisible(!isModalVisible);
 	};
 
 	const handleSimilar = mov => {
@@ -124,6 +131,7 @@ const MovieDetails = ({ match }) => {
 		fetchSimilarMovies();
 		setPhotoIndx();
 		setTorrents('');
+		console.log('MOVIE ID PARAM', movieID);
 	}, [trigger]);
 
 	const detailsBG = {
@@ -230,39 +238,7 @@ const MovieDetails = ({ match }) => {
 			/>
 
 			{/* TORRENT DOWNLOAD MODAL */}
-			{isModalVisible && (
-				<>
-					<span className="modal-bg" onClick={() => setIsModalVisible(!isModalVisible)}></span>
-					<div className="torrent-download--modal">
-						<i className="fas fa-times-circle close-modal" onClick={() => setIsModalVisible(!isModalVisible)}></i>
-						<h3 className="modal-header">Select a movie quality</h3>
-						{isLoading ? (
-							<div className="loading-spinner--similar" style={{ margin: '50px 0' }}>
-								<LoadingSpinner />
-							</div>
-						) : torrents.length > 0 ? (
-							<ul className="torrent-list">
-								{torrents.map((torrent, ind) => (
-									<li className="torrent-list--item" key={ind}>
-										<h2 className="torrent-quality">{torrent.quality}</h2>
-										<p className="torrent-type">{torrent.type}</p>
-										<p className="torrent-size">File Size: {torrent.size}</p>
-										<a href={torrent.url} className="torrent-link">
-											<i class="fas fa-download"></i>
-											Download
-										</a>
-										<p className="torrent-seeds-peers">
-											P: {torrent.peers} • S: {torrent.seeds}
-										</p>
-									</li>
-								))}
-							</ul>
-						) : (
-							<h2 style={{ margin: '50px 0' }}>No download available.</h2>
-						)}
-					</div>
-				</>
-			)}
+			{isModalVisible && <Downloads torrents={torrents} toggler={setModalVisibility} />}
 
 			<section className="container">
 				<div className="movie-details--bottom">

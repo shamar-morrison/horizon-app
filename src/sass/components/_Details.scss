@@ -282,7 +282,7 @@
 }
 
 .download-torrent {
-	color: #428e21;
+	color: var(--clr-download-icon);
 	background-color: var(--clr-download);
 	margin-bottom: 50px;
 }
@@ -303,103 +303,3 @@
 	}
 }
 
-// TORRENT MODAL
-.torrent-download--modal {
-	position: fixed;
-	z-index: 9999;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-
-	max-width: max-content;
-	max-height: 100vh;
-	padding: 35px 55px;
-	border-radius: 5px;
-	background-color: #fff;
-	color: #000;
-	// hide scrollbars but still allow scrolling
-	overflow-y: scroll;
-	scrollbar-width: none;
-	-ms-overflow-style: none;
-
-	&::-webkit-scrollbar {
-		width: 0;
-		height: 0;
-	}
-
-	.modal-header {
-		font-size: 1.2rem;
-		color: var(--clr-red);
-		text-align: center;
-	}
-}
-
-.torrent-list {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-wrap: wrap;
-	gap: 30px;
-	margin-top: 50px;
-	text-align: center;
-
-	.torrent {
-		&-quality {
-			color: var(--clr-primary-500);
-		}
-
-		&-type {
-			text-transform: uppercase;
-			margin-top: 15px;
-			font-size: 1.05rem;
-			font-weight: 500;
-		}
-
-		&-size {
-			margin: 15px 0;
-			font-size: 0.95rem;
-		}
-
-		&-link {
-			display: flex;
-			align-items: center;
-			padding: 8px 35px;
-			background-color: var(--clr-download);
-			border-radius: 5px;
-			color: #fff;
-			font-size: 1rem;
-
-			i {
-				position: relative;
-				top: -0.5px;
-				font-size: 0.85rem;
-				margin-right: 10px;
-				color: #428e21;
-			}
-		}
-
-		&-seeds-peers {
-			margin-top: 15px;
-			font-size: 0.87rem;
-		}
-	}
-}
-
-.modal-bg {
-	position: fixed;
-	z-index: 9999;
-	top: 50%;
-	left: 50%;
-	width: 100vw;
-	height: 100vh;
-	transform: translate(-50%, -50%);
-	background-color: rgba(0, 0, 0, 0.63);
-}
-
-.close-modal {
-	position: relative;
-	top: -12px;
-	right: -100%;
-	cursor: pointer;
-	font-size: 1.1rem;
-}

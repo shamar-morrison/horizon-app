@@ -17,7 +17,7 @@ const Banner = ({ ref }) => {
 	const fetchRandMovie = async () => {
 		try {
 			setLoading(true);
-			const response = await instance.get(requests.fetchTrendingMovies);
+			const response = await instance.get(requests.fetchMostPopularHorrorMovies);
 			if (response.status !== 200 || !response) {
 				console.log('FETCH RAND MOVIE RUNNING AGAIN');
 				fetchRandMovie();
