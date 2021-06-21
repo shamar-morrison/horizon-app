@@ -5,7 +5,6 @@ const Downloads = ({ torrents, toggler }) => {
 
 	const toggleDownloadBtnText = e => {
 		const docEl = getComputedStyle(document.documentElement);
-		console.log('CSS PROPS', docEl);
 		e.target.innerHTML = 'Downloading...';
 		e.target.style.backgroundColor = docEl.getPropertyValue('--clr-download-icon');
 		setTimeout(() => {
