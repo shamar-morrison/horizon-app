@@ -60,6 +60,7 @@ const MovieDetails = ({ match }) => {
 			setLoading();
 		} catch (e) {
 			console.error('FETCH MOVIE ERROR', e);
+			setTimeout(() => fetchMovieData(id), 2000);
 		}
 	};
 

@@ -22,6 +22,7 @@ const Similar = ({ similarMovies, onClick }) => {
 										scrollToTop();
 									}}
 									key={i}
+									data-name={movie.name || movie.title || movie.original_title}
 								>
 									<img
 										loading="lazy"

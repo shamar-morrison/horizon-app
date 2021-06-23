@@ -17,11 +17,9 @@ const Banner = ({ ref }) => {
 	const fetchRandMovie = async () => {
 		try {
 			setLoading(true);
-			const response = await instance.get(requests.fetchMostPopularHorrorMovies);
+			const response = await instance.get(requests.fetchActionMovies);
 			if (response.status !== 200 || !response) {
-				console.log('FETCH RAND MOVIE RUNNING AGAIN');
-				fetchRandMovie();
-				// throw Error(response.statusText);
+				throw Error(response.statusText);
 			}
 
 			const data = response.data.results;
@@ -31,6 +29,7 @@ const Banner = ({ ref }) => {
 			setLoading(false);
 		} catch (e) {
 			console.error('FETCH RAND MOVIE ERROR', e);
+			setTimeout(() => fetchRandMovie(), 1500);
 		}
 	};
 

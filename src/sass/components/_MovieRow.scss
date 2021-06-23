@@ -44,20 +44,6 @@
 	}
 }
 
-.swiper-nav {
-	display: flex;
-	gap: 8px;
-	transform: translateY(10px);
-
-	.swiper-nav-prev,
-	.swiper-nav-next {
-		font-size: 1rem;
-		display: grid;
-		place-items: center;
-		height: 40px;
-		width: 40px;
-		background-color: var(--clr-primary-800);
-		border-radius: 50%;
-		cursor: pointer;
-	}
+.movie-row--loading {
+	margin: 20px 0 70px;
 }

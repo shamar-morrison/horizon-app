@@ -4,6 +4,7 @@ import MovieCard from './MovieCard';
 import MovieCardLarge from './MovieCardLarge';
 import FilterCategory from './FilterCategory';
 import requests from '../logic/requests';
+import LoadingSpinner from './LoadingSpinner';
 
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -234,16 +235,21 @@ const MovieRow = ({ title, fetchUrl }) => {
 					},
 				}}
 			>
-				<div className="section__movies">
-					{movies &&
-						movies.map((mov, ind) => {
+				{movies.length > 0 ? (
+					<div className="section__movies">
+						{movies.map((mov, ind) => {
 							return (
 								<SwiperSlide onClick={() => handleMovieCardClick(mov)} key={ind}>
 									<MovieCard movie={mov} />
 								</SwiperSlide>
 							);
 						})}
-				</div>
+					</div>
+				) : (
+					<div className="loading-spinner--similar movie-row--loading">
+						<LoadingSpinner />
+					</div>
+				)}
 			</Swiper>
 			{movieCardLarge && <MovieCardLarge movie={movieCardLarge} onClose={handleOnClose} />}
 		</div>
