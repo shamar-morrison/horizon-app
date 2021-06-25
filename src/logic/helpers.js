@@ -1,7 +1,7 @@
 import movieTrailer from 'movie-trailer';
 
 /**
- * Get movie trailer
+ * fetch movie trailer for movieCardLarge
  *
  * @param {Object} mov Movie object
  * @param {useState} setTrailerUrl useState function to set trailer URL
@@ -20,6 +20,24 @@ const getTrailer = (mov, setTrailerUrl, setHasTrailer) => {
 			setHasTrailer(true);
 			setTrailerUrl();
 		});
+};
+
+/**
+ * fetch movie trailer
+ *
+ * @param {Object} movie movie object
+ * @param {useState} setTrailer useState hook to set the movie trailer object
+ */
+
+export const fetchMovieTrailer = async (movie, setTrailer) => {
+	try {
+		const res = await movieTrailer(movie.title || movie.name || movie.original_title || '', { multi: true });
+		if (!res) throw Error('Error fetching trailer');
+
+		setTrailer(res); // set movie trailer state
+	} catch (error) {
+		console.error('MOVIE TRAILER ERROR', error);
+	}
 };
 
 export default getTrailer;

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import instance, { yts } from './logic/axios';
 import Cast from './components/Cast';
 import movieTrailer from 'movie-trailer';
+import { fetchMovieTrailer } from './logic/helpers';
 import Similar from './components/Similar';
 import FsLightbox from 'fslightbox-react';
 import Photos from './components/Photos';
@@ -35,20 +36,6 @@ const MovieDetails = ({ match }) => {
 	const [photoIndx, setPhotoIndx] = useState(null);
 	const [torrents, setTorrents] = useState('');
 	const [isModalVisible, setIsModalVisible] = useState(false);
-
-	const fetchMovieTrailer = async movie => {
-		try {
-			movieTrailer(movie.title || movie.name || movie.original_title || '', { multi: true })
-				.then(res => {
-					setTrailer(res);
-				})
-				.catch(e => {
-					throw Error(e);
-				});
-		} catch (error) {
-			console.error('MOVIE TRAILER ERROR', error);
-		}
-	};
 
 	const fetchMovieData = async id => {
 		try {
@@ -114,7 +101,7 @@ const MovieDetails = ({ match }) => {
 
 	const handleSimilar = mov => {
 		fetchMovieData(mov.id);
-		setTrigger(!trigger);
+		setTrigger(!trigger); // trigger component refresh
 		setPhotosKey(prev => prev + 1);
 		setTrailerKey(prev => prev + 1);
 	};
@@ -131,7 +118,7 @@ const MovieDetails = ({ match }) => {
 	}, [trigger]);
 
 	useEffect(() => {
-		fetchMovieTrailer(movie);
+		fetchMovieTrailer(movie, setTrailer);
 		fetchMovieCastData();
 		fetchMovieImages();
 		fetchSimilarMovies();

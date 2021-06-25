@@ -16,6 +16,8 @@ const comedyGenre = 'with_genres=35';
 const horrorGenre = 'with_genres=27';
 const romanceGenre = 'with_genres=10749';
 const documentaryGenre = 'with_genres=99';
+const OR = `%7C`;
+const AND = `%2C`;
 
 const requests = {
 	// TRENDING
@@ -27,7 +29,7 @@ const requests = {
 	fetchTopRatedTvShows: `/tv/top_rated?api_key=${API_KEY}&language=en-US`,
 
 	// ACTION
-	fetchActionMovies: `${movieUrl}${API_KEY}&${actionGenre}&page=3`,
+	fetchActionMovies: `${movieUrl}${API_KEY}&${actionGenre}`,
 	fetchLatestActionMovies: `${movieUrl}${API_KEY}&${latest}&${actionGenre}`,
 	fetchMostPopularActionMovies: `${movieUrl}${API_KEY}&sort_by=${mostPopular}&${actionGenre}`,
 	fetchHighestRatedActionMovies: `${movieUrl}${API_KEY}&sort_by=${highestRated}&${actionGenre}`,
