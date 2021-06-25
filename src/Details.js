@@ -222,7 +222,7 @@ const MovieDetails = ({ match }) => {
 			{/* MOVIE TRAILER LIGHTBOX */}
 			<FsLightbox
 				toggler={trailerToggler}
-				sources={trailer ? [...trailer] : [noTrailerImg]}
+				sources={trailer.length > 0 ? [...trailer] : [noTrailerImg]}
 				loadOnlyCurrentSource={true}
 				key={trailerKey}
 			/>

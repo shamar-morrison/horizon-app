@@ -26,7 +26,7 @@ const getTrailer = (mov, setTrailerUrl, setHasTrailer) => {
  * fetch movie trailer
  *
  * @param {Object} movie movie object
- * @param {useState} setTrailer useState hook to set the movie trailer object
+ * @param {useState} setTrailer useState hook to set the trailer object
  */
 
 export const fetchMovieTrailer = async (movie, setTrailer) => {

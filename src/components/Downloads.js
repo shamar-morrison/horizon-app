@@ -22,7 +22,9 @@ const Downloads = ({ torrents, toggler }) => {
 					<ul className="torrent-list">
 						{torrents.map((torrent, ind) => (
 							<li className="torrent-list--item" key={ind}>
-								<h2 className="torrent-quality">{torrent.quality}</h2>
+								<h2 className="torrent-quality">
+									{torrent.quality === '2160p' ? `${torrent.quality} / 4K` : torrent.quality}
+								</h2>
 								<p className="torrent-type">{torrent.type}</p>
 								<p className="torrent-size">File Size: {torrent.size}</p>
 								<a href={torrent.url} className="torrent-link" onClick={toggleDownloadBtnText}>
