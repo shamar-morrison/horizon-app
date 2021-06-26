@@ -1,8 +1,6 @@
 import { useState, useRef } from 'react';
 
 const Downloads = ({ torrents, toggler }) => {
-	const btn = useRef();
-
 	const toggleDownloadBtnText = e => {
 		const docEl = getComputedStyle(document.documentElement);
 		e.target.innerHTML = 'Downloading...';

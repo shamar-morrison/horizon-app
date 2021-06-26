@@ -167,11 +167,12 @@ const MovieRow = ({ title, fetchUrl }) => {
 	// get movies data
 	const fetchMoviesData = async movie => {
 		try {
-			const response = await instance.get(movie);
-			if (response.status !== 200 || !response) throw Error(response.statusText);
-			setMovies(response.data.results);
+			const { data } = await instance.get(movie);
+			if (!data.results.length) throw Error('ERROR FETCHING MOVIE ROW');
+			setMovies(data.results);
 		} catch (e) {
 			console.error('MovieRow.js', e);
+			setTimeout(() => fetchMoviesData(), 2000);
 		}
 	};
 
@@ -225,11 +226,11 @@ const MovieRow = ({ title, fetchUrl }) => {
 					invert: false,
 				}}
 				breakpoints={{
-					1200: {
+					1400: {
 						slidesPerView: 6.5,
 						spaceBetween: 32,
 					},
-					1199: {
+					1200: {
 						slidesPerView: 5.5,
 						spaceBetween: 32,
 					},

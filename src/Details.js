@@ -14,6 +14,8 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import noImageFound from './img/no-img-found.png';
 import LoadingSpinner from './components/LoadingSpinner';
+import Runtime from './components/Runtime';
+import Genres from './components/Genres';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -66,7 +68,6 @@ const MovieDetails = ({ match }) => {
 			const response = await instance.get(`/movie/${movie.id}/images?api_key=${API_KEY}&include_image_language=en&language=en-US`);
 			if (response.status !== 200 || !response) throw Error(response.statusText);
 			setMovieImages(response.data);
-			console.log(response.data);
 		} catch (e) {
 			console.error(e);
 		}
@@ -77,7 +78,6 @@ const MovieDetails = ({ match }) => {
 			const response = await instance.get(`/movie/${movie.id}/similar?api_key=${API_KEY}&language=en-US&page=1`);
 			if (response.status !== 200 || !response) throw Error(response.statusText);
 			setSimilarMovies(response.data.results);
-			console.log('SIMILAR', response.data.results);
 		} catch (e) {
 			console.error('SIMILAR MOVIES ERROR', e);
 		}
@@ -88,7 +88,6 @@ const MovieDetails = ({ match }) => {
 			const { data } = await yts.get(`?query_term=${id}`);
 			if (data.status !== 'ok') return;
 
-			console.log('TORRENT DATA', data);
 			setTorrents(data.data.movies[0].torrents);
 		} catch (e) {
 			console.error('TORRENTS ERROR', e);
@@ -122,6 +121,7 @@ const MovieDetails = ({ match }) => {
 		fetchMovieCastData();
 		fetchMovieImages();
 		fetchSimilarMovies();
+		console.log('MOVIE DETAILS', movie);
 	}, [movie]);
 
 	const detailsBG = {
@@ -143,78 +143,81 @@ const MovieDetails = ({ match }) => {
 				<section className="movie-details" style={detailsBG}>
 					<div className="blur"></div>
 					<div className="container">
-						<div className="movie-details--main">
-							<div className="movie-details--img">
-								<img
-									src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
-									alt={movie.title || movie.name || movie.original_title}
-								/>
-								<button className="watch-trailer btn" onClick={() => setTrailerToggler(!trailerToggler)}>
-									<i className="fas fa-play"></i> watch trailer
-								</button>
-								<button className="download-torrent btn" onClick={() => setIsModalVisible(!isModalVisible)}>
-									<i class="fas fa-download"></i> Download
-								</button>
-							</div>
-							<div className="movie-details--body">
-								<h1 className="movie-details--title">{movie.title || movie.name || movie.original_title}</h1>
-								<ul className="movie-details--genre-date">
-									<li>{new Date(movie.release_date).getFullYear() || 'N/A'}</li>
-									<li>
-										{movie?.genres?.length > 0
-											? movie.genres.map((genre, i, arr) => {
-													if (i === arr.length - 1) {
-														return genre.name;
-													} else {
-														return genre.name + ', ';
-													}
-											  })
-											: 'N/A'}
-									</li>
-									<li>{movie.runtime || 0} mins</li>
-								</ul>
-								<p className="tagline">{movie.tagline}</p>
-								<div className="movie-details--overview">
-									<h2>Overview</h2>
-									<p className="overview">{movie.overview || 'No summary available.'}</p>
+						{movie && (
+							<div className="movie-details--main">
+								<div className="movie-details--img">
+									<img
+										src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
+										alt={movie.title || movie.name || movie.original_title}
+									/>
+									<button className="watch-trailer btn" onClick={() => setTrailerToggler(!trailerToggler)}>
+										<i className="fas fa-play"></i> watch trailer
+									</button>
+									<button className="download-torrent btn" onClick={() => setIsModalVisible(!isModalVisible)}>
+										<i class="fas fa-download"></i> Download
+									</button>
 								</div>
-								<div className="movie-details--btns">
-									<div className="popularity">
-										<p className="popularity--rating">
-											{movie.vote_average ? Number(movie.vote_average).toFixed(1) : 'N/A'}
-										</p>
-										<p className="popularity--text">User Rating</p>
+								<div className="movie-details--body">
+									<h1 className="movie-details--title">
+										{movie.title || movie.name || movie.original_title}
+										<span className="movie-details--lang" tooltip={movie.spoken_languages[0]?.english_name || 'N/A'}>
+											{movie.original_language}
+										</span>
+									</h1>
+
+									<ul className="movie-details--genre-date">
+										<li>{new Date(movie.release_date).getFullYear() || 'N/A'}</li>
+										<li>
+											<Genres genres={movie.genres} />
+										</li>
+										<li>
+											<Runtime runtime={movie.runtime} />
+										</li>
+									</ul>
+
+									<p className="tagline">{movie.tagline}</p>
+									<div className="movie-details--overview">
+										<h2>Overview</h2>
+										<p className="overview">{movie.overview || 'No summary available.'}</p>
 									</div>
-									<ul className="actions">
-										<li className="add-to-list" tooltip="Add to List">
-											<i class="fas fa-list-ul"></i>
-										</li>
-										<li className="add-to-fav" tooltip="Mark as Favorite">
-											<i class="fas fa-heart"></i>
-										</li>
-										<li className="add-to-bookmarks" tooltip="Add to Bookmarks">
-											<i class="fas fa-bookmark"></i>
-										</li>
-										<li className="rate" tooltip="Rate it">
-											<i class="fas fa-star"></i>
-										</li>
-									</ul>
+									<div className="movie-details--btns">
+										<div className="popularity">
+											<p className="popularity--rating">
+												{movie.vote_average ? Number(movie.vote_average).toFixed(1) : 'N/A'}
+											</p>
+											<p className="popularity--text">User Rating</p>
+										</div>
+										<ul className="actions">
+											<li className="add-to-list" tooltip="Add to List">
+												<i class="fas fa-list-ul"></i>
+											</li>
+											<li className="add-to-fav" tooltip="Mark as Favorite">
+												<i class="fas fa-heart"></i>
+											</li>
+											<li className="add-to-bookmarks" tooltip="Add to Bookmarks">
+												<i class="fas fa-bookmark"></i>
+											</li>
+											<li className="rate" tooltip="Rate it">
+												<i class="fas fa-star"></i>
+											</li>
+										</ul>
+									</div>
+									{movieCast && (
+										<ul className="crew-list--short">
+											{movieCast &&
+												movieCast.crew.slice(0, 3).map(val => {
+													return (
+														<li className="crew-list--member">
+															<h3 className="member-role">{val.job}</h3>
+															<p className="member-name">{val.name || val.original_name}</p>
+														</li>
+													);
+												})}
+										</ul>
+									)}
 								</div>
-								{movieCast && (
-									<ul className="crew-list--short">
-										{movieCast &&
-											movieCast.crew.slice(0, 3).map(val => {
-												return (
-													<li className="crew-list--member">
-														<h3 className="member-role">{val.job}</h3>
-														<p className="member-name">{val.name || val.original_name}</p>
-													</li>
-												);
-											})}
-									</ul>
-								)}
 							</div>
-						</div>
+						)}
 					</div>
 				</section>
 			)}

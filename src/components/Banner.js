@@ -42,13 +42,12 @@ const Banner = ({ ref }) => {
 		const torrentID =
 			'magnet:?xt=urn:btih:197A717F8FEE44FB6A8DF646960BDBCE6E240F27&dn=Godza%20vs.%20Kong&tr=http://track.one:1234/announce&tr=udp://track.two:80&tr=udp://open.demonii.com:1337/announce&tr=udp://tracker.openbittorrent.com:80&tr=udp://tracker.coppersurfer.tk:6969tr=udp://glotorrents.pw:6969/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://torrent.gresille.org:80/announce&tr=udp://p4p.arenabg.com:1337&tr=udp://tracker.leechers-paradise.org:6969';
 
-		client.add(torrentID, torrent => {
+		const torrent = client.add(torrentID, torrent => {
 			const file = torrent.files.find(file => {
 				return file.name.endsWith('.mp4');
 			});
-			file.appendTo('footer');
-			console.log('FILE', file);
 		});
+		console.log('TORRENT', torrent);
 	}, []);
 
 	useEffect(() => {
