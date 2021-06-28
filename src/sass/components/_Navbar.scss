@@ -48,7 +48,8 @@
 
 .navbar-links {
 	display: flex;
-	gap: 65px;
+
+	gap: 45px;
 	font-size: 0.95rem;
 	color: rgba(255, 255, 255, 0.527);
 	transition-property: color;
@@ -62,11 +63,35 @@
 	}
 
 	.nav-link {
+		position: relative;
 		cursor: pointer;
+		padding: 8px 0;
 
 		&:hover,
 		&:focus {
 			color: #fff;
+
+			.nav-link--dropdown {
+				opacity: 1;
+				pointer-events: initial;
+			}
+		}
+
+		&--dropdown {
+			display: flex;
+			flex-direction: column;
+			gap: 15px;
+			width: 400%;
+			margin-top: 8px;
+
+			position: absolute;
+			left: -5px;
+			background-color: var(--clr-primary-800);
+			padding: 10px 15px;
+			border-radius: $border-radius;
+			opacity: 0;
+			pointer-events: none;
+			transition: none;
 		}
 	}
 

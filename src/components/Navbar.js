@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import logo from '../img/logo.png';
 import SearchBar from './SearchBar';
 import { Link, NavLink } from 'react-router-dom';
+import requests from '../logic/requests';
 
 const Navbar = () => {
 	// const [searchVal, setSearchVal] = useState('');
@@ -49,10 +50,31 @@ const Navbar = () => {
 						</Link>
 					</div>
 					<ul className="navbar-links">
-						<li className="nav-link">Trending</li>
-						<li className="nav-link">Top Rated</li>
-						<li className="nav-link">Action</li>
-						<li className="nav-link">Comedy</li>
+						<li className="nav-link">
+							Movies
+							<ul className="nav-link--dropdown">
+								<Link
+									to={{
+										pathname: '/movie/popular',
+										state: { dataUrl: requests.fetchPopularMovies, title: 'Popular' },
+									}}
+								>
+									<li>Popular</li>
+								</Link>
+								<Link
+									to={{
+										pathname: '/movie/now-playing',
+										state: { dataUrl: requests.fetchNowPlaying, title: 'Now Playing' },
+									}}
+								>
+									<li>Now Playing</li>
+								</Link>
+								<li>Upcoming</li>
+								<li>Top Rated</li>
+							</ul>
+						</li>
+						<li className="nav-link">TV Shows</li>
+						<li className="nav-link">People</li>
 					</ul>
 					<SearchBar />
 				</nav>

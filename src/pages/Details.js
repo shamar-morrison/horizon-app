@@ -1,21 +1,21 @@
 import { useLocation } from 'react-router';
-import { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from './logic/requests';
+import { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from '../logic/requests';
 import { useState, useEffect } from 'react';
-import instance, { yts } from './logic/axios';
-import Cast from './components/Cast';
+import instance, { yts } from '../logic/axios';
+import Cast from '../components/Cast';
 import movieTrailer from 'movie-trailer';
-import { fetchMovieTrailer } from './logic/helpers';
-import Similar from './components/Similar';
+import { fetchMovieTrailer } from '../logic/helpers';
+import Similar from '../components/Similar';
 import FsLightbox from 'fslightbox-react';
-import Photos from './components/Photos';
-import Downloads from './components/Downloads';
-import noTrailerImg from './img/no-trailer.png';
+import Photos from '../components/Photos';
+import Downloads from '../components/Downloads';
+import noTrailerImg from '../img/no-trailer.png';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import noImageFound from './img/no-img-found.png';
-import LoadingSpinner from './components/LoadingSpinner';
-import Runtime from './components/Runtime';
-import Genres from './components/Genres';
+import noImageFound from '../img/no-img-found.png';
+import LoadingSpinner from '../components/LoadingSpinner';
+import Runtime from '../components/Runtime';
+import Genres from '../components/Genres';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -32,7 +32,7 @@ const MovieDetails = ({ match }) => {
 
 	const [similarMovies, setSimilarMovies] = useState('');
 	const [trailer, setTrailer] = useState([]);
-	const [trigger, setTrigger] = useState(false);
+	const [triggerUpdate, setTriggerUpdate] = useState(false);
 	const [trailerToggler, setTrailerToggler] = useState(false);
 	const [photosToggler, setPhotosToggler] = useState(false);
 	const [photoIndx, setPhotoIndx] = useState(null);
@@ -42,10 +42,10 @@ const MovieDetails = ({ match }) => {
 	const fetchMovieData = async id => {
 		try {
 			setLoading(true);
-			const response = await instance.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`);
-			if (response.status !== 200 || !response) throw Error(response.statusText);
-			setMovie(response.data);
-			fetchTorrents(response.data.imdb_id); // fetch movie torrents using IMDB ID
+			const { status, data, statusText } = await instance.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`);
+			if (status !== 200) throw Error(statusText);
+			setMovie(data);
+			fetchTorrents(data.imdb_id); // fetch movie torrents using IMDB ID
 			setLoading();
 		} catch (e) {
 			console.error('FETCH MOVIE ERROR', e);
@@ -55,9 +55,9 @@ const MovieDetails = ({ match }) => {
 
 	const fetchMovieCastData = async () => {
 		try {
-			const response = await instance.get(`/movie/${movie.id}/credits?api_key=${API_KEY}&language=en-US`);
-			if (response.status !== 200 || !response) throw Error(response.statusText);
-			setMovieCast(response.data);
+			const { status, data, statusText } = await instance.get(`/movie/${movie.id}/credits?api_key=${API_KEY}&language=en-US`);
+			if (status !== 200) throw Error(statusText);
+			setMovieCast(data);
 		} catch (e) {
 			console.error('movie cast error', e);
 		}
@@ -100,7 +100,7 @@ const MovieDetails = ({ match }) => {
 
 	const handleSimilar = mov => {
 		fetchMovieData(mov.id);
-		setTrigger(!trigger); // trigger component refresh
+		setTriggerUpdate(!triggerUpdate); // trigger component refresh
 		setPhotosKey(prev => prev + 1);
 		setTrailerKey(prev => prev + 1);
 	};
@@ -114,7 +114,7 @@ const MovieDetails = ({ match }) => {
 		fetchMovieData(movieID);
 		setPhotoIndx();
 		setTorrents('');
-	}, [trigger]);
+	}, [triggerUpdate]);
 
 	useEffect(() => {
 		fetchMovieTrailer(movie, setTrailer);
@@ -269,13 +269,19 @@ const MovieDetails = ({ match }) => {
 								<i className="fas fa-arrow-right swiper-nav-next"></i>
 							</div>
 						</div>
-						<Photos
-							movieImages={movieImages}
-							photoIndx={photoIndx}
-							photosKey={photosKey}
-							photosToggler={photosToggler}
-							handleGallery={handleGallery}
-						/>
+						{isLoading ? (
+							<div className="loading-spinner--similar">
+								<LoadingSpinner />
+							</div>
+						) : (
+							<Photos
+								movieImages={movieImages}
+								photoIndx={photoIndx}
+								photosKey={photosKey}
+								photosToggler={photosToggler}
+								handleGallery={handleGallery}
+							/>
+						)}
 					</div>
 				</div>
 			</section>

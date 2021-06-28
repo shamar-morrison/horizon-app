@@ -168,7 +168,7 @@ const MovieRow = ({ title, fetchUrl }) => {
 	const fetchMoviesData = async movie => {
 		try {
 			const { data } = await instance.get(movie);
-			if (!data.results.length) throw Error('ERROR FETCHING MOVIE ROW');
+			if (!data.results.length || !data) throw Error('ERROR FETCHING MOVIE ROW');
 			setMovies(data.results);
 		} catch (e) {
 			console.error('MovieRow.js', e);

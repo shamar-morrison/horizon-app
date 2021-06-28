@@ -63,7 +63,12 @@ const requests = {
 	fetchHighestRatedDocumentaries: `${movieUrl}${API_KEY}&sort_by=${highestRated}&${documentaryGenre}`,
 	fetchLowestRatedDocumentaries: `${movieUrl}${API_KEY}&sort_by=${lowestRated}&${documentaryGenre}`,
 
-	fetchPopularTvShows: `/tv/popular?api_key=${API_KEY}&language=en-US&page=1`,
+	// POPULAR
+	fetchPopularTvShows: `/tv/popular?api_key=${API_KEY}&language=en-US`,
+	fetchPopularMovies: `/movie/popular?api_key=${API_KEY}&language=en-US`,
+
+	// NOW PLAYING
+	fetchNowPlaying: `/movie/now_playing?api_key=${API_KEY}&language=en-US`,
 };
 
 export default requests;

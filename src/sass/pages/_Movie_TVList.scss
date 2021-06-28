@@ -1,0 +1,69 @@
+a {
+	color: #fff;
+}
+
+.card-grid {
+	display: flex;
+	margin-top: 30vh;
+	// gap: 12px;
+
+	&--title {
+		position: relative;
+		top: -50px;
+		font-size: 1.85rem;
+		margin-top: 0;
+		width: max-content;
+	}
+}
+
+.card-grid--list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 30px;
+
+	&-item {
+		max-width: 200px;
+		border-radius: $border-radius;
+		border: 1px solid var(--clr-primary-800);
+		overflow: hidden;
+	}
+}
+
+.card-img {
+	img {
+		width: 100%;
+		object-fit: contain;
+	}
+}
+
+.card-body {
+	position: relative;
+	padding: 10px 20px;
+
+	.card-title {
+		font-size: 1.08rem;
+		line-height: 1.5;
+	}
+
+	.card-date {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-size: 0.92rem;
+		margin-top: 5px;
+		color: var(--clr-primary-500);
+		padding-bottom: 10px;
+
+		i {
+			margin-left: auto;
+			margin-right: 5px;
+			font-size: 0.77rem;
+			transform: translateY(-1.5px);
+		}
+	}
+
+	.card-rating {
+		color: var(--clr-yellow);
+	}
+}
