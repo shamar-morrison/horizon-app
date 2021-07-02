@@ -5,21 +5,75 @@ a {
 .card-grid {
 	display: flex;
 	margin-top: 30vh;
-	// gap: 12px;
+	gap: 30px;
+
+	> :nth-child(1) {
+		flex-basis: 25%;
+	}
+
+	> :nth-child(2) {
+		flex-basis: 100%;
+	}
+
+	&--filter-panel {
+		position: sticky;
+		top: 300px;
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+	}
 
 	&--title {
 		position: relative;
-		top: -50px;
+		top: -8px;
 		font-size: 1.85rem;
 		margin-top: 0;
 		width: max-content;
+	}
+
+	&--sort {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 10px 15px;
+
+		border-radius: $border-radius;
+		background-color: var(--clr-primary-800);
+		color: var(--clr-primary-500);
+		cursor: pointer;
+
+		h4 {
+			font-size: 1rem;
+		}
+
+		i {
+			font-size: 0.85rem;
+		}
+	}
+
+	&--search-btn {
+		padding: 10px 15px;
+		font-size: 1.05rem;
+		text-align: center;
+		background-color: var(--clr-red);
+		color: #fff;
+		font-weight: 500;
+
+		border-radius: $border-radius;
+		text-transform: capitalize;
+		cursor: pointer;
+
+		&:hover,
+		&:focus {
+			@include hover-scale;
+		}
 	}
 }
 
 .card-grid--list {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: space-around;
 	gap: 30px;
 
 	&-item {
@@ -27,6 +81,7 @@ a {
 		border-radius: $border-radius;
 		border: 1px solid var(--clr-primary-800);
 		overflow: hidden;
+		box-shadow: $card-shadow;
 	}
 }
 
@@ -43,7 +98,7 @@ a {
 
 	.card-title {
 		font-size: 1.08rem;
-		line-height: 1.5;
+		line-height: 1.45;
 	}
 
 	.card-date {
@@ -51,7 +106,7 @@ a {
 		justify-content: space-between;
 		align-items: center;
 		font-size: 0.92rem;
-		margin-top: 5px;
+		margin-top: 7px;
 		color: var(--clr-primary-500);
 		padding-bottom: 10px;
 
@@ -65,5 +120,6 @@ a {
 
 	.card-rating {
 		color: var(--clr-yellow);
+		font-weight: 500;
 	}
 }

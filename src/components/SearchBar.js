@@ -47,7 +47,7 @@ const SearchBar = () => {
 							return (
 								<Link
 									to={{
-										pathname: `/movie/${result.id}`,
+										pathname: `/details/${result.id}`,
 										state: {
 											movieDetails: result,
 										},

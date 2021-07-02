@@ -226,7 +226,7 @@ const MovieRow = ({ title, fetchUrl }) => {
 					invert: false,
 				}}
 				breakpoints={{
-					1400: {
+					1450: {
 						slidesPerView: 6.5,
 						spaceBetween: 32,
 					},

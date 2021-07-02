@@ -11,6 +11,8 @@ const latest = 'primary_release_year=2021';
 const highestRated = 'vote_average.desc';
 const lowestRated = 'vote_average.asc';
 
+const genreList = `/genre/movie/list?api_key=${API_KEY}&language=en-US`;
+
 const actionGenre = 'with_genres=28';
 const comedyGenre = 'with_genres=35';
 const horrorGenre = 'with_genres=27';
@@ -69,6 +71,7 @@ const requests = {
 
 	// NOW PLAYING
 	fetchNowPlaying: `/movie/now_playing?api_key=${API_KEY}&language=en-US`,
+	fetchUpcoming: `/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`,
 };
 
 export default requests;

@@ -14,14 +14,13 @@ const Similar = ({ similarMovies, onClick }) => {
 				<ul className="similar-movies--list">
 					{similarMovies.slice(0, 6).map((movie, i) => {
 						return (
-							<Link to={`/movie/${movie.id}`}>
+							<Link to={`/details/${movie.id}`} key={i}>
 								<li
 									className="similar-movies--item"
 									onClick={() => {
 										onClick(movie);
 										scrollToTop();
 									}}
-									key={i}
 									data-name={movie.name || movie.title || movie.original_title}
 								>
 									<img

@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import instance from '../logic/axios';
-import { BASE_IMG_URL } from '../logic/requests';
+import requests, { BASE_IMG_URL } from '../logic/requests';
 import noImageFound from '../img/no-img-found.png';
+import { API_KEY } from '../logic/requests';
+import LoadingSpinner from '../components/LoadingSpinner';
 
-const Movie_TVList = ({ location }) => {
-	const { dataUrl, title } = location.state;
+const Movie_TVList = ({ match }) => {
+	const category = match.params.category;
 	const [data, setData] = useState([]);
+	const [isLoading, setLoading] = useState(false);
 	const months = ['Jan.', 'Febr.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
 
-	const fetchData = async url => {
+	const fetchData = async () => {
 		try {
-			const { status, data } = await instance.get(url);
+			setLoading(true);
+			const { status, data } = await instance.get(`/movie/${category}?api_key=${API_KEY}&language=en-US`);
 			if (status !== 200 || !data.results.length) throw Error('Error fetch data');
 			setData(data.results);
+			setLoading(false);
 			console.log(data.results);
 		} catch (e) {
 			console.error(e);
@@ -29,21 +34,51 @@ const Movie_TVList = ({ location }) => {
 		return `${months[month]} ${day}, ${year}`;
 	};
 
+	const getTitle = () => {
+		switch (category) {
+			case 'popular':
+				return 'Popular';
+			case 'now_playing':
+				return 'Now Playing';
+			case 'upcoming':
+				return 'Upcoming';
+			case 'top_rated':
+				return 'Top Rated';
+		}
+	};
+
 	useEffect(() => {
-		fetchData(dataUrl);
+		fetchData();
 	}, []);
+
+	if (isLoading) {
+		return (
+			<div className="loading">
+				<LoadingSpinner />
+			</div>
+		);
+	}
 
 	return (
 		<div className="container">
 			<div className="card-grid">
-				<div className="card-grid--filter">
-					<h3 className="card-grid--title">{title}</h3>
+				<div className="card-grid--filter-panel">
+					<h3 className="card-grid--title">{getTitle()}</h3>
+					<div className="card-grid--sort">
+						<h4>Sort</h4>
+						<i className="fas fa-chevron-right"></i>
+					</div>
+					<div className="card-grid--sort">
+						<h4>Filters</h4>
+						<i className="fas fa-chevron-right"></i>
+					</div>
+					<button className="card-grid--search-btn">Search</button>
 				</div>
 				<ul className="card-grid--list">
 					{data.map((movie, indx) => (
 						<Link
 							to={{
-								pathname: `/movie/${movie.id}`,
+								pathname: `/details/${movie.id}`,
 							}}
 						>
 							<li className="card-grid--list-item" key={indx} onClick={() => window.scrollTo(0, 0)}>

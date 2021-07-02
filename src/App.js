@@ -27,9 +27,8 @@ const App = () => {
 							<MovieRow title="Documentaries" fetchUrl={requests.fetchDocumentaries} />
 						</section>
 					</Route>
-					<Route exact path="/movie/popular" render={props => <Movie_TVList {...props} key={Math.random() * 10000} />} />
-					<Route exact path="/movie/now-playing" render={props => <Movie_TVList {...props} key={Math.random() * 10000} />} />
-					<Route exact path="/movie/:id" render={props => <Details {...props} key={Math.random() * 10000} />} />
+					<Route exact path="/movie/:category" render={props => <Movie_TVList {...props} key={Math.random() * 10000} />} />
+					<Route exact path="/details/:id" render={props => <Details {...props} key={Math.random() * 10000} />} />
 				</Switch>
 			</Router>
 			<Footer />

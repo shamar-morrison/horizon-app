@@ -53,24 +53,18 @@ const Navbar = () => {
 						<li className="nav-link">
 							Movies
 							<ul className="nav-link--dropdown">
-								<Link
-									to={{
-										pathname: '/movie/popular',
-										state: { dataUrl: requests.fetchPopularMovies, title: 'Popular' },
-									}}
-								>
+								<Link to="/movie/popular">
 									<li>Popular</li>
 								</Link>
-								<Link
-									to={{
-										pathname: '/movie/now-playing',
-										state: { dataUrl: requests.fetchNowPlaying, title: 'Now Playing' },
-									}}
-								>
+								<Link to="/movie/now_playing">
 									<li>Now Playing</li>
 								</Link>
-								<li>Upcoming</li>
-								<li>Top Rated</li>
+								<Link to="/movie/upcoming">
+									<li>Upcoming</li>
+								</Link>
+								<Link to="/movie/top_rated">
+									<li>Top Rated</li>
+								</Link>
 							</ul>
 						</li>
 						<li className="nav-link">TV Shows</li>

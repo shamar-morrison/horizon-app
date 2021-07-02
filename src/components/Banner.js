@@ -15,19 +15,32 @@ const Banner = ({ ref }) => {
 	const [trailerToggler, setTrailerToggler] = useState(false);
 	const [isLoading, setLoading] = useState(false);
 
+	const movieUrls = [
+		requests.fetchPopularMovies,
+		requests.fetchTopRatedMovies,
+		requests.fetchLatestActionMovies,
+		requests.fetchLatestHorrorMovies,
+		requests.fetchLatestRomanceMovies,
+		requests.fetchLatestComedyMovies,
+	];
+
+	const randMovieFetchRequest = () => {
+		return Math.floor(Math.random() * (movieUrls.length - 1));
+	};
+
 	// fetch random movie to set as banner
 	const fetchRandMovie = async () => {
 		try {
 			setLoading(true);
-			const response = await instance.get(requests.fetchLatestHorrorMovies);
-			console.log('BANNER RESPONSE', response);
-			if (!response.data.results.length || !response) {
-				throw Error(response.statusText);
+			const { data, statusText } = await instance.get(movieUrls[randMovieFetchRequest()]);
+			if (!data.results.length) {
+				console.log('BANNER RESPONSE', statusText);
+				throw Error(statusText);
 			}
 
-			const data = response.data.results; // data.length === 20
+			const movieResults = data.results; // data.length === 20
 			// set random movie
-			const randomMovie = data[Math.floor(Math.random() * (data.length - 1))];
+			const randomMovie = movieResults[Math.floor(Math.random() * (movieResults.length - 1))];
 			setBanner(randomMovie);
 			setLoading(false);
 		} catch (e) {
@@ -93,7 +106,7 @@ const Banner = ({ ref }) => {
 										</li>
 										<Link
 											to={{
-												pathname: `/movie/${banner?.id}`,
+												pathname: `/details/${banner?.id}`,
 												state: {
 													movieDetails: banner,
 												},
