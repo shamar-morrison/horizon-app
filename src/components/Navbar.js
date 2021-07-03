@@ -49,7 +49,7 @@ const Navbar = () => {
 							<img src={logo} alt="Logo" />
 						</Link>
 					</div>
-					<ul className="navbar-links">
+					{/* <ul className="navbar-links">
 						<li className="nav-link">
 							Movies
 							<ul className="nav-link--dropdown">
@@ -69,7 +69,7 @@ const Navbar = () => {
 						</li>
 						<li className="nav-link">TV Shows</li>
 						<li className="nav-link">People</li>
-					</ul>
+					</ul> */}
 					<SearchBar />
 				</nav>
 			</div>

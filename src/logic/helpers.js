@@ -35,6 +35,7 @@ export const fetchMovieTrailer = async (movie, setTrailer) => {
 		if (!res) throw Error('Error fetching trailer');
 
 		setTrailer(res); // set movie trailer state
+		console.log('MOVIE TRAILER', res);
 	} catch (error) {
 		console.error('MOVIE TRAILER ERROR', error);
 	}

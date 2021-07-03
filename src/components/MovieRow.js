@@ -168,11 +168,12 @@ const MovieRow = ({ title, fetchUrl }) => {
 	const fetchMoviesData = async movie => {
 		try {
 			const { data } = await instance.get(movie);
-			if (!data.results.length || !data) throw Error('ERROR FETCHING MOVIE ROW');
+			console.log('MOVIE ROW', data);
+			if (!data.results.length) throw Error('ERROR FETCHING MOVIE ROW');
 			setMovies(data.results);
 		} catch (e) {
 			console.error('MovieRow.js', e);
-			setTimeout(() => fetchMoviesData(), 2000);
+			// setTimeout(() => fetchMoviesData(), 2000);
 		}
 	};
 
@@ -186,14 +187,7 @@ const MovieRow = ({ title, fetchUrl }) => {
 		<div className="section">
 			<div className="section__header" id={title.split(' ')[0].toLowerCase()}>
 				<h2 className="section__title">{title}</h2>
-				{/* <ul className="swiper-nav">
-					<li className="swiper-nav-prev">
-					<i className="fas fa-arrow-left"></i>
-					</li>
-					<li className="swiper-nav-next">
-					<i className="fas fa-arrow-right"></i>
-					</li>
-				</ul> */}
+
 				{title.startsWith('Trending') && (
 					<div className="sort">
 						<p>Sort by:</p>

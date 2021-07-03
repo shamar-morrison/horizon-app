@@ -102,7 +102,7 @@ const Banner = ({ ref }) => {
 												setTrailerToggler(!trailerToggler);
 											}}
 										>
-											<i className="fas fa-play"></i>Watch
+											<i className="fas fa-play"></i>Trailer
 										</li>
 										<Link
 											to={{
