@@ -47,6 +47,7 @@ const MovieDetails = ({ match }) => {
 			setMovie(data);
 			fetchTorrents(data.imdb_id); // fetch movie torrents using IMDB ID
 			setLoading();
+			// console.log('MOVIE DATA', data);
 		} catch (e) {
 			console.error('FETCH MOVIE ERROR', e);
 			setTimeout(() => fetchMovieData(id), 2000);

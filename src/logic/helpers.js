@@ -31,7 +31,7 @@ const getTrailer = (mov, setTrailerUrl, setHasTrailer) => {
 
 export const fetchMovieTrailer = async (movie, setTrailer) => {
 	try {
-		const res = await movieTrailer(movie.title || movie.name || movie.original_title || '', { multi: true });
+		const res = await movieTrailer(null, { multi: true, tmdbId: movie.id });
 		if (!res) throw Error('Error fetching trailer');
 
 		setTrailer(res); // set movie trailer state
