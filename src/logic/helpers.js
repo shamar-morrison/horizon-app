@@ -1,32 +1,11 @@
 import movieTrailer from 'movie-trailer';
-
-/**
- * fetch movie trailer for movieCardLarge
- *
- * @param {Object} mov Movie object
- * @param {useState} setTrailerUrl useState function to set trailer URL
- * @param {useState} setHasTrailer useState function to set if trailer URL not found
- */
-const getTrailer = (mov, setTrailerUrl, setHasTrailer) => {
-	movieTrailer(mov.name || mov.title || mov.original_title || '')
-		.then(url => {
-			// get the trailer search ID
-			const urlParams = new URLSearchParams(new URL(url).search);
-			setTrailerUrl(urlParams.get('v'));
-			setHasTrailer(); // clear 'no trailer found' error message if active
-		})
-		.catch(e => {
-			console.error('movieTrailer function', e);
-			setHasTrailer(true);
-			setTrailerUrl();
-		});
-};
+import { yts } from './axios';
 
 /**
  * fetch movie trailer
  *
  * @param {Object} movie movie object
- * @param {useState} setTrailer useState hook to set the trailer object
+ * @param {useState} setTrailer useState hook function to set the trailer object
  */
 
 export const fetchMovieTrailer = async (movie, setTrailer) => {
@@ -41,4 +20,19 @@ export const fetchMovieTrailer = async (movie, setTrailer) => {
 	}
 };
 
-export default getTrailer;
+/**
+ * Fetch torrents using IMDB movie ID
+ *
+ * @param id IMDB movie id
+ * @param {useState} setTorrents useState hook function to set torrents object
+ */
+export const fetchTorrents = async (id, setTorrents) => {
+	try {
+		const { data } = await yts.get(`?query_term=${id}`);
+		if (data.status !== 'ok') return;
+
+		setTorrents(data.data.movies[0].torrents);
+	} catch (e) {
+		console.error('TORRENTS ERROR', e);
+	}
+};

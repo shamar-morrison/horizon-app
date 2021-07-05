@@ -67,7 +67,6 @@ const Navbar = () => {
 								</Link>
 							</ul>
 						</li>
-						<li className="nav-link">TV Shows</li>
 						<li className="nav-link">People</li>
 					</ul> */}
 					<SearchBar />

@@ -1,6 +1,6 @@
-import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 import { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from '../logic/requests';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import instance, { yts } from '../logic/axios';
 import Cast from '../components/Cast';
 import movieTrailer from 'movie-trailer';
@@ -16,13 +16,14 @@ import noImageFound from '../img/no-img-found.png';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Runtime from '../components/Runtime';
 import Genres from '../components/Genres';
+import { fetchTorrents } from '../logic/helpers';
+import Watch from '../pages/Watch';
 
 SwiperCore.use([Navigation, Pagination]);
 
 const MovieDetails = ({ match }) => {
 	const movieID = match.params.id;
-	// const location = useLocation();
-	// const { movieDetails } = location.state;
+
 	const [movie, setMovie] = useState('');
 	const [movieCast, setMovieCast] = useState('');
 	const [movieImages, setMovieImages] = useState('');
@@ -45,12 +46,11 @@ const MovieDetails = ({ match }) => {
 			const { status, data, statusText } = await instance.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`);
 			if (status !== 200) throw Error(statusText);
 			setMovie(data);
-			fetchTorrents(data.imdb_id); // fetch movie torrents using IMDB ID
+			fetchTorrents(data.imdb_id, setTorrents); // fetch movie torrents using IMDB ID
 			setLoading();
-			// console.log('MOVIE DATA', data);
 		} catch (e) {
 			console.error('FETCH MOVIE ERROR', e);
-			setTimeout(() => fetchMovieData(id), 2000);
+			setTimeout(() => fetchMovieData(movieID), 2000);
 		}
 	};
 
@@ -84,17 +84,6 @@ const MovieDetails = ({ match }) => {
 		}
 	};
 
-	const fetchTorrents = async id => {
-		try {
-			const { data } = await yts.get(`?query_term=${id}`);
-			if (data.status !== 'ok') return;
-
-			setTorrents(data.data.movies[0].torrents);
-		} catch (e) {
-			console.error('TORRENTS ERROR', e);
-		}
-	};
-
 	const setModalVisibility = () => {
 		setIsModalVisible(!isModalVisible);
 	};
@@ -122,7 +111,6 @@ const MovieDetails = ({ match }) => {
 		fetchMovieCastData();
 		fetchMovieImages();
 		fetchSimilarMovies();
-		console.log('MOVIE DETAILS', movie);
 	}, [movie]);
 
 	const detailsBG = {
@@ -154,6 +142,9 @@ const MovieDetails = ({ match }) => {
 									<button className="watch-trailer btn" onClick={() => setTrailerToggler(!trailerToggler)}>
 										<i className="fas fa-play"></i> watch trailer
 									</button>
+									{/* <Link to={`/watch/${movie.id}`} className="watch-movie btn" key={Math.random() * 1000}>
+										<i class="fas fa-video"></i> Watch Movie
+									</Link> */}
 									<button className="download-torrent btn" onClick={() => setIsModalVisible(!isModalVisible)}>
 										<i class="fas fa-download"></i> Download
 									</button>
@@ -188,7 +179,7 @@ const MovieDetails = ({ match }) => {
 											</p>
 											<p className="popularity--text">User Rating</p>
 										</div>
-										<ul className="actions">
+										{/* <ul className="actions">
 											<li className="add-to-list" tooltip="Add to List">
 												<i class="fas fa-list-ul"></i>
 											</li>
@@ -201,19 +192,18 @@ const MovieDetails = ({ match }) => {
 											<li className="rate" tooltip="Rate it">
 												<i class="fas fa-star"></i>
 											</li>
-										</ul>
+										</ul> */}
 									</div>
 									{movieCast && (
 										<ul className="crew-list--short">
-											{movieCast &&
-												movieCast.crew.slice(0, 3).map(val => {
-													return (
-														<li className="crew-list--member">
-															<h3 className="member-role">{val.job}</h3>
-															<p className="member-name">{val.name || val.original_name}</p>
-														</li>
-													);
-												})}
+											{movieCast.crew.slice(0, 3).map(val => {
+												return (
+													<li className="crew-list--member">
+														<h3 className="member-role">{val.job}</h3>
+														<p className="member-name">{val.name || val.original_name}</p>
+													</li>
+												);
+											})}
 										</ul>
 									)}
 								</div>
@@ -232,7 +222,7 @@ const MovieDetails = ({ match }) => {
 			/>
 
 			{/* TORRENT DOWNLOAD MODAL */}
-			{isModalVisible && <Downloads torrents={torrents} toggler={setModalVisibility} />}
+			{isModalVisible && <Downloads torrents={torrents} toggler={setModalVisibility} movie={movie} />}
 
 			<section className="container">
 				<div className="movie-details--bottom">

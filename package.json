@@ -7,7 +7,7 @@
 		"@testing-library/react": "^11.2.7",
 		"@testing-library/user-event": "^12.8.3",
 		"axios": "^0.21.1",
-		"bootstrap": "^5.0.1",
+		"bootstrap": "^5.0.2",
 		"movie-trailer": "^2.1.0",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
@@ -15,8 +15,7 @@
 		"react-scripts": "4.0.3",
 		"react-youtube": "^7.13.1",
 		"swiper": "^6.6.2",
-		"web-vitals": "^1.1.2",
-		"webtorrent": "^1.0.2"
+		"web-vitals": "^1.1.2"
 	},
 	"scripts": {
 		"start": "react-scripts start",

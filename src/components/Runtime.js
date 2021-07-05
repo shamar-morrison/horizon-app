@@ -1,7 +1,8 @@
 const Runtime = ({ runtime }) => {
 	const calcMovieRuntime = runtime => {
+		if (!runtime) return 'N/A';
 		// if runtime is an hour or more
-		if (runtime > 60) {
+		else if (runtime > 60) {
 			const hours = Math.floor(runtime / 60);
 			const min = runtime % 60;
 			return `${hours}hr ${min}min`;
@@ -9,7 +10,6 @@ const Runtime = ({ runtime }) => {
 		} else if (runtime < 60 && runtime !== 0) {
 			return `${runtime} mins`;
 		}
-		return 'N/A';
 	};
 
 	return <>{calcMovieRuntime(runtime)}</>;

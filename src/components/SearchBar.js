@@ -61,8 +61,8 @@ const SearchBar = () => {
 											window.scrollTo(0, 0);
 										}}
 									>
-										{result.title || result.original_title || result.name} (
-										{new Date(result.release_date).getFullYear()})
+										{result.title || result.original_title || result.name}
+										{result.release_date && ` (${new Date(result.release_date).getFullYear()})`}
 									</li>
 								</Link>
 							);

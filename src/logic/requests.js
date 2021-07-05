@@ -24,11 +24,9 @@ const AND = `%2C`;
 const requests = {
 	// TRENDING
 	fetchTrendingMovies: `/trending/movie/day?api_key=${API_KEY}&language=en-US`,
-	fetchTrendingTvShows: `/trending/tv/day?api_key=${API_KEY}&language=en-US`,
 
 	// TOP RATED
 	fetchTopRatedMovies: `/movie/top_rated?api_key=${API_KEY}&language=en-US`,
-	fetchTopRatedTvShows: `/tv/top_rated?api_key=${API_KEY}&language=en-US`,
 
 	// ACTION
 	fetchActionMovies: `${movieUrl}${API_KEY}&${actionGenre}`,
@@ -66,12 +64,11 @@ const requests = {
 	fetchLowestRatedDocumentaries: `${movieUrl}${API_KEY}&sort_by=${lowestRated}&${documentaryGenre}`,
 
 	// POPULAR
-	fetchPopularTvShows: `/tv/popular?api_key=${API_KEY}&language=en-US`,
 	fetchPopularMovies: `/movie/popular?api_key=${API_KEY}&language=en-US`,
 
 	// NOW PLAYING
 	fetchNowPlaying: `/movie/now_playing?api_key=${API_KEY}&language=en-US`,
-	fetchUpcoming: `/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`,
+	fetchUpcoming: `/movie/upcoming?api_key=${API_KEY}&language=en-US`,
 };
 
 export default requests;

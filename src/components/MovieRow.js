@@ -18,46 +18,10 @@ const MovieRow = ({ title, fetchUrl }) => {
 
 	const handleMovieCardClick = mov => {
 		setMovieCardLarge(mov);
-		// setTimeout(() => {
-		// 	document.querySelectorAll('.large__card')[0].scrollIntoView({ behavior: 'smooth' });
-		// }, 500);
 	};
 
 	const handleOnClose = () => {
 		setMovieCardLarge('');
-	};
-
-	const sortTrendingNow = target => {
-		const toggleActiveSelection = () => {
-			document.querySelector('.sort-by .selected-trending').classList.remove('selected-trending');
-			target.classList.add('selected-trending');
-		};
-
-		// sort by movies
-		if (target.classList.contains('sort-by-movies')) {
-			toggleActiveSelection();
-			setUrl(requests.fetchTrendingMovies);
-		}
-		// sort by TV Shows
-		else {
-			toggleActiveSelection();
-			setUrl(requests.fetchTrendingTvShows);
-		}
-	};
-
-	const sortTopRated = target => {
-		const toggleActiveSelection = () => {
-			document.querySelector('.sort-by .selected-top-rated').classList.remove('selected-top-rated');
-			target.classList.add('selected-top-rated');
-		};
-
-		if (target.classList.contains('sort-by-movies')) {
-			toggleActiveSelection();
-			setUrl(requests.fetchTopRatedMovies);
-		} else {
-			toggleActiveSelection();
-			setUrl(requests.fetchTopRatedTvShows);
-		}
 	};
 
 	const toggleActiveCategory = (current, target) => {
@@ -168,7 +132,6 @@ const MovieRow = ({ title, fetchUrl }) => {
 	const fetchMoviesData = async movie => {
 		try {
 			const { data } = await instance.get(movie);
-			console.log('MOVIE ROW', data);
 			if (!data.results.length) throw Error('ERROR FETCHING MOVIE ROW');
 			setMovies(data.results);
 		} catch (e) {
@@ -188,24 +151,6 @@ const MovieRow = ({ title, fetchUrl }) => {
 			<div className="section__header" id={title.split(' ')[0].toLowerCase()}>
 				<h2 className="section__title">{title}</h2>
 
-				{title.startsWith('Trending') && (
-					<div className="sort">
-						<p>Sort by:</p>
-						<ul className="sort-by" onClick={event => sortTrendingNow(event.target)}>
-							<li className="sort-by-movies trending selected-trending">Movies</li>
-							<li className="sort-by-tv trending">TV Shows</li>
-						</ul>
-					</div>
-				)}
-				{title.startsWith('Top') && (
-					<div className="sort">
-						<p>Sort by:</p>
-						<ul className="sort-by" onClick={event => sortTopRated(event.target)}>
-							<li className="sort-by-movies top-rated selected-top-rated">Movies</li>
-							<li className="sort-by-tv top-rated">TV Shows</li>
-						</ul>
-					</div>
-				)}
 				{title.startsWith('Action') && <FilterCategory category={'action'} onFilter={filterCategories} />}
 				{title.startsWith('Comedy') && <FilterCategory category={'comedy'} onFilter={filterCategories} />}
 				{title.startsWith('Horror') && <FilterCategory category={'horror'} onFilter={filterCategories} />}

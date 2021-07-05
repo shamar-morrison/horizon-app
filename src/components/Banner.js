@@ -3,11 +3,9 @@ import { Link } from 'react-router-dom';
 import requests, { BANNER_IMG_URL } from '../logic/requests';
 import instance from '../logic/axios';
 import { fetchMovieTrailer } from '../logic/helpers';
-import movieTrailer from 'movie-trailer';
 import LoadingSpinner from './LoadingSpinner';
 import FsLightbox from 'fslightbox-react';
 import noTrailerImg from '../img/no-trailer.png';
-import WebTorrent from 'webtorrent';
 
 const Banner = ({ ref }) => {
 	const [banner, setBanner] = useState({});
@@ -16,8 +14,6 @@ const Banner = ({ ref }) => {
 	const [isLoading, setLoading] = useState(false);
 
 	const movieUrls = [
-		requests.fetchPopularMovies,
-		requests.fetchTopRatedMovies,
 		requests.fetchLatestActionMovies,
 		requests.fetchLatestHorrorMovies,
 		requests.fetchLatestRomanceMovies,
@@ -51,16 +47,6 @@ const Banner = ({ ref }) => {
 
 	useEffect(() => {
 		fetchRandMovie();
-		const client = new WebTorrent();
-		const torrentID =
-			'magnet:?xt=urn:btih:197A717F8FEE44FB6A8DF646960BDBCE6E240F27&dn=Godza%20vs.%20Kong&tr=http://track.one:1234/announce&tr=udp://track.two:80&tr=udp://open.demonii.com:1337/announce&tr=udp://tracker.openbittorrent.com:80&tr=udp://tracker.coppersurfer.tk:6969tr=udp://glotorrents.pw:6969/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://torrent.gresille.org:80/announce&tr=udp://p4p.arenabg.com:1337&tr=udp://tracker.leechers-paradise.org:6969';
-
-		const torrent = client.add(torrentID, torrent => {
-			const file = torrent.files.find(file => {
-				return file.name.endsWith('.mp4');
-			});
-		});
-		console.log('TORRENT', torrent);
 	}, []);
 
 	useEffect(() => {

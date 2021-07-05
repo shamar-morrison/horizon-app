@@ -8,6 +8,7 @@ import requests from './logic/requests';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Details from './pages/Details';
 import Movie_TVList from './pages/Movie_TVList';
+import Watch from './pages/Watch';
 
 const App = () => {
 	return (
@@ -19,7 +20,7 @@ const App = () => {
 						<Banner />
 						<section className="container">
 							<MovieRow title="Trending Now" fetchUrl={requests.fetchTrendingMovies} />
-							<MovieRow title="Top Rated" fetchUrl={requests.fetchTopRatedMovies} />
+							<MovieRow title="Upcoming" fetchUrl={requests.fetchUpcoming} />
 							<MovieRow title="Action" fetchUrl={requests.fetchActionMovies} />
 							<MovieRow title="Comedy" fetchUrl={requests.fetchComedyMovies} />
 							<MovieRow title="Horror" fetchUrl={requests.fetchHorrorMovies} />
@@ -29,6 +30,7 @@ const App = () => {
 					</Route>
 					<Route exact path="/movie/:category" render={props => <Movie_TVList {...props} key={Math.random() * 10000} />} />
 					<Route exact path="/details/:id" render={props => <Details {...props} key={Math.random() * 10000} />} />
+					<Route exact path="/watch/:id" render={props => <Watch {...props} key={Math.random() * 10000} />} />
 				</Switch>
 			</Router>
 			<Footer />

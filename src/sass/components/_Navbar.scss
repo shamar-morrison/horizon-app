@@ -37,7 +37,7 @@
 	display: flex;
 
 	img {
-		max-width: 120px;
+		max-width: 150px;
 
 		@include xs-screens {
 			max-width: 90px;

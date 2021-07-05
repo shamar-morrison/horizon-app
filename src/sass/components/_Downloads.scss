@@ -55,7 +55,16 @@
 			font-size: 0.95rem;
 		}
 
-		&-link {
+		&-magnet {
+			display: flex;
+			justify-content: center;
+			transform: rotate(180deg);
+			font-size: 1.4rem;
+			margin-top: 15px;
+			color: var(--clr-download);
+		}
+
+		&-btn {
 			display: flex;
 			align-items: center;
 			padding: 8px 35px;
