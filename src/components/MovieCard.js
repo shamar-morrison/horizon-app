@@ -1,12 +1,9 @@
 import { BASE_IMG_URL } from '../logic/requests';
 import noImageFound from '../img/no-img-found.png';
+import { convertRating } from '../logic/helpers';
 
 const MovieCard = ({ movie }) => {
 	const date = new Date(movie.release_date || movie.first_air_date).getFullYear();
-
-	const toggleFavIcons = event => {
-		event.target.classList.toggle('selected');
-	};
 
 	return (
 		<div className="movie__card">
@@ -26,11 +23,10 @@ const MovieCard = ({ movie }) => {
 				<p className="movie__card--year">{date || 'N/A'}</p>
 				<div className="movie__card--rating">
 					<div className="movie__card--watch-fav">
-						<i className="fas fa-eye watched" onClick={toggleFavIcons}></i>
-						<i className="fas fa-heart fav" onClick={toggleFavIcons}></i>
+						<div></div>
 					</div>
 					<i className="fas fa-star star"></i>
-					<p className="rating">{Number(movie.vote_average).toFixed(1)}</p>
+					<p className="rating">{convertRating(movie)}</p>
 				</div>
 			</div>
 		</div>

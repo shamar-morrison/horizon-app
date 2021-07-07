@@ -1,6 +1,6 @@
 import { useEffect, useState, useLayoutEffect } from 'react';
 import LoadingSpinner from '../components/LoadingSpinner';
-import instance from '../logic/axios';
+import tmdb from '../logic/axios';
 import { API_KEY, BANNER_IMG_URL } from '../logic/requests';
 import { fetchTorrents } from '../logic/helpers';
 
@@ -16,10 +16,9 @@ const Watch = ({ match }) => {
 	const fetchMovieData = async id => {
 		try {
 			setLoading(true);
-			const { status, data, statusText } = await instance.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`);
+			const { status, data, statusText } = await tmdb.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`);
 			if (status !== 200) throw Error(statusText);
 			setMovie(data);
-			console.log('DATA', data);
 			fetchTorrents(data.imdb_id, setTorrents); // fetch movie torrents using IMDB ID
 			setLoading();
 		} catch (e) {

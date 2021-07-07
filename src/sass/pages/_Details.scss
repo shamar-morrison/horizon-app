@@ -324,6 +324,18 @@
 	margin-bottom: 50px;
 }
 
+.no-download-torrent {
+	background-color: var(--clr-download);
+	margin-bottom: 50px;
+	filter: grayscale(20%);
+	cursor: not-allowed !important;
+
+	&:hover,
+	&:focus {
+		transform: scale(1) !important;
+	}
+}
+
 .watch-movie {
 	background-color: (var(--clr-red));
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import instance from '../logic/axios';
+import tmdb from '../logic/axios';
 import MovieCard from './MovieCard';
 import MovieCardLarge from './MovieCardLarge';
 import FilterCategory from './FilterCategory';
@@ -129,9 +129,9 @@ const MovieRow = ({ title, fetchUrl }) => {
 	};
 
 	// get movies data
-	const fetchMoviesData = async movie => {
+	const fetchMoviesData = async url => {
 		try {
-			const { data } = await instance.get(movie);
+			const { data } = await tmdb.get(url);
 			if (!data.results.length) throw Error('ERROR FETCHING MOVIE ROW');
 			setMovies(data.results);
 		} catch (e) {
@@ -148,8 +148,8 @@ const MovieRow = ({ title, fetchUrl }) => {
 
 	return (
 		<div className="section">
-			<div className="section__header" id={title.split(' ')[0].toLowerCase()}>
-				<h2 className="section__title">{title}</h2>
+			<div className="section__header" id={title.split(' ')[0].toLowerCase() || null}>
+				{title && <h2 className="section__title">{title}</h2>}
 
 				{title.startsWith('Action') && <FilterCategory category={'action'} onFilter={filterCategories} />}
 				{title.startsWith('Comedy') && <FilterCategory category={'comedy'} onFilter={filterCategories} />}
@@ -177,9 +177,9 @@ const MovieRow = ({ title, fetchUrl }) => {
 			>
 				{movies.length > 0 ? (
 					<div className="section__movies">
-						{movies.map((mov, ind) => {
+						{movies.map(mov => {
 							return (
-								<SwiperSlide onClick={() => handleMovieCardClick(mov)} key={ind}>
+								<SwiperSlide onClick={() => handleMovieCardClick(mov)} key={mov.id}>
 									<MovieCard movie={mov} />
 								</SwiperSlide>
 							);

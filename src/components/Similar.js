@@ -12,9 +12,9 @@ const Similar = ({ similarMovies, onClick }) => {
 				'No similar movies found.'
 			) : (
 				<ul className="similar-movies--list">
-					{similarMovies.slice(0, 6).map((movie, i) => {
+					{similarMovies.slice(0, 6).map(movie => {
 						return (
-							<Link to={`/details/${movie.id}`} key={i}>
+							<Link to={`/details/${movie.id}`} key={movie.id}>
 								<li
 									className="similar-movies--item"
 									onClick={() => {

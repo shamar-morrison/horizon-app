@@ -3,33 +3,32 @@ import { BANNER_IMG_URL } from '../logic/requests';
 import noTrailerImg from '../img/no-trailer.png';
 import FsLightbox from 'fslightbox-react';
 import { fetchMovieTrailer } from '../logic/helpers';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 
 const MovieCardLarge = ({ movie, onClose }) => {
 	const [trailerUrl, setTrailerUrl] = useState([]);
 	const [trailerToggler, setTrailerToggler] = useState(false);
 	const [trailerKey, setTrailerKey] = useState(0);
 
+	const movieObj = useLocation();
+	const movieHis = useLocation();
+	// console.log(movieObj, 'LOCATION');
+	// movieObj.state = movie;
+	// console.log(movieObj, 'LOCATION');
+	console.log(movieHis, 'HISTORY');
+
 	// remove trailer url and error msg when switching cards
 	useEffect(() => {
 		setTrailerUrl([]);
 		fetchMovieTrailer(movie, setTrailerUrl);
 		setTrailerKey(prev => prev + 1);
-	}, [movie.name, movie.title, movie.original_title]);
+	}, [movie]);
 
 	const cardStyle = {
 		backgroundImage: `url(${BANNER_IMG_URL}${movie?.backdrop_path})`,
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover',
 		backgroundPosition: 'center center',
-	};
-
-	const youtubeOpts = {
-		height: '500px',
-		width: '100%',
-		playerVars: {
-			autoplay: 1,
-		},
 	};
 
 	return (

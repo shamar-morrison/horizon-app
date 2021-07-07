@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
 import { API_KEY } from '../logic/requests';
-import instance from '../logic/axios';
+import tmdb from '../logic/axios';
 
 const SearchBar = () => {
 	const [searchVal, setSearchVal] = useState('');
@@ -10,9 +10,7 @@ const SearchBar = () => {
 	const filterSearch = async searchQuery => {
 		try {
 			setSearchVal(searchQuery);
-			const res = await instance.get(
-				`/search/movie?api_key=${API_KEY}&language=en-US&query=${searchQuery}&page=1&include_adult=false`
-			);
+			const res = await tmdb.get(`/search/movie?api_key=${API_KEY}&language=en-US&query=${searchQuery}&page=1&include_adult=false`);
 			if (!res) throw Error('Error fetching search results.');
 			setSearchResults(res.data.results);
 		} catch (e) {

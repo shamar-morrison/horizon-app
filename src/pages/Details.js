@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from '../logic/requests';
 import { useState, useEffect, useRef } from 'react';
-import instance, { yts } from '../logic/axios';
+import tmdb, { yts } from '../logic/axios';
 import Cast from '../components/Cast';
 import movieTrailer from 'movie-trailer';
-import { fetchMovieTrailer } from '../logic/helpers';
+import { convertRating, fetchMovieTrailer, getReleaseYear } from '../logic/helpers';
 import Similar from '../components/Similar';
 import FsLightbox from 'fslightbox-react';
 import Photos from '../components/Photos';
@@ -16,6 +16,7 @@ import noImageFound from '../img/no-img-found.png';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Runtime from '../components/Runtime';
 import Genres from '../components/Genres';
+import { useLocation } from 'react-router-dom';
 import { fetchTorrents } from '../logic/helpers';
 import Watch from '../pages/Watch';
 
@@ -24,64 +25,93 @@ SwiperCore.use([Navigation, Pagination]);
 const MovieDetails = ({ match }) => {
 	const movieID = match.params.id;
 
-	const [movie, setMovie] = useState('');
-	const [movieCast, setMovieCast] = useState('');
-	const [movieImages, setMovieImages] = useState('');
-	const [photosKey, setPhotosKey] = useState(0);
-	const [trailerKey, setTrailerKey] = useState(0);
-	const [isLoading, setLoading] = useState(false);
+	const [movie, setMovie] = useState(''); // movie object
 
-	const [similarMovies, setSimilarMovies] = useState('');
-	const [trailer, setTrailer] = useState([]);
-	const [triggerUpdate, setTriggerUpdate] = useState(false);
-	const [trailerToggler, setTrailerToggler] = useState(false);
-	const [photosToggler, setPhotosToggler] = useState(false);
-	const [photoIndx, setPhotoIndx] = useState(null);
-	const [torrents, setTorrents] = useState('');
-	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [movieCast, setMovieCast] = useState(''); // movie cast
+
+	const [movieImages, setMovieImages] = useState(''); // array of movie posters
+
+	const [photosKey, setPhotosKey] = useState(0);
+
+	const [trailerKey, setTrailerKey] = useState(0);
+
+	const [isLoading, setLoading] = useState(false); // true if data is being fetched from API
+
+	const [similarMovies, setSimilarMovies] = useState(''); // array of similiar movies
+
+	const [trailer, setTrailer] = useState([]); // array of movie trailer(s)
+
+	const [triggerUpdate, setTriggerUpdate] = useState(false); // trigger to re-render component
+
+	const [trailerToggler, setTrailerToggler] = useState(false); // movie trailer toggler
+
+	const [photosToggler, setPhotosToggler] = useState(false); // lightbox posters toggler
+
+	const [photoIndx, setPhotoIndx] = useState(null); // currently active poster index
+
+	const [torrents, setTorrents] = useState(''); // torrents array
+
+	const [isModalVisible, setIsModalVisible] = useState(false); // download torrent modal
+
+	const [activeLink, setActiveLink] = useState(''); // currently active movie link
+
+	const [iFrameLoadCounter, setiFrameLoadCounter] = useState(0); // counter to remember initial iframe load
 
 	const fetchMovieData = async id => {
 		try {
 			setLoading(true);
-			const { status, data, statusText } = await instance.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`);
+			const { status, data, statusText } = await tmdb.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`);
 			if (status !== 200) throw Error(statusText);
 			setMovie(data);
 			fetchTorrents(data.imdb_id, setTorrents); // fetch movie torrents using IMDB ID
 			setLoading();
 		} catch (e) {
-			console.error('FETCH MOVIE ERROR', e);
+			// console.error('FETCH MOVIE ERROR', e);
 			setTimeout(() => fetchMovieData(movieID), 2000);
 		}
 	};
 
 	const fetchMovieCastData = async () => {
 		try {
-			const { status, data, statusText } = await instance.get(`/movie/${movie.id}/credits?api_key=${API_KEY}&language=en-US`);
+			const { status, data, statusText } = await tmdb.get(`/movie/${movie.id}/credits?api_key=${API_KEY}&language=en-US`);
 			if (status !== 200) throw Error(statusText);
 			setMovieCast(data);
 		} catch (e) {
-			console.error('movie cast error', e);
+			// console.error('movie cast error', e);
 		}
 	};
 
 	const fetchMovieImages = async () => {
 		try {
-			const response = await instance.get(`/movie/${movie.id}/images?api_key=${API_KEY}&include_image_language=en&language=en-US`);
+			const response = await tmdb.get(`/movie/${movie.id}/images?api_key=${API_KEY}&include_image_language=en&language=en-US`);
 			if (response.status !== 200 || !response) throw Error(response.statusText);
 			setMovieImages(response.data);
 		} catch (e) {
-			console.error(e);
+			// console.error(e);
 		}
 	};
 
 	const fetchSimilarMovies = async () => {
 		try {
-			const response = await instance.get(`/movie/${movie.id}/similar?api_key=${API_KEY}&language=en-US&page=1`);
+			const response = await tmdb.get(`/movie/${movie.id}/similar?api_key=${API_KEY}&language=en-US&page=1`);
 			if (response.status !== 200 || !response) throw Error(response.statusText);
 			setSimilarMovies(response.data.results);
 		} catch (e) {
-			console.error('SIMILAR MOVIES ERROR', e);
+			// console.error('SIMILAR MOVIES ERROR', e);
 		}
+	};
+
+	const handleIframeLoad = () => {
+		// if iframe has been loaded before, don't reload
+		if (iFrameLoadCounter) return;
+
+		setActiveLink(torrents[0].hash); // set initial movie link
+		setiFrameLoadCounter(prev => prev + 1);
+	};
+
+	const handleQualityChange = e => {
+		const { target } = e;
+		setActiveLink(target.getAttribute('data-hash'));
 	};
 
 	const setModalVisibility = () => {
@@ -145,8 +175,17 @@ const MovieDetails = ({ match }) => {
 									{/* <Link to={`/watch/${movie.id}`} className="watch-movie btn" key={Math.random() * 1000}>
 										<i class="fas fa-video"></i> Watch Movie
 									</Link> */}
-									<button className="download-torrent btn" onClick={() => setIsModalVisible(!isModalVisible)}>
-										<i class="fas fa-download"></i> Download
+
+									<button
+										className={torrents.length > 0 ? 'download-torrent btn' : 'no-download-torrent btn'}
+										onClick={() => {
+											if (torrents.length > 0) {
+												setIsModalVisible(!isModalVisible);
+											}
+										}}
+									>
+										<i class="fas fa-download"></i>
+										{!torrents ? 'Checking...' : torrents.length > 0 ? 'Download' : 'No Download Available'}
 									</button>
 								</div>
 								<div className="movie-details--body">
@@ -158,7 +197,7 @@ const MovieDetails = ({ match }) => {
 									</h1>
 
 									<ul className="movie-details--genre-date">
-										<li>{new Date(movie.release_date).getFullYear() || 'N/A'}</li>
+										<li>{getReleaseYear(movie) || 'N/A'}</li>
 										<li>
 											<Genres genres={movie.genres} />
 										</li>
@@ -174,26 +213,11 @@ const MovieDetails = ({ match }) => {
 									</div>
 									<div className="movie-details--btns">
 										<div className="popularity">
-											<p className="popularity--rating">
-												{movie.vote_average ? Number(movie.vote_average).toFixed(1) : 'N/A'}
-											</p>
+											<p className="popularity--rating">{convertRating(movie)}</p>
 											<p className="popularity--text">User Rating</p>
 										</div>
-										{/* <ul className="actions">
-											<li className="add-to-list" tooltip="Add to List">
-												<i class="fas fa-list-ul"></i>
-											</li>
-											<li className="add-to-fav" tooltip="Mark as Favorite">
-												<i class="fas fa-heart"></i>
-											</li>
-											<li className="add-to-bookmarks" tooltip="Add to Bookmarks">
-												<i class="fas fa-bookmark"></i>
-											</li>
-											<li className="rate" tooltip="Rate it">
-												<i class="fas fa-star"></i>
-											</li>
-										</ul> */}
 									</div>
+
 									{movieCast && (
 										<ul className="crew-list--short">
 											{movieCast.crew.slice(0, 3).map(val => {
@@ -225,6 +249,53 @@ const MovieDetails = ({ match }) => {
 			{isModalVisible && <Downloads torrents={torrents} toggler={setModalVisibility} movie={movie} />}
 
 			<section className="container">
+				{torrents.length > 0 && (
+					<div id="movie-player" style={{ marginTop: '60px' }}>
+						<h1 className="movie-player--title" style={{ marginBottom: '20px', textAlign: 'center' }}>
+							Watch {movie.title || movie.name || movie.original_title} ({getReleaseYear(movie)})
+						</h1>
+						<iframe
+							src={`https://yts.surf/stream/${activeLink}`}
+							frameborder="0"
+							onLoad={() => handleIframeLoad()}
+							allowFullScreen
+							width="100%"
+							height="550px"
+						></iframe>
+						<div className="movie-player--quality">
+							<ul
+								className="quality-links"
+								style={{
+									display: 'flex',
+									flexWrap: 'wrap',
+									gap: '15px',
+									justifyContent: 'flex-end',
+									marginTop: '10px',
+									fontSize: '1rem',
+								}}
+							>
+								{' '}
+								Quality:
+								{torrents.map((torrent, i) => (
+									<li className="quality-links--item" key={i}>
+										<input
+											type="radio"
+											id={torrent.quality + torrent.type}
+											name="quality"
+											value={torrent.quality + torrent.type}
+											data-hash={torrent.hash}
+											onChange={handleQualityChange}
+											defaultChecked={true ? i === 0 : null}
+										/>{' '}
+										<label htmlFor={torrent.quality + torrent.type}>
+											{torrent.quality + ' ' + torrent.type.toUpperCase()}
+										</label>
+									</li>
+								))}
+							</ul>
+						</div>
+					</div>
+				)}
 				<div className="movie-details--bottom">
 					<div className="movie-details--bottom-cast">
 						<h2 className="section__title">Main Cast</h2>

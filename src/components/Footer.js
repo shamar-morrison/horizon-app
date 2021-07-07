@@ -12,7 +12,7 @@ const Footer = () => {
 					Shamar Morrison
 				</a>
 			</p>
-			<ul className="social-footer">
+			{/* <ul className="social-footer">
 				<a href="https://github.com/shamar-morrison" target="_blank">
 					<li className="social-footer--item">
 						<i class="fab fa-github-alt"></i>
@@ -38,7 +38,7 @@ const Footer = () => {
 						<i class="fab fa-instagram"></i>
 					</li>
 				</a>
-			</ul>
+			</ul> */}
 		</footer>
 	);
 };

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import instance from '../logic/axios';
+import tmdb from '../logic/axios';
 import requests, { BASE_IMG_URL } from '../logic/requests';
 import noImageFound from '../img/no-img-found.png';
 import { API_KEY } from '../logic/requests';
@@ -15,7 +15,7 @@ const Movie_TVList = ({ match }) => {
 	const fetchData = async () => {
 		try {
 			setLoading(true);
-			const { status, data } = await instance.get(`/movie/${category}?api_key=${API_KEY}&language=en-US`);
+			const { status, data } = await tmdb.get(`/movie/${category}?api_key=${API_KEY}&language=en-US`);
 			if (status !== 200 || !data.results.length) throw Error('Error fetch data');
 			setData(data.results);
 			setLoading(false);

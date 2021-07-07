@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // base url to make requests to TMDB database
-const instance = axios.create({
+const tmdb = axios.create({
 	baseURL: 'https://api.themoviedb.org/3',
 });
 
@@ -10,4 +10,4 @@ export const yts = axios.create({
 	baseURL: 'https://yts.mx/api/v2/list_movies.json',
 });
 
-export default instance;
+export default tmdb;

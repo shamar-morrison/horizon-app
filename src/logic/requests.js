@@ -24,6 +24,12 @@ const AND = `%2C`;
 const requests = {
 	// TRENDING
 	fetchTrendingMovies: `/trending/movie/day?api_key=${API_KEY}&language=en-US`,
+	fetchTrendingMoviesPg2: `/trending/movie/day?api_key=${API_KEY}&language=en-US&page=2`,
+	fetchTrendingMoviesPg3: `/trending/movie/day?api_key=${API_KEY}&language=en-US&page=3`,
+
+	// UPCOMING
+	fetchUpcoming: `/movie/upcoming?api_key=${API_KEY}&language=en-US`,
+	fetchUpcomingPg2: `/movie/upcoming?api_key=${API_KEY}&language=en-US&page=2`,
 
 	// TOP RATED
 	fetchTopRatedMovies: `/movie/top_rated?api_key=${API_KEY}&language=en-US`,
@@ -68,7 +74,6 @@ const requests = {
 
 	// NOW PLAYING
 	fetchNowPlaying: `/movie/now_playing?api_key=${API_KEY}&language=en-US`,
-	fetchUpcoming: `/movie/upcoming?api_key=${API_KEY}&language=en-US`,
 };
 
 export default requests;
