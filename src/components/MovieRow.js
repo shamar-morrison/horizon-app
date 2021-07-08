@@ -36,8 +36,7 @@ const MovieRow = ({ title, fetchUrl }) => {
 		target.classList.add('selected');
 	};
 
-	const filterCategories = event => {
-		const { target } = event;
+	const filterCategories = ({ target }) => {
 		if (!target.getAttribute('data-category')) return;
 		// get currently selected category
 		const selected = document.querySelector(`[data-category=${target.dataset.category}].selected`);
@@ -181,7 +180,6 @@ const MovieRow = ({ title, fetchUrl }) => {
 						{movies.map(mov => {
 							return (
 								<SwiperSlide onClick={() => handleMovieCardClick(mov)} key={mov.id}>
-									{/* {console.log(mov)} */}
 									<MovieCard movie={mov} />
 								</SwiperSlide>
 							);

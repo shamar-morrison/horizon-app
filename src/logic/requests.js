@@ -13,7 +13,7 @@ export const BANNER_IMG_URL = 'https://image.tmdb.org/t/p/original/';
 const minRating = 5.1;
 const maxRating = 8;
 
-// ENDPOINTS
+// ENDPOINT
 const movieUrl = '/discover/movie?api_key=';
 
 // SEARCH QUERIES
@@ -153,14 +153,6 @@ const requests = {
 
 	// NOW PLAYING
 	fetchNowPlaying: `/movie/now_playing?api_key=${API_KEY}&language=en-US`,
-};
-
-const fetchGenres = async () => {
-	const genres = await tmdb.get(requests.fetchGenreList);
-	console.log(genres, 'genres');
-	const genreList = fetchGenres();
-	const { name } = genreList;
-	console.log(name, 'action');
 };
 
 export default requests;

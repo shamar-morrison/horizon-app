@@ -5,10 +5,10 @@ const Runtime = ({ runtime }) => {
 		else if (runtime > 60) {
 			const hours = Math.floor(runtime / 60);
 			const min = runtime % 60;
-			return `${hours}hr ${min}min`;
+			return `${hours}hr ${min}m`;
 			// if runtime is less than an hour AND is not 0 mins or less
 		} else if (runtime < 60 && runtime !== 0) {
-			return `${runtime} mins`;
+			return `${runtime} m`;
 		}
 	};
 

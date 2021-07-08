@@ -38,18 +38,27 @@
 	&--bottom {
 		position: relative;
 		display: flex;
+		gap: 20px;
 		align-items: center;
 		font-size: 0.92rem;
 		font-weight: 500;
 		margin-top: 5px;
-
-		> *:nth-child(1) {
-			flex-basis: 85%;
-		}
 	}
 
 	&--year {
 		color: var(--clr-primary-500);
+
+		&::after {
+			content: '';
+			position: absolute;
+			top: 45%;
+			left: 24%;
+			transform: translate(0%, -45%);
+			height: 4px;
+			width: 4px;
+			border-radius: 50%;
+			background-color: var(--clr-primary-500);
+		}
 	}
 
 	&--rating {
@@ -79,7 +88,7 @@
 		}
 	}
 
-	&--watch-fav {
+	&--runtime {
 		display: flex;
 		gap: 15px;
 		align-items: center;
@@ -87,9 +96,5 @@
 		color: var(--clr-primary-500);
 		margin-right: 12px;
 		cursor: pointer;
-	}
-
-	.selected {
-		color: var(--clr-red);
 	}
 }
