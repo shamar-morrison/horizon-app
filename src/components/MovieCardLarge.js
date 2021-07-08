@@ -15,7 +15,6 @@ const MovieCardLarge = ({ movie, onClose }) => {
 	// console.log(movieObj, 'LOCATION');
 	// movieObj.state = movie;
 	// console.log(movieObj, 'LOCATION');
-	console.log(movieHis, 'HISTORY');
 
 	// remove trailer url and error msg when switching cards
 	useEffect(() => {

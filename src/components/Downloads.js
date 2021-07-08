@@ -17,7 +17,6 @@ const Downloads = ({ torrents, toggler, movie }) => {
 	};
 	return (
 		<>
-			{console.log('TORRENTS', torrents)}
 			<span className="modal-bg" onClick={toggler}></span>
 			<div className="torrent-download--modal">
 				<i className="fas fa-times-circle close-modal" onClick={toggler}></i>

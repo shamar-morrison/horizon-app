@@ -36,12 +36,16 @@ const SearchBar = () => {
 				autoComplete="off"
 				value={searchVal}
 				onChange={event => {
-					// setSearchVal(event.target.value);
 					filterSearch(event.target.value);
+				}}
+				onBlur={e => {
+					console.log('onBlur occured');
+					// setSearchResults('');
+					// setSearchVal('');
 				}}
 			/>
 			{searchVal && (
-				<ul className="search-results" onBlur={clearSearch}>
+				<ul className="search-results" id="search-results">
 					{searchResults?.length ? (
 						searchResults.slice(0, 6).map(result => {
 							return (

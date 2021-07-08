@@ -4,11 +4,13 @@
  * https://developers.themoviedb.org/3/getting-started/introduction
  */
 
+import tmdb from './axios';
+
 export const API_KEY = '276dbe36838cf9f1737fd88bce2c5bd9';
 export const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w500';
 export const BANNER_IMG_URL = 'https://image.tmdb.org/t/p/original/';
 
-const minRating = 5.5;
+const minRating = 5.1;
 const maxRating = 8;
 
 // ENDPOINTS
@@ -68,6 +70,13 @@ const requests = {
 	fetchMostPopularActionMovies: `${movieUrl}${API_KEY}&sort_by=${mostPopular}&${actionGenre}`,
 	fetchHighestRatedActionMovies: `${movieUrl}${API_KEY}&sort_by=${highestRated}&${actionGenre}`,
 	fetchLowestRatedActionMovies: `${movieUrl}${API_KEY}&sort_by=${lowestRated}&${actionGenre}`,
+
+	// WAR
+	fetchWarMovies: `${movieUrl}${API_KEY}&${warGenre}`,
+	fetchLatestWarMovies: `${movieUrl}${API_KEY}&sort_by=${latest}&primary_release_year=${currentYear}&year=${currentYear}&${warGenre}&vote_average.gte=${minRating}&vote_average.lte=${maxRating}&${originalLanguageIsEnglish}&with_runtime.gte=100`,
+	fetchMostPopularWarMovies: `${movieUrl}${API_KEY}&sort_by=${mostPopular}&${warGenre}`,
+	fetchHighestRatedWarMovies: `${movieUrl}${API_KEY}&sort_by=${highestRated}&${warGenre}`,
+	fetchLowestRatedWarMovies: `${movieUrl}${API_KEY}&sort_by=${lowestRated}&${warGenre}`,
 
 	// THRILLER
 	fetchThrillerMovies: `${movieUrl}${API_KEY}&${thrillerGenre}`,
@@ -144,6 +153,14 @@ const requests = {
 
 	// NOW PLAYING
 	fetchNowPlaying: `/movie/now_playing?api_key=${API_KEY}&language=en-US`,
+};
+
+const fetchGenres = async () => {
+	const genres = await tmdb.get(requests.fetchGenreList);
+	console.log(genres, 'genres');
+	const genreList = fetchGenres();
+	const { name } = genreList;
+	console.log(name, 'action');
 };
 
 export default requests;

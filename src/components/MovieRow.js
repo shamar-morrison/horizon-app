@@ -1,3 +1,9 @@
+/**
+ *
+ * Swiper JS: https://swiperjs.com/swiper-api
+ * FS Lightbox: https://fslightbox.com/
+ */
+
 import { useEffect, useState, useRef } from 'react';
 import tmdb from '../logic/axios';
 import MovieCard from './MovieCard';
@@ -148,7 +154,7 @@ const MovieRow = ({ title, fetchUrl }) => {
 					prevEl: '.swiper-nav-left',
 					nextEl: '.swiper-nav-right',
 				}}
-				uniqueNavElements
+				watchOverflow
 				breakpoints={{
 					1450: {
 						slidesPerView: 6.5,
@@ -170,11 +176,12 @@ const MovieRow = ({ title, fetchUrl }) => {
 						<i class="fas fa-arrow-right"></i>
 					</li>
 				</ul>
-				{movies.length > 0 ? (
+				{movies.length ? (
 					<div className="section__movies">
 						{movies.map(mov => {
 							return (
 								<SwiperSlide onClick={() => handleMovieCardClick(mov)} key={mov.id}>
+									{/* {console.log(mov)} */}
 									<MovieCard movie={mov} />
 								</SwiperSlide>
 							);

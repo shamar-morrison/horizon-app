@@ -48,6 +48,17 @@
 	}
 }
 
+@mixin swiper-nav-btn-shadow($height, $width, $gradient-angle) {
+	&::after {
+		content: '';
+		position: absolute;
+		z-index: -1;
+		height: $height;
+		width: $width;
+		background-image: linear-gradient($gradient-angle, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.8606793059020483) 58%);
+	}
+}
+
 @mixin hover-scale($scale: 0.97) {
 	transform: scale($scale);
 }

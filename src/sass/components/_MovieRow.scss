@@ -53,24 +53,40 @@
 	z-index: 9999;
 	display: flex;
 	justify-content: space-between;
-	transform: translateY(-280px);
+	transform: translateY(-295px);
 	cursor: pointer;
 
+	@include sm-screens {
+		display: none;
+	}
+
 	> * {
+		position: relative;
 		display: grid;
 		place-items: center;
 		height: 40px;
 		width: 40px;
 		border-radius: 50%;
-		background-color: var(--clr-primary-900);
+		background-color: #16151aa6;
 		color: #fff;
 		margin-bottom: -100px;
+
+		&:focus,
+		&:hover {
+			// transform: scale(1.08);
+			background-color: var(--clr-primary-800);
+		}
 	}
 
 	.swiper-nav-left {
 		margin-left: 10px;
+		@include swiper-nav-btn-shadow($height: 690%, $width: 180px, $gradient-angle: -90deg);
 	}
 	.swiper-nav-right {
 		margin-right: 10px;
+		@include swiper-nav-btn-shadow($height: 690%, $width: 150px, $gradient-angle: 90deg);
+	}
+	.swiper-button-disabled {
+		pointer-events: none;
 	}
 }

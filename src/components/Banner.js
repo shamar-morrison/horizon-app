@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import requests, { BANNER_IMG_URL } from '../logic/requests';
+import requests, { BANNER_IMG_URL, BASE_IMG_URL } from '../logic/requests';
 import tmdb from '../logic/axios';
 import { fetchMovieTrailer, convertRating } from '../logic/helpers';
 import LoadingSpinner from './LoadingSpinner';
@@ -20,7 +20,7 @@ const Banner = ({ ref }) => {
 		requests.fetchLatestComedyMovies,
 		requests.fetchLatestAdventureMovies,
 		requests.fetchLatestCrimeMovies,
-		requests.fetchLatestTVMovies,
+		requests.fetchLatestWarMovies,
 		requests.fetchLatestAnimationMovies,
 		requests.fetchLatestMysteryMovies,
 	];
@@ -35,7 +35,6 @@ const Banner = ({ ref }) => {
 		try {
 			setLoading(true);
 			const { data, statusText } = await tmdb.get(movieUrls[randMovieFetchRequest()]);
-			const genres = await tmdb.get(requests.fetchGenreList);
 			if (!data.results.length) {
 				// console.log('BANNER RESPONSE', statusText);
 				throw Error(statusText);
@@ -46,7 +45,6 @@ const Banner = ({ ref }) => {
 			const randomMovie = movieResults[Math.floor(Math.random() * (movieResults.length - 1))];
 			setBanner(randomMovie);
 			setLoading(false);
-			// console.log(genres, 'genres');
 		} catch (e) {
 			// console.error('FETCH RAND MOVIE ERROR', e);
 			setTimeout(() => fetchRandMovie(), 2000);
@@ -62,7 +60,7 @@ const Banner = ({ ref }) => {
 	}, [banner]);
 
 	const headerStyles = {
-		backgroundImage: `url(${BANNER_IMG_URL}${banner.backdrop_path})`,
+		backgroundImage: `url(${BANNER_IMG_URL}${banner.backdrop_path || banner.poster_path})`,
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover',
 		backgroundPosition: 'center center',
