@@ -20,7 +20,9 @@ export const fetchMovieTrailer = async (movie, setTrailer) => {
 };
 
 /**
- * Fetch torrents using IMDB movie ID
+ * Fetch torrents using IMDB movie ID from YTS API
+ *
+ * https://yts.mx/api
  *
  * @param id IMDB movie id
  * @param {useState} setTorrents useState hook function to set torrents object
@@ -54,7 +56,7 @@ export const convertRating = movie => {
 };
 
 /**
- * Get release year
+ * Get release year of movie
  *
  * @param {Object} movie the movie object
  */

@@ -9,6 +9,7 @@ import LoadingSpinner from './LoadingSpinner';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+// Swiper JS
 SwiperCore.use([Navigation, Pagination]);
 
 const MovieRow = ({ title, fetchUrl }) => {
@@ -31,10 +32,12 @@ const MovieRow = ({ title, fetchUrl }) => {
 
 	const filterCategories = event => {
 		const { target } = event;
+		if (!target.getAttribute('data-category')) return;
 		// get currently selected category
 		const selected = document.querySelector(`[data-category=${target.dataset.category}].selected`);
+		console.log(selected.getAttribute('data-category'), 'SELECTED CAT');
 
-		switch (target.dataset.category) {
+		switch (selected.getAttribute('data-category')) {
 			case 'action': {
 				if (target.classList.contains('popular')) {
 					setUrl(requests.fetchMostPopularActionMovies);
@@ -46,10 +49,6 @@ const MovieRow = ({ title, fetchUrl }) => {
 				}
 				if (target.classList.contains('rating-asc')) {
 					setUrl(requests.fetchHighestRatedActionMovies);
-					toggleActiveCategory(selected, target);
-				}
-				if (target.classList.contains('rating-desc')) {
-					setUrl(requests.fetchLowestRatedActionMovies);
 					toggleActiveCategory(selected, target);
 				}
 			}
@@ -66,10 +65,6 @@ const MovieRow = ({ title, fetchUrl }) => {
 					setUrl(requests.fetchHighestRatedComedyMovies);
 					toggleActiveCategory(selected, target);
 				}
-				if (target.classList.contains('rating-desc')) {
-					setUrl(requests.fetchLowestRatedComedyMovies);
-					toggleActiveCategory(selected, target);
-				}
 			}
 			case 'horror': {
 				if (target.classList.contains('popular')) {
@@ -82,10 +77,6 @@ const MovieRow = ({ title, fetchUrl }) => {
 				}
 				if (target.classList.contains('rating-asc')) {
 					setUrl(requests.fetchHighestRatedHorrorMovies);
-					toggleActiveCategory(selected, target);
-				}
-				if (target.classList.contains('rating-desc')) {
-					setUrl(requests.fetchLowestRatedHorrorMovies);
 					toggleActiveCategory(selected, target);
 				}
 			}
@@ -102,26 +93,18 @@ const MovieRow = ({ title, fetchUrl }) => {
 					setUrl(requests.fetchHighestRatedRomanceMovies);
 					toggleActiveCategory(selected, target);
 				}
-				if (target.classList.contains('rating-desc')) {
-					setUrl(requests.fetchLowestRatedRomanceMovies);
-					toggleActiveCategory(selected, target);
-				}
 			}
-			case 'documentaries': {
+			case 'sci-fi': {
 				if (target.classList.contains('popular')) {
-					setUrl(requests.fetchMostPopularDocumentaries);
+					setUrl(requests.fetchMostPopularSciFiMovies);
 					toggleActiveCategory(selected, target);
 				}
 				if (target.classList.contains('latest')) {
-					setUrl(requests.fetchLatestDocumentaries);
+					setUrl(requests.fetchLatestSciFiMovies);
 					toggleActiveCategory(selected, target);
 				}
 				if (target.classList.contains('rating-asc')) {
-					setUrl(requests.fetchHighestRatedDocumentaries);
-					toggleActiveCategory(selected, target);
-				}
-				if (target.classList.contains('rating-desc')) {
-					setUrl(requests.fetchLowestRatedDocumentaries);
+					setUrl(requests.fetchHighestRatedSciFiMovies);
 					toggleActiveCategory(selected, target);
 				}
 			}
@@ -132,11 +115,11 @@ const MovieRow = ({ title, fetchUrl }) => {
 	const fetchMoviesData = async url => {
 		try {
 			const { data } = await tmdb.get(url);
-			if (!data.results.length) throw Error('ERROR FETCHING MOVIE ROW');
+			if (!data.results.length || !data) throw Error('ERROR FETCHING MOVIE ROW');
 			setMovies(data.results);
 		} catch (e) {
-			console.error('MovieRow.js', e);
-			// setTimeout(() => fetchMoviesData(), 2000);
+			// console.error('MovieRow.js', e);
+			setTimeout(() => fetchMoviesData(), 2000);
 		}
 	};
 
@@ -155,26 +138,38 @@ const MovieRow = ({ title, fetchUrl }) => {
 				{title.startsWith('Comedy') && <FilterCategory category={'comedy'} onFilter={filterCategories} />}
 				{title.startsWith('Horror') && <FilterCategory category={'horror'} onFilter={filterCategories} />}
 				{title.startsWith('Romance') && <FilterCategory category={'romance'} onFilter={filterCategories} />}
-				{title.startsWith('Documentaries') && <FilterCategory category={'documentaries'} onFilter={filterCategories} />}
+				{title.startsWith('Sci-Fi') && <FilterCategory category={'sci-fi'} onFilter={filterCategories} />}
 			</div>
 			<Swiper
 				slidesPerView={'auto'}
 				spaceBetween={32}
 				centerInsufficientSlides={true}
-				mousewheel={{
-					invert: false,
+				navigation={{
+					prevEl: '.swiper-nav-left',
+					nextEl: '.swiper-nav-right',
 				}}
+				uniqueNavElements
 				breakpoints={{
 					1450: {
 						slidesPerView: 6.5,
 						spaceBetween: 32,
+						slidesPerGroup: 3.5,
 					},
 					1200: {
 						slidesPerView: 5.5,
 						spaceBetween: 32,
+						slidesPerGroup: 3.5,
 					},
 				}}
 			>
+				<ul className="swiper-nav--movie-row">
+					<li className="swiper-nav-left">
+						<i class="fas fa-arrow-left"></i>
+					</li>
+					<li className="swiper-nav-right">
+						<i class="fas fa-arrow-right"></i>
+					</li>
+				</ul>
 				{movies.length > 0 ? (
 					<div className="section__movies">
 						{movies.map(mov => {

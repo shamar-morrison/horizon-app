@@ -14,12 +14,18 @@ const Banner = ({ ref }) => {
 	const [isLoading, setLoading] = useState(false);
 
 	const movieUrls = [
-		requests.fetchLatestActionMovies,
+		requests.fetchLatestThrillerMovies,
 		requests.fetchLatestHorrorMovies,
 		requests.fetchLatestRomanceMovies,
 		requests.fetchLatestComedyMovies,
+		requests.fetchLatestAdventureMovies,
+		requests.fetchLatestCrimeMovies,
+		requests.fetchLatestTVMovies,
+		requests.fetchLatestAnimationMovies,
+		requests.fetchLatestMysteryMovies,
 	];
 
+	// get a random movie fetch url
 	const randMovieFetchRequest = () => {
 		return Math.floor(Math.random() * (movieUrls.length - 1));
 	};
@@ -29,6 +35,7 @@ const Banner = ({ ref }) => {
 		try {
 			setLoading(true);
 			const { data, statusText } = await tmdb.get(movieUrls[randMovieFetchRequest()]);
+			const genres = await tmdb.get(requests.fetchGenreList);
 			if (!data.results.length) {
 				// console.log('BANNER RESPONSE', statusText);
 				throw Error(statusText);
@@ -39,6 +46,7 @@ const Banner = ({ ref }) => {
 			const randomMovie = movieResults[Math.floor(Math.random() * (movieResults.length - 1))];
 			setBanner(randomMovie);
 			setLoading(false);
+			// console.log(genres, 'genres');
 		} catch (e) {
 			// console.error('FETCH RAND MOVIE ERROR', e);
 			setTimeout(() => fetchRandMovie(), 2000);

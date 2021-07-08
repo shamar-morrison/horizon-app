@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
 import { API_KEY } from '../logic/requests';
 import tmdb from '../logic/axios';
+import { useHistory } from 'react-router-dom';
 
 const SearchBar = () => {
 	const [searchVal, setSearchVal] = useState('');
@@ -10,17 +11,18 @@ const SearchBar = () => {
 	const filterSearch = async searchQuery => {
 		try {
 			setSearchVal(searchQuery);
-			const res = await tmdb.get(`/search/movie?api_key=${API_KEY}&language=en-US&query=${searchQuery}&page=1&include_adult=false`);
+			const res = await tmdb.get(`/search/movie?api_key=${API_KEY}&language=en-US&query=${searchQuery}&page=1`);
 			if (!res) throw Error('Error fetching search results.');
 			setSearchResults(res.data.results);
 		} catch (e) {
-			console.error(e);
+			// console.error(e);
 		}
 	};
 
-	const clearSearch = () => {
-		// setSearchVal();
-		// setSearchResults();
+	const clearSearch = e => {
+		// e.target.value = '';
+		setSearchVal('');
+		setSearchResults('');
 	};
 
 	return (
@@ -39,9 +41,9 @@ const SearchBar = () => {
 				}}
 			/>
 			{searchVal && (
-				<ul className="search-results">
-					{searchResults?.length > 0 ? (
-						searchResults.slice(0, 6).map((result, i) => {
+				<ul className="search-results" onBlur={clearSearch}>
+					{searchResults?.length ? (
+						searchResults.slice(0, 6).map(result => {
 							return (
 								<Link
 									to={{
@@ -50,12 +52,12 @@ const SearchBar = () => {
 											movieDetails: result,
 										},
 									}}
-									key={i}
+									key={result.id}
 								>
 									<li
 										className="search-result"
-										onClick={() => {
-											setSearchVal(''); // clear input field
+										onClick={e => {
+											clearSearch(e);
 											window.scrollTo(0, 0);
 										}}
 									>

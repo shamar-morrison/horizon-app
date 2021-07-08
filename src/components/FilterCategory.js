@@ -11,9 +11,6 @@ const FilterCategory = ({ category, onFilter }) => {
 				<li className="rating-asc" data-category={category}>
 					Highest Rated
 				</li>
-				<li className="rating-desc" data-category={category}>
-					Lowest Rated
-				</li>
 			</ul>
 		</div>
 	);

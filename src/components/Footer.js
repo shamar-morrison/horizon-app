@@ -6,12 +6,12 @@ const Footer = () => {
 			<div className="logo-footer">
 				<img src={logo} alt="Logo" />
 			</div>
-			<p className="built-by">
+			{/* <p className="built-by">
 				Built with <i class="fas fa-heart"></i> by{' '}
 				<a href="https://github.com/shamar-morrison" target="_blank">
 					Shamar Morrison
 				</a>
-			</p>
+			</p> */}
 			{/* <ul className="social-footer">
 				<a href="https://github.com/shamar-morrison" target="_blank">
 					<li className="social-footer--item">

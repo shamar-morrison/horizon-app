@@ -20,7 +20,7 @@
 	&__title {
 		position: relative;
 		transform: translateX(20px);
-		margin-bottom: 50px;
+		margin-bottom: 45px;
 
 		@include xs-screens {
 			transform: translateX(0);
@@ -46,4 +46,31 @@
 
 .movie-row--loading {
 	margin: 20px 0 70px;
+}
+
+.swiper-nav--movie-row {
+	position: relative;
+	z-index: 9999;
+	display: flex;
+	justify-content: space-between;
+	transform: translateY(-280px);
+	cursor: pointer;
+
+	> * {
+		display: grid;
+		place-items: center;
+		height: 40px;
+		width: 40px;
+		border-radius: 50%;
+		background-color: var(--clr-primary-900);
+		color: #fff;
+		margin-bottom: -100px;
+	}
+
+	.swiper-nav-left {
+		margin-left: 10px;
+	}
+	.swiper-nav-right {
+		margin-right: 10px;
+	}
 }

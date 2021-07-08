@@ -252,7 +252,7 @@ const MovieDetails = ({ match }) => {
 				{torrents.length > 0 && (
 					<div id="movie-player" style={{ marginTop: '60px' }}>
 						<h1 className="movie-player--title" style={{ marginBottom: '20px', textAlign: 'center' }}>
-							Watch {movie.title || movie.name || movie.original_title} ({getReleaseYear(movie)})
+							Watch {movie.title || movie.name || movie.original_title} ({getReleaseYear(movie) || 'N/A'})
 						</h1>
 						<iframe
 							src={`https://yts.surf/stream/${activeLink}`}
