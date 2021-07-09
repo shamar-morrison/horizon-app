@@ -5,12 +5,13 @@ import requests, { BASE_IMG_URL } from '../logic/requests';
 import noImageFound from '../img/no-img-found.png';
 import { API_KEY } from '../logic/requests';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { convertRating, getMovieRuntime, getReleaseYear } from '../logic/helpers';
+import Runtime from '../components/Runtime';
 
 const Movie_TVList = ({ match }) => {
 	const category = match.params.category;
 	const [data, setData] = useState([]);
 	const [isLoading, setLoading] = useState(false);
-	const months = ['Jan.', 'Febr.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
 
 	const fetchData = async () => {
 		try {
@@ -19,19 +20,10 @@ const Movie_TVList = ({ match }) => {
 			if (status !== 200 || !data.results.length) throw Error('Error fetch data');
 			setData(data.results);
 			setLoading(false);
-			console.log(data.results);
+			// console.log(data, 'DATA RESULTS');
 		} catch (e) {
-			console.error(e);
+			// console.error(e);
 		}
-	};
-
-	const formatDate = date => {
-		if (!date) return 'N/A';
-		const month = new Date(date).getMonth();
-		const day = new Date(date).getDate();
-		const year = new Date(date).getFullYear();
-
-		return `${months[month]} ${day}, ${year}`;
 	};
 
 	const getTitle = () => {
@@ -62,41 +54,89 @@ const Movie_TVList = ({ match }) => {
 	return (
 		<div className="container">
 			<div className="card-grid">
-				<div className="card-grid--filter-panel">
-					<h3 className="card-grid--title">{getTitle()}</h3>
-					<div className="card-grid--sort">
-						<h4>Sort</h4>
-						<i className="fas fa-chevron-right"></i>
+				<div className="search-grid">
+					<h2>{`${getTitle()} Movies` || 'Search Term'}</h2>
+					<div className="search-grid--search-bar">
+						<input type="text" className="search-grid--search-input" id="search-input" />
+						<button className="search-btn" id="search-btn">
+							Search
+						</button>
 					</div>
-					<div className="card-grid--sort">
-						<h4>Filters</h4>
-						<i className="fas fa-chevron-right"></i>
-					</div>
-					<button className="card-grid--search-btn">Search</button>
+					<ul className="search-grid--filter">
+						<li className="search-grid--filter-item">
+							<h3 className="filter-title">Sort Results By:</h3>
+							<select id="sort-results-by">
+								<option value="Popularity Descending">Popularity Ascending</option>
+								<option value="Popularity Ascending">Popularity Ascending</option>
+								<option value="Rating Descending">Rating Descending</option>
+								<option value="Rating Ascending">Rating Ascending</option>
+							</select>
+						</li>
+						<li className="search-grid--filter-item">
+							<h3 className="filter-title">Genre:</h3>
+							<select id="genre">
+								<option value="Popularity Descending">Popularity Ascending</option>
+								<option value="Popularity Ascending">Popularity Ascending</option>
+								<option value="Rating Descending">Rating Descending</option>
+								<option value="Rating Ascending">Rating Ascending</option>
+							</select>
+						</li>
+						<li className="search-grid--filter-item">
+							<h3 className="filter-title">Rating:</h3>
+							<select id="rating">
+								<option value="Popularity Descending">Popularity Ascending</option>
+								<option value="Popularity Ascending">Popularity Ascending</option>
+								<option value="Rating Descending">Rating Descending</option>
+								<option value="Rating Ascending">Rating Ascending</option>
+							</select>
+						</li>
+						<li className="search-grid--filter-item">
+							<h3 className="filter-title">Language:</h3>
+							<select id="language">
+								<option value="Popularity Descending">Popularity Ascending</option>
+								<option value="Popularity Ascending">Popularity Ascending</option>
+								<option value="Rating Descending">Rating Descending</option>
+								<option value="Rating Ascending">Rating Ascending</option>
+							</select>
+						</li>
+						<li className="search-grid--filter-item">
+							<h3 className="filter-title">Year:</h3>
+							<input type="date" id="year" />
+						</li>
+					</ul>
 				</div>
 				<ul className="card-grid--list">
-					{data.map((movie, indx) => (
+					{data.slice(0, -2).map(movie => (
 						<Link
 							to={{
 								pathname: `/details/${movie.id}`,
 							}}
 						>
-							<li className="card-grid--list-item" key={indx} onClick={() => window.scrollTo(0, 0)}>
+							<li className="card-grid--list-item" key={movie.id} onClick={() => window.scrollTo(0, 0)}>
 								<>
-									<div className="card-img">
-										<img
-											loading="lazy"
-											src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
-											alt={movie.title || movie.original_title || movie.name}
-										/>
-									</div>
-									<div className="card-body">
-										<h3 className="card-title">{movie.title || movie.original_title || movie.name}</h3>
-										<p className="card-date">
-											{formatDate(movie.release_date) || formatDate(movie.primary_release_date)}
-											<i className="fas fa-star star"></i>
-											<span className="card-rating">{Number(movie.vote_average).toFixed(1)}</span>
-										</p>
+									<div className="movie__card">
+										<div className="movie__card--img">
+											{movie.poster_path ? (
+												<img
+													loading="lazy"
+													src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
+													alt={movie.title || movie.original_title || movie.name}
+												/>
+											) : (
+												<img src={noImageFound} />
+											)}
+										</div>
+										<h3 className="movie__card--title">{movie.title || movie.name || movie.original_title}</h3>
+										<div className="movie__card--bottom">
+											<p className="movie__card--year">{getReleaseYear(movie)}</p>
+											<div className="movie__card--rating">
+												<div className="movie__card--runtime">
+													<Runtime movie={movie} />
+												</div>
+												<i className="fas fa-star star"></i>
+												<p className="rating">{convertRating(movie)}</p>
+											</div>
+										</div>
 									</div>
 								</>
 							</li>

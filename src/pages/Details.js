@@ -202,7 +202,7 @@ const MovieDetails = ({ match }) => {
 											<Genres genres={movie.genres} />
 										</li>
 										<li>
-											<Runtime runtime={movie.runtime} />
+											<Runtime movie={movie} />
 										</li>
 									</ul>
 

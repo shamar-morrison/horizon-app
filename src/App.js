@@ -26,11 +26,12 @@ const App = () => {
 							<MovieRow title="" fetchUrl={requests.fetchTrendingMoviesPg3} />
 							<MovieRow title="Upcoming" fetchUrl={requests.fetchUpcoming} />
 							<MovieRow title="" fetchUrl={requests.fetchUpcomingPg2} />
-							<MovieRow title="Action" fetchUrl={requests.fetchActionMovies} />
-							<MovieRow title="Comedy" fetchUrl={requests.fetchComedyMovies} />
-							<MovieRow title="Sci-Fi" fetchUrl={requests.fetchSciFiMovies} />
-							<MovieRow title="Horror" fetchUrl={requests.fetchHorrorMovies} />
-							<MovieRow title="Romance" fetchUrl={requests.fetchRomanceMovies} />
+							<MovieRow title="Action" fetchUrl={requests.fetchLatestActionMovies} />
+							<MovieRow title="Comedy" fetchUrl={requests.fetchLatestComedyMovies} />
+							<MovieRow title="Sci-Fi" fetchUrl={requests.fetchLatestSciFiMovies} />
+							<MovieRow title="Horror" fetchUrl={requests.fetchLatestHorrorMovies} />
+							<MovieRow title="Romance" fetchUrl={requests.fetchLatestRomanceMovies} />
+							<MovieRow title="Mystery" fetchUrl={requests.fetchLatestMysteryMovies} />
 						</section>
 					</Route>
 					<Route exact path="/movie/:category" render={props => <Movie_TVList {...props} key={uuidv4()} />} />

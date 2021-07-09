@@ -1,5 +1,6 @@
 import movieTrailer from 'movie-trailer';
-import { yts } from './axios';
+import tmdb, { yts } from './axios';
+import { API_KEY } from './requests';
 
 /**
  * fetch movie trailer
@@ -62,5 +63,23 @@ export const convertRating = movie => {
  */
 
 export const getReleaseYear = movie => {
-	return new Date(movie.release_date).getFullYear();
+	return new Date(movie.release_date).getFullYear() || 'N/A';
+};
+
+/**
+ * Get length (runtime) of movie
+ *
+ * @param {Object} movie the movie object
+ * @param {useState} setMovieRuntime useState hook function to set runtime
+ *
+ */
+
+export const getMovieRuntime = async (movie, setMovieRuntime) => {
+	try {
+		//prettier-ignore
+		const { data: {runtime} } = await tmdb.get(`/movie/${movie.id}?api_key=${API_KEY}&language=en-US`);
+		setMovieRuntime(runtime);
+	} catch (e) {
+		// console.error(e);
+	}
 };

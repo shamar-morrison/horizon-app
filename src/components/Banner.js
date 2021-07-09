@@ -19,9 +19,9 @@ const Banner = ({ ref }) => {
 		requests.fetchLatestRomanceMovies,
 		requests.fetchLatestComedyMovies,
 		requests.fetchLatestAdventureMovies,
+		requests.fetchLatestAnimationMovies,
 		requests.fetchLatestCrimeMovies,
 		requests.fetchLatestWarMovies,
-		requests.fetchLatestAnimationMovies,
 		requests.fetchLatestMysteryMovies,
 	];
 

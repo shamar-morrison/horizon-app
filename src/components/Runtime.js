@@ -1,4 +1,13 @@
-const Runtime = ({ runtime }) => {
+import { getMovieRuntime } from '../logic/helpers';
+import { useState, useEffect } from 'react';
+
+const Runtime = ({ movie }) => {
+	const [runtime, setRuntime] = useState(null);
+
+	useEffect(() => {
+		getMovieRuntime(movie, setRuntime);
+	}, [movie]);
+
 	const calcMovieRuntime = runtime => {
 		if (!runtime) return 'N/A';
 		// if runtime is an hour or more
