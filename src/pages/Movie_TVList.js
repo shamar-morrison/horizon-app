@@ -53,17 +53,17 @@ const Movie_TVList = ({ match }) => {
 
 	return (
 		<div className="container">
-			<div className="card-grid">
-				<div className="search-grid">
+			<div className="card__grid">
+				<div className="search__grid">
 					<h2>{`${getTitle()} Movies` || 'Search Term'}</h2>
-					<div className="search-grid--search-bar">
-						<input type="text" className="search-grid--search-input" id="search-input" />
+					<div className="search__grid--search-bar">
+						<input type="text" className="search__grid--search-input" id="search-input" />
 						<button className="search-btn" id="search-btn">
 							Search
 						</button>
 					</div>
-					<ul className="search-grid--filter">
-						<li className="search-grid--filter-item">
+					<ul className="search__grid--filter">
+						<li className="search__grid--filter-item">
 							<h3 className="filter-title">Sort Results By:</h3>
 							<select id="sort-results-by">
 								<option value="Popularity Descending">Popularity Ascending</option>
@@ -72,7 +72,7 @@ const Movie_TVList = ({ match }) => {
 								<option value="Rating Ascending">Rating Ascending</option>
 							</select>
 						</li>
-						<li className="search-grid--filter-item">
+						<li className="search__grid--filter-item">
 							<h3 className="filter-title">Genre:</h3>
 							<select id="genre">
 								<option value="Popularity Descending">Popularity Ascending</option>
@@ -81,7 +81,7 @@ const Movie_TVList = ({ match }) => {
 								<option value="Rating Ascending">Rating Ascending</option>
 							</select>
 						</li>
-						<li className="search-grid--filter-item">
+						<li className="search__grid--filter-item">
 							<h3 className="filter-title">Rating:</h3>
 							<select id="rating">
 								<option value="Popularity Descending">Popularity Ascending</option>
@@ -90,7 +90,7 @@ const Movie_TVList = ({ match }) => {
 								<option value="Rating Ascending">Rating Ascending</option>
 							</select>
 						</li>
-						<li className="search-grid--filter-item">
+						<li className="search__grid--filter-item">
 							<h3 className="filter-title">Language:</h3>
 							<select id="language">
 								<option value="Popularity Descending">Popularity Ascending</option>
@@ -99,20 +99,20 @@ const Movie_TVList = ({ match }) => {
 								<option value="Rating Ascending">Rating Ascending</option>
 							</select>
 						</li>
-						<li className="search-grid--filter-item">
+						<li className="search__grid--filter-item">
 							<h3 className="filter-title">Year:</h3>
 							<input type="date" id="year" />
 						</li>
 					</ul>
 				</div>
-				<ul className="card-grid--list">
+				<ul className="card__grid--list">
 					{data.slice(0, -2).map(movie => (
 						<Link
 							to={{
 								pathname: `/details/${movie.id}`,
 							}}
 						>
-							<li className="card-grid--list-item" key={movie.id} onClick={() => window.scrollTo(0, 0)}>
+							<li className="card__grid--list-item" key={movie.id} onClick={() => window.scrollTo(0, 0)}>
 								<>
 									<div className="movie__card">
 										<div className="movie__card--img">

@@ -54,6 +54,18 @@ button {
 	font-family: inherit;
 }
 
+input,
+select,
+textarea {
+	padding: 15px 20px;
+	border-radius: $border-radius-sm;
+	background-color: var(--clr-primary-800);
+	outline: 0;
+	border: 0;
+	color: #fff;
+	font-size: 1rem;
+}
+
 .similar-movies--item:hover::after,
 .similar-movies--item::after,
 .navbar-wrapper,

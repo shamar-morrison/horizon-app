@@ -1,4 +1,4 @@
-.movie-details {
+.movie__details {
 	position: relative;
 
 	&::after {
@@ -252,7 +252,7 @@
 	}
 }
 
-.crew-list--short {
+.crew__list--short {
 	display: flex;
 	// justify-content: space-between;
 	gap: 150px;

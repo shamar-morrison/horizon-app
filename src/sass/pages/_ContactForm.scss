@@ -1,0 +1,66 @@
+.contact__form {
+	margin-top: 20vh;
+	display: flex;
+	gap: 50px;
+
+	@include lg-screens {
+		flex-wrap: wrap-reverse;
+	}
+
+	> * {
+		flex-basis: 100%;
+	}
+
+	&--item {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.title {
+		font-size: 1.5rem;
+	}
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+label {
+	font-size: 1.1rem;
+	color: var(--clr-primary-500);
+	margin: 8px;
+	margin-left: 0;
+}
+
+p {
+	font-size: 1rem;
+	color: var(--clr-primary-500);
+}
+
+button {
+	background-color: var(--clr-red);
+	text-align: center;
+
+	&:hover,
+	&:focus {
+		@include hover-scale;
+	}
+}
+
+.msg {
+	display: grid;
+	place-items: center;
+	font-size: 1.8rem;
+}
+
+.success-msg {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.3rem;
+	margin-top: 30vh;
+	color: var(--clr-primary-500);
+	font-weight: 500;
+}

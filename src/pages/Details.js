@@ -159,12 +159,12 @@ const MovieDetails = ({ match }) => {
 					<LoadingSpinner />
 				</div>
 			) : (
-				<section className="movie-details" style={detailsBG}>
+				<section className="movie__details" style={detailsBG}>
 					<div className="blur"></div>
 					<div className="container">
 						{movie && (
-							<div className="movie-details--main">
-								<div className="movie-details--img">
+							<div className="movie__details--main">
+								<div className="movie__details--img">
 									<img
 										src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
 										alt={movie.title || movie.name || movie.original_title}
@@ -188,15 +188,15 @@ const MovieDetails = ({ match }) => {
 										{!torrents ? 'Checking...' : torrents.length > 0 ? 'Download' : 'No Download Available'}
 									</button>
 								</div>
-								<div className="movie-details--body">
-									<h1 className="movie-details--title">
+								<div className="movie__details--body">
+									<h1 className="movie__details--title">
 										{movie.title || movie.name || movie.original_title}
-										<span className="movie-details--lang" tooltip={movie.spoken_languages[0]?.english_name || 'N/A'}>
+										<span className="movie__details--lang" tooltip={movie.spoken_languages[0]?.english_name || 'N/A'}>
 											{movie.original_language}
 										</span>
 									</h1>
 
-									<ul className="movie-details--genre-date">
+									<ul className="movie__details--genre-date">
 										<li>{getReleaseYear(movie) || 'N/A'}</li>
 										<li>
 											<Genres genres={movie.genres} />
@@ -207,11 +207,11 @@ const MovieDetails = ({ match }) => {
 									</ul>
 
 									<p className="tagline">{movie.tagline}</p>
-									<div className="movie-details--overview">
+									<div className="movie__details--overview">
 										<h2>Overview</h2>
 										<p className="overview">{movie.overview || 'No summary available.'}</p>
 									</div>
-									<div className="movie-details--btns">
+									<div className="movie__details--btns">
 										<div className="popularity">
 											<p className="popularity--rating">{convertRating(movie)}</p>
 											<p className="popularity--text">User Rating</p>
@@ -219,10 +219,10 @@ const MovieDetails = ({ match }) => {
 									</div>
 
 									{movieCast && (
-										<ul className="crew-list--short">
+										<ul className="crew__list--short">
 											{movieCast.crew.slice(0, 3).map(val => {
 												return (
-													<li className="crew-list--member">
+													<li className="crew__list--member">
 														<h3 className="member-role">{val.job}</h3>
 														<p className="member-name">{val.name || val.original_name}</p>
 													</li>
@@ -296,8 +296,8 @@ const MovieDetails = ({ match }) => {
 						</div>
 					</div>
 				)}
-				<div className="movie-details--bottom">
-					<div className="movie-details--bottom-cast">
+				<div className="movie__details--bottom">
+					<div className="movie__details--bottom-cast">
 						<h2 className="section__title">Main Cast</h2>
 						{isLoading ? (
 							<div className="loading-spinner--similar">
@@ -309,7 +309,7 @@ const MovieDetails = ({ match }) => {
 							<p>No cast found.</p>
 						)}
 					</div>
-					<div className="movie-details--similar-movies">
+					<div className="movie__details--similar-movies">
 						<h2 className="section__title">More like this</h2>
 						{isLoading ? (
 							<div className="loading-spinner--similar">
@@ -320,8 +320,8 @@ const MovieDetails = ({ match }) => {
 						)}
 					</div>
 				</div>
-				<div className="movie-details--bottom-two" style={{ marginTop: '30px', marginBottom: '70px' }}>
-					<div className="movie-details--bottom-gallery">
+				<div className="movie__details--bottom-two" style={{ marginTop: '30px', marginBottom: '70px' }}>
+					<div className="movie__details--bottom-gallery">
 						<div className="photos-title--wrapper">
 							<h2 className="section__title">
 								Posters {movieImages && <span className="posters-amount">({movieImages.posters.length})</span>}

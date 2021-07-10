@@ -3,42 +3,25 @@ import logo from '../img/logo.png';
 const Footer = () => {
 	return (
 		<footer className="footer" id="footer">
-			<div className="logo-footer">
+			<div className="logo__footer">
 				<img src={logo} alt="Logo" />
+				<p className="copyright">© 2021 Horizon</p>
 			</div>
-			{/* <p className="built-by">
-				Built with <i class="fas fa-heart"></i> by{' '}
-				<a href="https://github.com/shamar-morrison" target="_blank">
-					Shamar Morrison
-				</a>
-			</p> */}
-			{/* <ul className="social-footer">
-				<a href="https://github.com/shamar-morrison" target="_blank">
-					<li className="social-footer--item">
-						<i class="fab fa-github-alt"></i>
-					</li>
-				</a>
-				<a href="https://twitter.com/TheAvgCoder" target="_blank">
-					<li className="social-footer--item">
-						<i class="fab fa-twitter"></i>
-					</li>
-				</a>
-				<a href="https://www.linkedin.com/in/shamar-morrison-57125220b/" target="_blank">
-					<li className="social-footer--item">
-						<i class="fab fa-linkedin-in"></i>
-					</li>
-				</a>
-				<a href="https://github.com/shamar-morrison" target="_blank">
-					<li className="social-footer--item">
-						<i class="fab fa-youtube"></i>
-					</li>
-				</a>
-				<a href="https://twitter.com/TheAvgCoder" target="_blank">
-					<li className="social-footer--item">
-						<i class="fab fa-instagram"></i>
-					</li>
-				</a>
-			</ul> */}
+			<ul className="footer__links">
+				<li className="footer__links--item">
+					<a href="/terms">Terms of Use</a>
+				</li>
+				<li className="footer__links--item">
+					<a href="/contact">Contact</a>
+				</li>
+			</ul>
+			<p className="user-agreement">
+				By using this website you agree to accept our <a href="/terms">User Agreement</a>
+			</p>
+			<p className="api-notice">This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
+			<p className="api-notice">
+				This website does not store any files on our server, we only linked to the media which is hosted on 3rd party services.
+			</p>
 		</footer>
 	);
 };

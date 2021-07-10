@@ -2,7 +2,7 @@ a {
 	color: #fff;
 }
 
-.card-grid {
+.card__grid {
 	display: flex;
 	flex-direction: column;
 	margin-top: 20vh;
@@ -38,7 +38,7 @@ a {
 }
 
 // SEARCH GRID
-.search-grid {
+.search__grid {
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
@@ -47,17 +47,6 @@ a {
 
 	h2 {
 		font-size: 1.5rem;
-	}
-
-	input,
-	select {
-		padding: 15px 20px;
-		border-radius: $border-radius-sm;
-		background-color: var(--clr-primary-800);
-		outline: 0;
-		border: 0;
-		color: #fff;
-		font-size: 1rem;
 	}
 
 	&--search-bar {
@@ -98,7 +87,7 @@ a {
 }
 
 // MOVIE LIST
-.card-grid--list {
+.card__grid--list {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
