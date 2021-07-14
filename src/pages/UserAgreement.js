@@ -1,6 +1,6 @@
 const UserAgreement = () => {
 	return (
-		<div className="container user-agreement--wrapper">
+		<section className="container user-agreement--wrapper">
 			<h1 className="title">Horizon Terms and Conditions / User Agreement</h1>
 			<p>
 				Using this site means you accept its terms. Don't be put off by the legalese, but please read these terms and conditions of
@@ -827,7 +827,7 @@ const UserAgreement = () => {
 				<br />
 				<a href="https://huntxr.netlify.app/">I AGREE AND I ACCEPT THIS USER AGREEMENT</a>
 			</p>
-		</div>
+		</section>
 	);
 };
 

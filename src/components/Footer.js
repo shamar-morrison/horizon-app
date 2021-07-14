@@ -12,6 +12,9 @@ const Footer = () => {
 					<a href="/terms">Terms of Use</a>
 				</li>
 				<li className="footer__links--item">
+					<a href="/privacy-policy">Privacy Policy</a>
+				</li>
+				<li className="footer__links--item">
 					<a href="/contact">Contact</a>
 				</li>
 			</ul>

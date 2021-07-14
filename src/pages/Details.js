@@ -101,29 +101,6 @@ const MovieDetails = ({ match }) => {
 		}
 	};
 
-	const handleIframeLoad = e => {
-		const { target } = e;
-		// if iframe has been loaded before, don't reload
-		if (iFrameLoadCounter) return;
-
-		// setTimeout(() => {
-		// 	document.querySelector('.mejs__container.mejs__container-keyboard-inactive.mejs__video').style.height = '100%';
-		// }, 8000);
-
-		setActiveLink(torrents[0].hash); // set initial movie link
-		setiFrameLoadCounter(prev => prev + 1);
-
-		// set iframe controls to 100% height
-		// console.log(target, 'TARGET');
-		// const iframeInnerDoc = target.contentDocument || target.contentWindow.document;
-		// console.log(iframeInnerDoc, 'iframe doc');
-	};
-
-	const handleQualityChange = e => {
-		const { target } = e;
-		setActiveLink(target.getAttribute('data-hash'));
-	};
-
 	const setModalVisibility = () => {
 		setIsModalVisible(!isModalVisible);
 	};

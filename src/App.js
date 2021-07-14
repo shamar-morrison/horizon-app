@@ -13,6 +13,7 @@ import Watch from './pages/Watch';
 import PageNotFound from './pages/PageNotFound';
 import UserAgreement from './pages/UserAgreement';
 import ContactForm from './pages/ContactForm';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 const App = () => {
 	return (
@@ -41,6 +42,7 @@ const App = () => {
 					<Route exact path="/watch/:id" render={props => <Watch {...props} key={uuidv4()} />} />
 					<Route exact path="/terms" component={UserAgreement} />
 					<Route exact path="/contact" component={ContactForm} />
+					<Route exact path="/privacy-policy" component={PrivacyPolicy} />
 					<Route path="*" component={PageNotFound} />
 				</Switch>
 			</Router>
