@@ -252,6 +252,8 @@
 	}
 }
 
+// CREW LIST
+
 .crew__list--short {
 	display: flex;
 	// justify-content: space-between;
@@ -354,4 +356,19 @@
 			@include hover-scale;
 		}
 	}
+}
+
+//VIDEO PLAYER
+.movie-player {
+	position: relative;
+	height: 550px;
+	max-height: 550px;
+
+	iframe * {
+		height: 100% !important;
+	}
+}
+
+.mejs__container {
+	height: 100% !important;
 }

@@ -19,8 +19,8 @@ const Footer = () => {
 				By using this website you agree to accept our <a href="/terms">User Agreement</a>
 			</p>
 			<p className="api-notice">This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
-			<p className="api-notice">
-				This website does not store any files on our server, we only linked to the media which is hosted on 3rd party services.
+			<p className="api-notice" style={{ marginTop: '-11px' }}>
+				This website does not store any files on our server, we only link to the media which is hosted on 3rd party services.
 			</p>
 		</footer>
 	);
