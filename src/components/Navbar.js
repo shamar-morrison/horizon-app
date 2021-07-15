@@ -52,7 +52,7 @@ const Navbar = () => {
 					<ul className="navbar-links">
 						<li className="nav-link">
 							Movies
-							<ul className="nav-link--dropdown">
+							{/* <ul className="nav-link--dropdown">
 								<Link to="/movie/popular">
 									<li>Popular</li>
 								</Link>
@@ -65,7 +65,7 @@ const Navbar = () => {
 								<Link to="/movie/top_rated">
 									<li>Top Rated</li>
 								</Link>
-							</ul>
+							</ul> */}
 						</li>
 						<li className="nav-link">People</li>
 					</ul>
