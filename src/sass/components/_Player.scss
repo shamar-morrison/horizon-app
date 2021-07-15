@@ -1,5 +1,7 @@
 .movie-player {
 	margin-top: 60px;
+	// display: flex;
+	// flex-direction: column;
 
 	&--title {
 		margin-bottom: 20px;
@@ -18,4 +20,14 @@
 			height: 400px;
 		}
 	}
+
+	i {
+		color: var(--clr-red);
+	}
+}
+
+.link-warning {
+	text-align: center;
+	font-size: 1rem;
+	color: var(--clr-primary-500);
 }

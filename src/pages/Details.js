@@ -233,7 +233,13 @@ const MovieDetails = ({ match }) => {
 			{isModalVisible && <Downloads torrents={torrents} toggler={setModalVisibility} movie={movie} />}
 
 			<section className="container">
-				<Player movie={movie} />
+				{isLoading ? (
+					<div className="loading-spinner--similar">
+						<LoadingSpinner />
+					</div>
+				) : (
+					<Player movie={movie} />
+				)}
 
 				<div className="movie__details--bottom">
 					<div className="movie__details--bottom-cast">

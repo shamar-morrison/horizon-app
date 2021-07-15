@@ -44,6 +44,7 @@
 		]
 	},
 	"devDependencies": {
+		"@netlify/plugin-sitemap": "^0.8.1",
 		"fslightbox": "^3.2.3",
 		"fslightbox-react": "^1.6.2"
 	}

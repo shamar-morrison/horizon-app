@@ -14,11 +14,11 @@ const Movie_TVList = ({ match }) => {
 	const [isLoading, setLoading] = useState(false);
 	const [noResultsFound, setNoResultsFound] = useState(false);
 	const [keyWordsFound, setKeyWordsFound] = useState([]);
+	const [keyWords, setKeyWords] = useState([]);
 	const [filters, setFilters] = useState({
 		genre: '',
 		query: '',
 		sort: '',
-		keyWords: [],
 	});
 
 	const fetchDefaultData = async () => {
@@ -65,16 +65,16 @@ const Movie_TVList = ({ match }) => {
 
 	const fetchKeywords = async () => {
 		try {
-			setKeyWordsFound([]);
-			const { status, data } = await tmdb.get(`/search/keyword?api_key=${API_KEY}&query=${encodeURI(filters.query)}&page=1`);
+			const { status, data } = await tmdb.get(`/search/keyword?api_key=${API_KEY}&query=${filters.query.split(' ')[0]}&page=1`);
 			if (status !== 200 || !data.results.length) throw Error('Error fetching keyWords');
 
+			let keywords = [];
 			data.results.forEach((cur, i, arr) => {
-				setKeyWordsFound(prev => [...prev, cur.id]);
+				keywords.push(cur.id);
 			});
 
-			setFilters(prev => ({ ...prev, keyWords: [...keyWordsFound] }));
-			console.log('keyWords', filters.keyWords);
+			setKeyWords([...keywords]);
+			console.log(keyWords, 'keywords');
 		} catch (e) {
 			console.error(e);
 		}
@@ -102,6 +102,7 @@ const Movie_TVList = ({ match }) => {
 	};
 
 	useEffect(() => {
+		let isMounted = true;
 		fetchDefaultData();
 	}, []);
 
@@ -117,24 +118,14 @@ const Movie_TVList = ({ match }) => {
 				>
 					<h2>{`${getTitle()} Movies` || 'Search Term'}</h2>
 					<div className="search__grid--search-bar">
-						<input
+						{/* <input
 							required
 							type="text"
 							className="search__grid--search-input"
 							id="search-input"
 							value={filters.query}
 							onChange={({ target }) => setFilters(prev => ({ ...prev, query: target.value }))}
-						/>
-						<button
-							className="search-btn"
-							id="search-btn"
-							onClick={() => {
-								fetchSearchData();
-								fetchKeywords();
-							}}
-						>
-							Search
-						</button>
+						/> */}
 					</div>
 					<ul className="search__grid--filter">
 						<li className="search__grid--filter-item">
@@ -190,6 +181,9 @@ const Movie_TVList = ({ match }) => {
 							<input type="date" id="year" />
 						</li>
 					</ul>
+					<button className="search-btn" id="search-btn">
+						Search
+					</button>
 				</form>
 				{isLoading ? (
 					<div className="loading">
@@ -203,6 +197,7 @@ const Movie_TVList = ({ match }) => {
 									to={{
 										pathname: `/details/${movie.id}`,
 									}}
+									key={movie.id}
 								>
 									<li className="card__grid--list-item" key={movie.id} onClick={() => window.scrollTo(0, 0)}>
 										<>

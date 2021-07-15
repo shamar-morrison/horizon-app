@@ -54,13 +54,10 @@ a {
 		align-items: center;
 	}
 
-	&--search-input {
-		flex-basis: 90%;
-	}
-
 	&--filter {
 		display: flex;
 		flex-wrap: wrap;
+		justify-content: space-between;
 		gap: 30px;
 	}
 
