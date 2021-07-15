@@ -19,6 +19,7 @@ import Genres from '../components/Genres';
 import { useLocation } from 'react-router-dom';
 import { fetchTorrents } from '../logic/helpers';
 import Watch from '../pages/Watch';
+import Player from '../components/Player';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -52,10 +53,6 @@ const MovieDetails = ({ match }) => {
 	const [torrents, setTorrents] = useState(''); // torrents array
 
 	const [isModalVisible, setIsModalVisible] = useState(false); // download torrent modal
-
-	const [activeLink, setActiveLink] = useState(''); // currently active movie link
-
-	const [iFrameLoadCounter, setiFrameLoadCounter] = useState(0); // counter to remember initial iframe load
 
 	const fetchMovieData = async id => {
 		try {
@@ -236,55 +233,7 @@ const MovieDetails = ({ match }) => {
 			{isModalVisible && <Downloads torrents={torrents} toggler={setModalVisibility} movie={movie} />}
 
 			<section className="container">
-				<div id="movie-player" style={{ marginTop: '60px' }}>
-					<h1 className="movie-player--title" style={{ marginBottom: '20px', textAlign: 'center' }}>
-						Watch {movie.title || movie.name || movie.original_title} ({getReleaseYear(movie) || 'N/A'})
-					</h1>
-
-					<iframe
-						id="player"
-						src={`https://fsapi.xyz/tmdb-movie/${movie.id}`}
-						frameborder="0"
-						scrolling="no"
-						// onLoad={e => handleIframeLoad(e)}
-						allowFullScreen
-						style={{ height: '700px', width: '100%' }}
-					></iframe>
-
-					{/* <div className="movie-player--quality">
-							<ul
-								className="quality-links"
-								style={{
-									display: 'flex',
-									flexWrap: 'wrap',
-									gap: '15px',
-									justifyContent: 'flex-end',
-									marginTop: '10px',
-									fontSize: '1rem',
-								}}
-							>
-								{' '}
-								Quality:
-								{torrents.map((torrent, i) => (
-									<li className="quality-links--item" key={i}>
-										<input
-											style={{ cursor: 'pointer' }}
-											type="radio"
-											id={torrent.quality + torrent.type}
-											name="quality"
-											value={torrent.quality + torrent.type}
-											data-hash={torrent.hash}
-											onChange={handleQualityChange}
-											defaultChecked={true ? i === 0 : null}
-										/>{' '}
-										<label htmlFor={torrent.quality + torrent.type} style={{ cursor: 'pointer' }}>
-											{torrent.quality + ' ' + torrent.type.toUpperCase()}
-										</label>
-									</li>
-								))}
-							</ul>
-						</div> */}
-				</div>
+				<Player movie={movie} />
 
 				<div className="movie__details--bottom">
 					<div className="movie__details--bottom-cast">

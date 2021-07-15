@@ -5,7 +5,8 @@
 	--clr-red: #e60a15;
 	--clr-primary-900: #16151a;
 	--clr-primary-800: #1e1d22;
-	--clr-primary-500: #6f6e76;
+	--clr-primary-500: hsl(248, 4%, 45%);
+	--clr-primary-400: hsl(248, 4%, 55%);
 	--clr-primary-600: #292830;
 	--clr-yellow: #ffb70c;
 	--clr-download: hsl(102, 49%, 51%);
@@ -62,8 +63,14 @@ textarea {
 	background-color: var(--clr-primary-800);
 	outline: 0;
 	border: 0;
-	color: #fff;
+	color: var(--clr-primary-400);
 	font-size: 1rem;
+}
+
+select,
+button,
+a {
+	cursor: pointer;
 }
 
 .similar-movies--item:hover::after,

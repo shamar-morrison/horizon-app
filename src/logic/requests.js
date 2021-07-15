@@ -4,8 +4,6 @@
  * https://developers.themoviedb.org/3/getting-started/introduction
  */
 
-import tmdb from './axios';
-
 export const API_KEY = '276dbe36838cf9f1737fd88bce2c5bd9';
 export const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w500';
 export const BANNER_IMG_URL = 'https://image.tmdb.org/t/p/original/';
@@ -26,7 +24,7 @@ const configURL = `/configuration?api_key=${API_KEY}`;
 // MOVIE ENDPOINT
 const movieUrl = '/discover/movie?api_key=';
 
-// SEARCH QUERIES
+// SORT QUERIES
 const mostPopular = 'popularity.desc';
 const latest = 'release_date.asc';
 const highestRated = 'vote_average.desc';

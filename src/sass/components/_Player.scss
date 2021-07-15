@@ -1,0 +1,21 @@
+.movie-player {
+	margin-top: 60px;
+
+	&--title {
+		margin-bottom: 20px;
+		text-align: center;
+	}
+
+	iframe {
+		height: 700px;
+		width: 100%;
+
+		@include lg-screens {
+			height: 500px;
+		}
+
+		@include md-screens {
+			height: 400px;
+		}
+	}
+}

@@ -216,7 +216,7 @@
 
 		.section__title {
 			margin-bottom: 30px;
-			margin-top: 35px;
+			margin-top: 25px;
 
 			@include xs-screens {
 				text-align: center;
@@ -336,10 +336,6 @@
 	&:focus {
 		transform: scale(1) !important;
 	}
-}
-
-.watch-movie {
-	background-color: (var(--clr-red));
 }
 
 // MAIN MOVIE POSTER

@@ -1,10 +1,10 @@
-import logo from '../img/logo.png';
+import logoFooter from '../img/logo-footer.png';
 
 const Footer = () => {
 	return (
 		<footer className="footer" id="footer">
 			<div className="logo__footer">
-				<img src={logo} alt="Logo" />
+				<img src={logoFooter} alt="Logo" />
 				<p className="copyright">© 2021 Horizon</p>
 			</div>
 			<ul className="footer__links">
