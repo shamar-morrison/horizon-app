@@ -48,6 +48,26 @@
 	margin: 20px 0 70px;
 }
 
+.swipe-icon,
+.swipe-msg {
+	display: none;
+
+	@include xs-screens {
+		display: flex;
+	}
+}
+
+.swipe-icon {
+	width: 30px;
+	margin-bottom: 5px;
+}
+
+.swipe-msg {
+	font-size: 1rem;
+	color: var(--clr-primary-500);
+	margin-bottom: 10px;
+}
+
 .swiper-nav--movie-row {
 	position: relative;
 	bottom: 0;

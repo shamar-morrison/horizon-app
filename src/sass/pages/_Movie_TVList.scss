@@ -4,9 +4,8 @@ a {
 
 .card__grid {
 	display: flex;
-	flex-direction: column;
-	margin-top: 20vh;
-	gap: 30px;
+	margin-top: 180px;
+	gap: 50px;
 
 	&--title {
 		position: relative;
@@ -38,11 +37,15 @@ a {
 
 // SEARCH GRID
 .search__grid {
+	position: sticky;
+	top: 120px;
+	align-self: start;
+	transform: translateY(-10px);
+
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
-	margin-bottom: 50px;
-	background-color: var(--clr-primary-900);
+	gap: 10px;
+	flex-basis: 20%;
 
 	h2 {
 		font-size: 1.5rem;
@@ -57,8 +60,7 @@ a {
 	&--filter {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
-		gap: 30px;
+		gap: 15px;
 	}
 
 	.filter-title {
@@ -68,20 +70,58 @@ a {
 		font-weight: 500;
 	}
 
+	select,
+	input {
+		padding-left: 10px;
+		color: #fff;
+		width: 250px;
+	}
+
 	select {
-		padding-left: 8px;
+		appearance: none;
+		background: url(../img/select-arrows.svg) no-repeat 90% 50% var(--clr-primary-800);
 	}
 
 	.search-btn {
 		border-radius: $border-radius-sm;
 		background-color: var(--clr-red);
 		padding: 9px 25px;
-		flex-basis: 10%;
 		text-align: center;
 
 		&:hover,
 		&:focus {
 			@include hover-scale;
+		}
+	}
+
+	[tooltip] {
+		position: relative;
+		font-size: 0.85rem;
+		color: var(--clr-primary-500);
+		cursor: help;
+
+		&::after {
+			content: attr(tooltip);
+			position: absolute;
+			top: -250%;
+			right: -50%;
+			transform: translateX(50%);
+			width: max-content;
+			padding: 5px;
+			font-size: 0.95rem;
+
+			background-color: var(--clr-primary-500);
+			color: var(--clr-primary-900);
+			border-radius: 2px;
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		&:hover,
+		&:focus {
+			&::after {
+				opacity: 1;
+			}
 		}
 	}
 }

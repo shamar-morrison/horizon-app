@@ -4,6 +4,8 @@
  * https://developers.themoviedb.org/3/getting-started/introduction
  */
 
+import tmdb from './axios';
+
 export const API_KEY = '276dbe36838cf9f1737fd88bce2c5bd9';
 export const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w500';
 export const BANNER_IMG_URL = 'https://image.tmdb.org/t/p/original/';
@@ -66,6 +68,9 @@ const requests = {
 
 	// GENRES
 	fetchGenreList: `/genre/movie/list?api_key=${API_KEY}&language=en-US`,
+
+	// LANGUAGES
+	fetchLanguages: `/configuration/languages?api_key=${API_KEY}`,
 
 	// UPCOMING
 	fetchUpcoming: `/movie/upcoming?api_key=${API_KEY}&language=en-US`,
@@ -165,4 +170,9 @@ const requests = {
 	fetchNowPlaying: `/movie/now_playing?api_key=${API_KEY}&language=en-US`,
 };
 
+const getLanguages = async () => {
+	const res = await tmdb.get(requests.fetchLanguages);
+	console.log(res, 'languages');
+};
+getLanguages();
 export default requests;

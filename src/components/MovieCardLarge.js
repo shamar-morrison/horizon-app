@@ -10,12 +10,6 @@ const MovieCardLarge = ({ movie, onClose }) => {
 	const [trailerToggler, setTrailerToggler] = useState(false);
 	const [trailerKey, setTrailerKey] = useState(0);
 
-	const movieObj = useLocation();
-	const movieHis = useLocation();
-	// console.log(movieObj, 'LOCATION');
-	// movieObj.state = movie;
-	// console.log(movieObj, 'LOCATION');
-
 	// remove trailer url and error msg when switching cards
 	useEffect(() => {
 		setTrailerUrl([]);

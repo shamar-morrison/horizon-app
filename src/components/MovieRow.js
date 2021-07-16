@@ -1,4 +1,5 @@
 /**
+ * Plugins:
  *
  * Swiper JS: https://swiperjs.com/swiper-api
  * FS Lightbox: https://fslightbox.com/
@@ -11,6 +12,7 @@ import MovieCardLarge from './MovieCardLarge';
 import FilterCategory from './FilterCategory';
 import requests from '../logic/requests';
 import LoadingSpinner from './LoadingSpinner';
+import swipeIcon from '../img/swipe.svg';
 
 import SwiperCore, { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -175,6 +177,12 @@ const MovieRow = ({ title, fetchUrl }) => {
 	return (
 		<div className="section">
 			<div className="section__header" id={title.split(' ')[0].toLowerCase() || null}>
+				{title === 'Trending Now' && (
+					<>
+						<img src={swipeIcon} alt="swipe icon" className="swipe-icon" />
+						<p className="swipe-msg">swipe to see more</p>
+					</>
+				)}
 				{title && <h2 className="section__title">{title}</h2>}
 
 				{title.startsWith('Action') && <FilterCategory category={'action'} onFilter={filterCategories} />}
@@ -186,8 +194,9 @@ const MovieRow = ({ title, fetchUrl }) => {
 			</div>
 			<Swiper
 				slidesPerView={'auto'}
+				// slidesPerGroup={1.5}
 				spaceBetween={32}
-				centerInsufficientSlides={true}
+				// centerInsufficientSlides={true}
 				navigation={{
 					prevEl: '.swiper-nav-left',
 					nextEl: '.swiper-nav-right',

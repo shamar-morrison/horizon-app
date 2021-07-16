@@ -5,6 +5,10 @@
 	margin-bottom: 70px;
 	@include filter;
 
+	@include xs-screens {
+		margin-bottom: 50px;
+	}
+
 	&::before {
 		@include radial-gradient;
 	}
@@ -73,6 +77,15 @@
 			@include xs-screens {
 				line-height: 1.8;
 				font-size: 1rem;
+
+				display: -webkit-box;
+				-webkit-line-clamp: 4;
+				-webkit-box-orient: vertical;
+
+				-moz-line-clamp: 4;
+				-moz-box-orient: vertical;
+				overflow: hidden;
+				text-overflow: ellipsis;
 			}
 
 			// clamps text to max 3 lines

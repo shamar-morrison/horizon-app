@@ -49,7 +49,7 @@ const Navbar = () => {
 							<img src={logo} alt="Logo" />
 						</Link>
 					</div>
-					{/* <ul className="navbar-links">
+					{/* <ul className="navbar-links" onClick={() => window.scrollTo(0, 0)}>
 						<li className="nav-link">
 							Movies
 							<ul className="nav-link--dropdown">
