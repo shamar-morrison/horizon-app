@@ -94,14 +94,14 @@ a {
 		}
 	}
 
-	[tooltip] {
+	[lang-tooltip] {
 		position: relative;
 		font-size: 0.85rem;
 		color: var(--clr-primary-500);
 		cursor: help;
 
 		&::after {
-			content: attr(tooltip);
+			content: attr(lang-tooltip);
 			position: absolute;
 			top: -250%;
 			right: -50%;

@@ -133,6 +133,11 @@ i.star {
 	}
 }
 
+.no-pointer-events {
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
 // override swiper styles so that slidesPerView='auto' works
 .swiper-container {
 	width: 100%;

@@ -38,8 +38,10 @@ const App = () => {
 						</section>
 					</Route>
 					<Route exact path="/movie/:category" render={props => <Movie_TVList {...props} key={uuidv4()} />} />
-					<Route exact path="/details/:id" render={props => <Details {...props} key={uuidv4()} />} />
-					<Route exact path="/watch/:id" render={props => <Watch {...props} key={uuidv4()} />} />
+					{/* :type - movie || tv 
+					    :id   - imdb id
+					*/}
+					<Route exact path="/details/:type/:id" render={props => <Details {...props} key={uuidv4()} />} />
 					<Route exact path="/terms" component={UserAgreement} />
 					<Route exact path="/contact" component={ContactForm} />
 					<Route exact path="/privacy-policy" component={PrivacyPolicy} />

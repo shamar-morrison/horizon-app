@@ -5,7 +5,7 @@ const Footer = () => {
 		<footer className="footer" id="footer">
 			<div className="logo__footer">
 				<img src={logoFooter} alt="Logo" />
-				<p className="copyright">© 2021 Horizon</p>
+				<p className="copyright">© 2021 horizonmovies.xyz</p>
 			</div>
 			<ul className="footer__links">
 				<li className="footer__links--item">

@@ -8,13 +8,16 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { convertRating, getMovieRuntime, getReleaseYear } from '../logic/helpers';
 import Runtime from '../components/Runtime';
 import MovieCardLarge from '../components/MovieCardLarge';
+import { movieDetailsPath } from '../logic/urlPaths';
 
 const Movie_TVList = ({ match }) => {
 	const category = match.params.category;
 	const [data, setData] = useState([]);
 	const [isLoading, setLoading] = useState(false);
+	const [isNextPageLoading, setIsNextPageLoading] = useState(false);
+	const [endOfResults, setEndOfResults] = useState(false);
 	const [noResultsFound, setNoResultsFound] = useState(false);
-	const [movieCardLarge, setMovieCardLarge] = useState('');
+	const [page, setPage] = useState(1);
 
 	const [filters, setFilters] = useState({
 		genre: '',
@@ -23,6 +26,11 @@ const Movie_TVList = ({ match }) => {
 		date: '',
 		language: '',
 	});
+
+	const clearErrorMsgs = () => {
+		setEndOfResults(false);
+		setNoResultsFound(false);
+	};
 
 	const fetchDefaultData = async () => {
 		try {
@@ -45,22 +53,60 @@ const Movie_TVList = ({ match }) => {
 		try {
 			setData([]);
 			setLoading(true);
-			setNoResultsFound(false);
+			clearErrorMsgs();
 
 			const { status, data } = await tmdb.get(
-				`/discover/movie?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}&year=${filters.date}&page=1`
+				`/discover/movie?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}&year=${filters.date}&page=${page}`
 			);
 
 			if (status !== 200 || !data.results.length) {
 				setNoResultsFound(true);
-				setLoading(false);
 				throw Error('Error fetch data');
 			}
 
 			setData(data.results);
-			setLoading(false);
 		} catch (e) {
-			console.error(e, 'FETCH SEARCH DATA');
+			// console.error(e, 'FETCH SEARCH DATA');
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const loadMore = () => {
+		setPage(prev => prev + 1);
+	};
+
+	const loadNextPage = async () => {
+		try {
+			let status, data;
+			setIsNextPageLoading(true);
+			clearErrorMsgs();
+
+			// if no filters have been applied, fetch next page for selected category
+			if (!filters.sort && !filters.query && !filters.genre && !filters.language && !filters.date) {
+				const res = await tmdb.get(`/movie/${category}?api_key=${API_KEY}&page=${page}`);
+				status = res.status;
+				data = res.data;
+			}
+			// if filters have been applied, apply filters and fetch next page of results
+			else {
+				const res = await tmdb.get(
+					`/discover/movie?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}&year=${filters.date}&page=${page}`
+				);
+				status = res.status;
+				data = res.data;
+			}
+
+			if (status !== 200 || !data.results.length) {
+				setEndOfResults(true); // error received or end of results reached
+				throw Error('Error fetch data');
+			}
+
+			setData(prev => [...prev, ...data.results]);
+		} catch (e) {
+			console.error(e);
+		} finally {
+			setIsNextPageLoading(false);
 		}
 	};
 
@@ -86,7 +132,12 @@ const Movie_TVList = ({ match }) => {
 	};
 
 	useEffect(() => {
-		let isMounted = true;
+		loadNextPage();
+		// console.log('load next page triggered');
+	}, [page]);
+
+	useEffect(() => {
+		setPage(1); // set initial page to first
 		fetchDefaultData();
 	}, []);
 
@@ -102,16 +153,7 @@ const Movie_TVList = ({ match }) => {
 						}}
 					>
 						<h2>{`${getTitle()} Movies` || 'Search Term'}</h2>
-						<div className="search__grid--search-bar">
-							{/* <input
-								required
-								type="text"
-								className="search__grid--search-input"
-								id="search-input"
-								value={filters.query}
-								onChange={({ target }) => setFilters(prev => ({ ...prev, query: target.value }))}
-							/> */}
-						</div>
+
 						<ul className="search__grid--filter">
 							<li className="search__grid--filter-item">
 								<h3 className="filter-title">Sort Results By:</h3>
@@ -126,8 +168,8 @@ const Movie_TVList = ({ match }) => {
 									<option value="&sort_by=popularity.desc">Most Popular</option>
 									<option value="&sort_by=vote_average.asc">Lowest Rated</option>
 									<option value="&sort_by=vote_average.asc">Highest Rated</option>
-									<option value="&sort_by=release_date.desc">Most Recent</option>
-									<option value="&sort_by=release_date.asc">Least Recent</option>
+									<option value="&sort_by=primary_release_date.desc">Most Recent</option>
+									<option value="&sort_by=primary_release_date.asc">Least Recent</option>
 								</select>
 							</li>
 							<li className="search__grid--filter-item">
@@ -138,6 +180,7 @@ const Movie_TVList = ({ match }) => {
 										setFilters(prev => ({ ...prev, genre: getSelectedValue(target) }));
 									}}
 								>
+									<option value=""> </option>
 									<option value={`&${genreList.actionGenre}`}>Action</option>
 									<option value={`&${genreList.adventureGenre}`}>Adventure</option>
 									<option value={`&${genreList.animationGenre}`}>Animation</option>
@@ -160,7 +203,7 @@ const Movie_TVList = ({ match }) => {
 							<li className="search__grid--filter-item">
 								<h3 className="filter-title">
 									Language:{' '}
-									<i class="fas fa-question-circle" tooltip="filter results based on their original language"></i>
+									<i class="fas fa-question-circle" lang-tooltip="filter results based on their original language"></i>
 								</h3>
 								<select
 									id="language"
@@ -192,24 +235,27 @@ const Movie_TVList = ({ match }) => {
 								/>
 							</li>
 						</ul>
-						<button className="search-btn" id="search-btn" onClick={fetchSearchData}>
+						<button
+							className={isNextPageLoading || isLoading ? 'no-pointer-events search-btn' : 'search-btn'}
+							id="search-btn"
+							onClick={() => {
+								window.scrollTo(0, 0);
+								fetchSearchData();
+							}}
+						>
 							Search
 						</button>
 					</form>
 					{isLoading ? (
-						<div className="loading">
+						<div style={{ margin: '0 auto', justifySelf: 'center', alignSelf: 'center' }}>
 							<LoadingSpinner />
 						</div>
 					) : (
 						data.length > 0 && (
 							<ul className="card__grid--list">
 								{data.map(movie => (
-									<Link
-										to={{
-											pathname: `/details/${movie.id}`,
-										}}
-									>
-										<li className="card__grid--list-item" key={movie.id}>
+									<Link to={{ pathname: `${movieDetailsPath}${movie.id}` }}>
+										<li className="card__grid--list-item" key={movie.id} onClick={() => window.scrollTo(0, 0)}>
 											<>
 												<div className="movie__card">
 													<div className="movie__card--img">
@@ -243,11 +289,30 @@ const Movie_TVList = ({ match }) => {
 										</li>
 									</Link>
 								))}
+								<li style={{ margin: '0 auto', justifySelf: 'center' }}>
+									<button
+										className="btn btn-lg"
+										style={{
+											backgroundColor: 'var(--clr-primary-800)',
+											fontSize: '1rem',
+										}}
+										onClick={loadMore}
+									>
+										{isNextPageLoading ? (
+											<>
+												Loading <i class="fas fa-spinner fa-pulse" style={{ marginLeft: '2px' }}></i>
+											</>
+										) : (
+											<i class="fas fa-plus-circle"></i>
+										)}
+									</button>
+									{endOfResults && <h3 style={{ marginTop: '20px' }}>No more results found.</h3>}
+								</li>
 							</ul>
 						)
 					)}
 					{noResultsFound && (
-						<div style={{ display: 'grid', placeItems: 'center' }}>
+						<div style={{ alignSelf: 'center', flexBasis: '100%' }}>
 							<div
 								style={{
 									display: 'flex',
@@ -255,7 +320,6 @@ const Movie_TVList = ({ match }) => {
 									alignItems: 'center',
 									fontSize: '2rem',
 									margin: '0 auto',
-									marginBottom: '50px',
 									flexDirection: 'column',
 								}}
 							>

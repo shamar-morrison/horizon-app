@@ -170,9 +170,9 @@ const requests = {
 	fetchNowPlaying: `/movie/now_playing?api_key=${API_KEY}&language=en-US`,
 };
 
-const getLanguages = async () => {
-	const res = await tmdb.get(requests.fetchLanguages);
-	console.log(res, 'languages');
-};
-getLanguages();
+// const getTVDetails = async () => {
+// 	const res = await tmdb.get(`/tv/84958/season/1?api_key=${API_KEY}`);
+// 	console.log(res, 'languages');
+// };
+// getTVDetails();
 export default requests;

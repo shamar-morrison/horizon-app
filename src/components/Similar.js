@@ -1,6 +1,7 @@
 import { BASE_IMG_URL } from '../logic/requests';
 import noImageFound from '../img/no-img-found.png';
 import { Link } from 'react-router-dom';
+import { movieDetailsPath } from '../logic/urlPaths';
 
 const Similar = ({ similarMovies, onClick }) => {
 	const scrollToTop = () => {
@@ -8,13 +9,13 @@ const Similar = ({ similarMovies, onClick }) => {
 	};
 	return (
 		<>
-			{similarMovies.length <= 0 ? (
+			{!similarMovies.length ? (
 				'No similar movies found.'
 			) : (
 				<ul className="similar-movies--list">
 					{similarMovies.slice(0, 6).map(movie => {
 						return (
-							<Link to={`/details/${movie.id}`} key={movie.id}>
+							<Link to={`${movieDetailsPath}${movie.id}`} key={movie.id}>
 								<li
 									className="similar-movies--item"
 									onClick={() => {

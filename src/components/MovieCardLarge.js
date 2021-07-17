@@ -4,6 +4,7 @@ import noTrailerImg from '../img/no-trailer.png';
 import FsLightbox from 'fslightbox-react';
 import { fetchMovieTrailer } from '../logic/helpers';
 import { Link, useLocation, useHistory } from 'react-router-dom';
+import { movieDetailsPath } from '../logic/urlPaths';
 
 const MovieCardLarge = ({ movie, onClose }) => {
 	const [trailerUrl, setTrailerUrl] = useState([]);
@@ -44,7 +45,7 @@ const MovieCardLarge = ({ movie, onClose }) => {
 						</li>
 						<Link
 							to={{
-								pathname: `/details/${movie.id}`,
+								pathname: `${movieDetailsPath}${movie.id}`,
 								state: {
 									movieDetails: movie,
 								},

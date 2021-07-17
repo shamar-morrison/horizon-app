@@ -40,6 +40,9 @@
 
 		@include xl-screens {
 			width: 100%;
+		}
+
+		@include xs-screens {
 			font-size: 1.7rem;
 		}
 	}
@@ -57,6 +60,8 @@
 	}
 
 	.banner__body--desc {
+		width: 50%;
+
 		@include xl-screens {
 			width: 100%;
 

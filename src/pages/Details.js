@@ -156,9 +156,6 @@ const MovieDetails = ({ match }) => {
 									<button className="watch-trailer btn" onClick={() => setTrailerToggler(!trailerToggler)}>
 										<i className="fas fa-play"></i> watch trailer
 									</button>
-									{/* <Link to={`/watch/${movie.id}`} className="watch-movie btn" key={Math.random() * 1000}>
-										<i class="fas fa-video"></i> Watch Movie
-									</Link> */}
 
 									<button
 										className={torrents.length > 0 ? 'download-torrent btn' : 'no-download-torrent btn'}
@@ -169,7 +166,16 @@ const MovieDetails = ({ match }) => {
 										}}
 									>
 										<i class="fas fa-download"></i>
-										{!torrents ? 'Checking...' : torrents.length > 0 ? 'Download' : 'No Download Available'}
+										{!torrents ? (
+											<>
+												Checking
+												<i class="fas fa-spinner fa-pulse" style={{ marginLeft: '6px' }}></i>
+											</>
+										) : torrents.length > 0 ? (
+											'Download'
+										) : (
+											'No Download Available'
+										)}
 									</button>
 								</div>
 								<div className="movie__details--body">
@@ -204,9 +210,9 @@ const MovieDetails = ({ match }) => {
 
 									{movieCast && (
 										<ul className="crew__list--short">
-											{movieCast.crew.slice(0, 3).map(val => {
+											{movieCast.crew.slice(0, 3).map((val, i) => {
 												return (
-													<li className="crew__list--member">
+													<li className="crew__list--member" key={i}>
 														<h3 className="member-role">{val.job}</h3>
 														<p className="member-name">{val.name || val.original_name}</p>
 													</li>

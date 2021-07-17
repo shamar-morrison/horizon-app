@@ -6,6 +6,7 @@ import { fetchMovieTrailer, convertRating } from '../logic/helpers';
 import LoadingSpinner from './LoadingSpinner';
 import FsLightbox from 'fslightbox-react';
 import noTrailerImg from '../img/no-trailer.png';
+import { movieDetailsPath } from '../logic/urlPaths';
 
 const Banner = ({ ref }) => {
 	const [banner, setBanner] = useState({});
@@ -102,7 +103,7 @@ const Banner = ({ ref }) => {
 										</li>
 										<Link
 											to={{
-												pathname: `/details/${banner.id}`,
+												pathname: `${movieDetailsPath}${banner.id}`,
 												state: {
 													movieDetails: banner,
 												},
