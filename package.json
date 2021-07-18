@@ -12,7 +12,9 @@
 		"movie-trailer": "^2.1.0",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
+		"react-router": "^5.2.0",
 		"react-router-dom": "^5.2.0",
+		"react-router-sitemap": "^1.2.0",
 		"react-scripts": "4.0.3",
 		"react-youtube": "^7.13.1",
 		"swiper": "^6.6.2",
@@ -22,6 +24,7 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build && echo '/* /index.html  200' | cat >build/_redirects",
+		"sitemap": "babel-node src/sitemap-builder.js",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},
@@ -45,7 +48,10 @@
 	},
 	"devDependencies": {
 		"@netlify/plugin-sitemap": "^0.8.1",
-		"fslightbox": "^3.2.3",
+		"babel-cli": "^6.26.0",
+		"babel-preset-es2015": "^6.24.1",
+		"babel-preset-react": "^6.24.1",
+		"babel-register": "^6.26.0",
 		"fslightbox-react": "^1.6.2"
 	}
 }
