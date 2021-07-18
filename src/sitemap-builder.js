@@ -29,7 +29,7 @@ async function generateSitemap() {
 			'/details/movie/:id': movieIDs,
 		};
 
-		return new Sitemap(router).applyParams(paramsConfig).build('https://horizonmovies.xyz/').save('/public/sitemap.xml');
+		return new Sitemap(router).applyParams(paramsConfig).build('https://horizonmovies.xyz/').save('/public/sitemap_index.xml');
 	} catch (e) {
 		console.error(e);
 	}

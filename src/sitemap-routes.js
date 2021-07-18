@@ -8,7 +8,6 @@ export default (
 		<Route exact path="/terms" />
 		<Route exact path="/contact" />
 		<Route exact path="/privacy-policy" />
-		<Route exact path="/sitemap.xml" />
-		<Route />
+		<Route exact path="/sitemap_index.xml" />
 	</Switch>
 );

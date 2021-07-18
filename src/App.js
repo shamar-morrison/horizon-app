@@ -46,7 +46,7 @@ const App = () => {
 					<Route exact path="/terms" component={UserAgreement} />
 					<Route exact path="/contact" component={ContactForm} />
 					<Route exact path="/privacy-policy" component={PrivacyPolicy} />
-					<Route exact path="/sitemap.xml" />
+					<Route exact path="/sitemap_index.xml" />
 					<Route path="*" component={PageNotFound} />
 				</Switch>
 			</Router>
