@@ -15,6 +15,9 @@ const Footer = () => {
 					<a href="/privacy-policy">Privacy Policy</a>
 				</li>
 				<li className="footer__links--item">
+					<a href="/sitemap.xml">Sitemap</a>
+				</li>
+				<li className="footer__links--item">
 					<a href="/contact">Contact</a>
 				</li>
 			</ul>

@@ -1,4 +1,5 @@
 import './css/App.min.css';
+import { useEffect } from 'react';
 import MovieRow from './components/MovieRow';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
@@ -45,6 +46,7 @@ const App = () => {
 					<Route exact path="/terms" component={UserAgreement} />
 					<Route exact path="/contact" component={ContactForm} />
 					<Route exact path="/privacy-policy" component={PrivacyPolicy} />
+					<Route exact path="/sitemap.xml" />
 					<Route path="*" component={PageNotFound} />
 				</Switch>
 			</Router>
