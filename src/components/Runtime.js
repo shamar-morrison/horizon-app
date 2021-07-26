@@ -1,14 +1,14 @@
-import { getMovieRuntime } from '../logic/helpers';
+import { getMediaRuntime } from '../logic/helpers';
 import { useState, useEffect } from 'react';
 
-const Runtime = ({ movie }) => {
+const Runtime = ({ media, mediaType }) => {
 	const [runtime, setRuntime] = useState(null);
 
 	useEffect(() => {
-		getMovieRuntime(movie, setRuntime);
-	}, [movie]);
+		getMediaRuntime(media, mediaType, setRuntime);
+	}, [media]);
 
-	const calcMovieRuntime = runtime => {
+	const calcMediaRuntime = runtime => {
 		if (!runtime) return 'N/A';
 		// if runtime is an hour or more
 		else if (runtime > 60) {
@@ -16,12 +16,12 @@ const Runtime = ({ movie }) => {
 			const min = runtime % 60;
 			return `${hours}hr ${min}m`;
 			// if runtime is less than an hour AND is not 0 mins or less
-		} else if (runtime < 60 && runtime !== 0) {
+		} else if (runtime <= 60 && runtime !== 0) {
 			return `${runtime} m`;
 		}
 	};
 
-	return <>{calcMovieRuntime(runtime)}</>;
+	return <>{calcMediaRuntime(runtime)}</>;
 };
 
 export default Runtime;

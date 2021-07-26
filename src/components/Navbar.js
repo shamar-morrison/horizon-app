@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import logo from '../img/logo.png';
 import SearchBar from './SearchBar';
 import { Link, NavLink } from 'react-router-dom';
-import requests from '../logic/requests';
+import movieRequests from '../logic/requests';
 
 const Navbar = () => {
 	// const [searchVal, setSearchVal] = useState('');

@@ -31,3 +31,69 @@
 	font-size: 1rem;
 	color: var(--clr-primary-500);
 }
+
+// SEASONS & EPISODES CONTAINER
+.media__seasons {
+	background-color: var(--clr-primary-1000);
+	padding: 30px;
+	margin-top: 30px;
+	font-size: 0.875rem;
+
+	&--episodes {
+		display: flex;
+		flex-wrap: wrap;
+		margin-top: 35px;
+		gap: 10px;
+
+		.episode-name {
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.play-icon {
+			font-size: 0.8rem;
+			margin-right: 10px;
+			color: var(--clr-primary-500);
+		}
+	}
+}
+
+.seasons-list {
+	width: 150px;
+}
+
+.seasons-list,
+.episode-item {
+	padding: 12px 20px;
+}
+
+.episode-item {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	width: 300px;
+	background-color: var(--clr-primary-800);
+
+	border-radius: $border-radius-sm;
+	cursor: pointer;
+	white-space: nowrap;
+	font-size: 0.9rem;
+
+	@include xs-screens {
+		width: 250px;
+	}
+
+	&:hover,
+	&:focus {
+		background-color: var(--clr-primary-600);
+	}
+
+	&.active {
+		background-color: var(--clr-red);
+		color: #fff;
+
+		.play-icon {
+			color: #fff;
+		}
+	}
+}

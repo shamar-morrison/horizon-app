@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import tmdb, { yts } from '../logic/axios';
 import Cast from '../components/Cast';
 import movieTrailer from 'movie-trailer';
-import { convertRating, fetchMovieTrailer, getReleaseYear } from '../logic/helpers';
+import { convertRating, fetchMediaTrailer, getReleaseYear, MEDIA_TYPE_MOVIE } from '../logic/helpers';
 import Similar from '../components/Similar';
 import FsLightbox from 'fslightbox-react';
 import Photos from '../components/Photos';
@@ -18,19 +18,19 @@ import Runtime from '../components/Runtime';
 import Genres from '../components/Genres';
 import { useLocation } from 'react-router-dom';
 import { fetchTorrents } from '../logic/helpers';
-import Watch from '../pages/Watch';
 import Player from '../components/Player';
 
 SwiperCore.use([Navigation, Pagination]);
 
-const MovieDetails = ({ match }) => {
-	const movieID = match.params.id;
+const MediaDetails = ({ match }) => {
+	const mediaID = match.params.id;
+	const mediaType = match.params.type;
 
-	const [movie, setMovie] = useState(''); // movie object
+	const [media, setMedia] = useState(''); // movie object
 
-	const [movieCast, setMovieCast] = useState(''); // movie cast
+	const [mediaCast, setMediaCast] = useState(''); // movie cast
 
-	const [movieImages, setMovieImages] = useState(''); // array of movie posters
+	const [mediaImages, setMediaImages] = useState(''); // array of movie posters
 
 	const [photosKey, setPhotosKey] = useState(0);
 
@@ -54,43 +54,49 @@ const MovieDetails = ({ match }) => {
 
 	const [isModalVisible, setIsModalVisible] = useState(false); // download torrent modal
 
-	const fetchMovieData = async id => {
+	const fetchMediaData = async id => {
 		try {
 			setLoading(true);
-			const { status, data, statusText } = await tmdb.get(`/movie/${id}?api_key=${API_KEY}&language=en-US`);
+			const { status, data, statusText } = await tmdb.get(`/${mediaType}/${id}?api_key=${API_KEY}&language=en-US`);
 			if (status !== 200) throw Error(statusText);
-			setMovie(data);
-			fetchTorrents(data.imdb_id, setTorrents); // fetch movie torrents using IMDB ID
+
+			setMedia(data);
+			console.log('media data', data);
+
+			if (mediaType === MEDIA_TYPE_MOVIE) {
+				fetchTorrents(data.imdb_id, setTorrents); // fetch movie torrents using IMDB ID
+			}
+
 			setLoading();
 		} catch (e) {
 			// console.error('FETCH MOVIE ERROR', e);
-			setTimeout(() => fetchMovieData(movieID), 2000);
+			setTimeout(() => fetchMediaData(mediaID), 2000);
 		}
 	};
 
-	const fetchMovieCastData = async () => {
+	const fetchMediaCastData = async () => {
 		try {
-			const { status, data, statusText } = await tmdb.get(`/movie/${movie.id}/credits?api_key=${API_KEY}&language=en-US`);
+			const { status, data, statusText } = await tmdb.get(`/${mediaType}/${media.id}/credits?api_key=${API_KEY}&language=en-US`);
 			if (status !== 200) throw Error(statusText);
-			setMovieCast(data);
+			setMediaCast(data);
 		} catch (e) {
 			// console.error('movie cast error', e);
 		}
 	};
 
-	const fetchMovieImages = async () => {
+	const fetchMediaImages = async () => {
 		try {
-			const response = await tmdb.get(`/movie/${movie.id}/images?api_key=${API_KEY}&include_image_language=en&language=en-US`);
+			const response = await tmdb.get(`/${mediaType}/${media.id}/images?api_key=${API_KEY}&include_image_language=en&language=en-US`);
 			if (response.status !== 200 || !response) throw Error(response.statusText);
-			setMovieImages(response.data);
+			setMediaImages(response.data);
 		} catch (e) {
 			// console.error(e);
 		}
 	};
 
-	const fetchSimilarMovies = async () => {
+	const fetchSimilarMedia = async () => {
 		try {
-			const response = await tmdb.get(`/movie/${movie.id}/similar?api_key=${API_KEY}&language=en-US&page=1`);
+			const response = await tmdb.get(`/${mediaType}/${media.id}/similar?api_key=${API_KEY}&language=en-US&page=1`);
 			if (response.status !== 200 || !response) throw Error(response.statusText);
 			setSimilarMovies(response.data.results);
 		} catch (e) {
@@ -103,7 +109,7 @@ const MovieDetails = ({ match }) => {
 	};
 
 	const handleSimilar = mov => {
-		fetchMovieData(mov.id);
+		fetchMediaData(mov.id);
 		setTriggerUpdate(!triggerUpdate); // trigger component refresh
 		setPhotosKey(prev => prev + 1);
 		setTrailerKey(prev => prev + 1);
@@ -114,21 +120,36 @@ const MovieDetails = ({ match }) => {
 		setPhotosToggler(!photosToggler);
 	};
 
+	const renderTorrentBtn = () => {
+		if (!torrents) {
+			return (
+				<>
+					Checking
+					<i class="fas fa-spinner fa-pulse" style={{ marginLeft: '6px' }}></i>
+				</>
+			);
+		} else if (torrents.length > 0) {
+			return 'Download';
+		} else {
+			return 'No Download Available';
+		}
+	};
+
 	useEffect(() => {
-		fetchMovieData(movieID);
+		fetchMediaData(mediaID);
 		setPhotoIndx();
 		setTorrents('');
 	}, [triggerUpdate]);
 
 	useEffect(() => {
-		fetchMovieTrailer(movie, setTrailer);
-		fetchMovieCastData();
-		fetchMovieImages();
-		fetchSimilarMovies();
-	}, [movie]);
+		fetchMediaTrailer(media, setTrailer);
+		fetchMediaCastData();
+		fetchMediaImages();
+		fetchSimilarMedia();
+	}, [media]);
 
 	const detailsBG = {
-		backgroundImage: `url(${BANNER_IMG_URL}${movie.backdrop_path})`,
+		backgroundImage: `url(${BANNER_IMG_URL}${media.backdrop_path})`,
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover',
 		backgroundPosition: 'center center',
@@ -146,71 +167,65 @@ const MovieDetails = ({ match }) => {
 				<section className="movie__details" style={detailsBG}>
 					<div className="blur"></div>
 					<div className="container">
-						{movie && (
+						{media && (
 							<div className="movie__details--main">
 								<div className="movie__details--img">
 									<img
-										src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
-										alt={movie.title || movie.name || movie.original_title}
+										src={media.poster_path ? `${BASE_IMG_URL}${media.poster_path}` : noImageFound}
+										alt={media.title || media.name || media.original_title}
 									/>
-									<button className="watch-trailer btn" onClick={() => setTrailerToggler(!trailerToggler)}>
-										<i className="fas fa-play"></i> watch trailer
-									</button>
+									{mediaType === MEDIA_TYPE_MOVIE && (
+										<button className="watch-trailer btn" onClick={() => setTrailerToggler(!trailerToggler)}>
+											<i className="fas fa-play"></i> watch trailer
+										</button>
+									)}
 
-									<button
-										className={torrents.length > 0 ? 'download-torrent btn' : 'no-download-torrent btn'}
-										onClick={() => {
-											if (torrents.length > 0) {
-												setIsModalVisible(!isModalVisible);
-											}
-										}}
-									>
-										<i class="fas fa-download"></i>
-										{!torrents ? (
-											<>
-												Checking
-												<i class="fas fa-spinner fa-pulse" style={{ marginLeft: '6px' }}></i>
-											</>
-										) : torrents.length > 0 ? (
-											'Download'
-										) : (
-											'No Download Available'
-										)}
-									</button>
+									{mediaType === MEDIA_TYPE_MOVIE && (
+										<button
+											className={torrents.length > 0 ? 'download-torrent btn' : 'no-download-torrent btn'}
+											onClick={() => {
+												if (torrents.length > 0) {
+													setIsModalVisible(!isModalVisible);
+												}
+											}}
+										>
+											<i class="fas fa-download"></i> {renderTorrentBtn()}
+										</button>
+									)}
 								</div>
 								<div className="movie__details--body">
 									<h1 className="movie__details--title">
-										{movie.title || movie.name || movie.original_title}
-										<span className="movie__details--lang" tooltip={movie.spoken_languages[0]?.english_name || 'N/A'}>
-											{movie.original_language}
+										{media.title || media.name || media.original_title}
+										<span className="movie__details--lang" tooltip={media.spoken_languages[0]?.english_name || 'N/A'}>
+											{media.original_language}
 										</span>
 									</h1>
 
 									<ul className="movie__details--genre-date">
-										<li>{getReleaseYear(movie) || 'N/A'}</li>
+										<li>{getReleaseYear(media) || 'N/A'}</li>
 										<li>
-											<Genres genres={movie.genres} />
+											<Genres genres={media.genres} />
 										</li>
 										<li>
-											<Runtime movie={movie} />
+											<Runtime media={media} mediaType={mediaType} />
 										</li>
 									</ul>
 
-									<p className="tagline">{movie.tagline}</p>
+									<p className="tagline">{media.tagline}</p>
 									<div className="movie__details--overview">
 										<h2>Overview</h2>
-										<p className="overview">{movie.overview || 'No summary available.'}</p>
+										<p className="overview">{media.overview || 'No summary available.'}</p>
 									</div>
 									<div className="movie__details--btns">
 										<div className="popularity">
-											<p className="popularity--rating">{convertRating(movie)}</p>
+											<p className="popularity--rating">{convertRating(media)}</p>
 											<p className="popularity--text">User Rating</p>
 										</div>
 									</div>
 
-									{movieCast && (
+									{mediaCast && (
 										<ul className="crew__list--short">
-											{movieCast.crew.slice(0, 3).map((val, i) => {
+											{mediaCast.crew.slice(0, 3).map((val, i) => {
 												return (
 													<li className="crew__list--member" key={i}>
 														<h3 className="member-role">{val.job}</h3>
@@ -236,7 +251,7 @@ const MovieDetails = ({ match }) => {
 			/>
 
 			{/* TORRENT DOWNLOAD MODAL */}
-			{isModalVisible && <Downloads torrents={torrents} toggler={setModalVisibility} movie={movie} />}
+			{isModalVisible && <Downloads torrents={torrents} toggler={setModalVisibility} movie={media} />}
 
 			<section className="container">
 				{isLoading ? (
@@ -244,7 +259,7 @@ const MovieDetails = ({ match }) => {
 						<LoadingSpinner />
 					</div>
 				) : (
-					<Player movie={movie} />
+					<Player media={media} type={mediaType} />
 				)}
 
 				<div className="movie__details--bottom">
@@ -254,8 +269,8 @@ const MovieDetails = ({ match }) => {
 							<div className="loading-spinner--similar">
 								<LoadingSpinner />
 							</div>
-						) : movieCast && movieCast.cast.length > 0 ? (
-							<Cast movieCast={movieCast} />
+						) : mediaCast && mediaCast.cast.length > 0 ? (
+							<Cast movieCast={mediaCast} />
 						) : (
 							<p>No cast found.</p>
 						)}
@@ -267,7 +282,7 @@ const MovieDetails = ({ match }) => {
 								<LoadingSpinner />
 							</div>
 						) : (
-							similarMovies && <Similar similarMovies={similarMovies} onClick={handleSimilar} />
+							similarMovies && <Similar similarMedia={similarMovies} onClick={handleSimilar} type={mediaType} />
 						)}
 					</div>
 				</div>
@@ -275,7 +290,7 @@ const MovieDetails = ({ match }) => {
 					<div className="movie__details--bottom-gallery">
 						<div className="photos-title--wrapper">
 							<h2 className="section__title">
-								Posters {movieImages && <span className="posters-amount">({movieImages.posters.length})</span>}
+								Posters {mediaImages && <span className="posters-amount">({mediaImages.posters.length})</span>}
 							</h2>
 							<div className="swiper-nav">
 								<i className="fas fa-arrow-left swiper-nav-prev"></i>
@@ -288,7 +303,7 @@ const MovieDetails = ({ match }) => {
 							</div>
 						) : (
 							<Photos
-								movieImages={movieImages}
+								movieImages={mediaImages}
 								photoIndx={photoIndx}
 								photosKey={photosKey}
 								photosToggler={photosToggler}
@@ -302,4 +317,4 @@ const MovieDetails = ({ match }) => {
 	);
 };
 
-export default MovieDetails;
+export default MediaDetails;

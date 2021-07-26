@@ -1,33 +1,34 @@
 import { BASE_IMG_URL } from '../logic/requests';
 import noImageFound from '../img/no-img-found.png';
 import { Link } from 'react-router-dom';
-import { movieDetailsPath } from '../logic/urlPaths';
+import { movieDetailsPath, tvDetailsPath } from '../logic/urlPaths';
+import { MEDIA_TYPE_MOVIE } from '../logic/helpers';
 
-const Similar = ({ similarMovies, onClick }) => {
+const Similar = ({ similarMedia, onClick, type }) => {
 	const scrollToTop = () => {
 		window.scrollTo(0, 0);
 	};
 	return (
 		<>
-			{!similarMovies.length ? (
+			{!similarMedia.length ? (
 				'No similar movies found.'
 			) : (
 				<ul className="similar-movies--list">
-					{similarMovies.slice(0, 6).map(movie => {
+					{similarMedia.slice(0, 6).map(media => {
 						return (
-							<Link to={`${movieDetailsPath}${movie.id}`} key={movie.id}>
+							<Link to={`${type === MEDIA_TYPE_MOVIE ? movieDetailsPath : tvDetailsPath}${media.id}`} key={media.id}>
 								<li
 									className="similar-movies--item"
 									onClick={() => {
-										onClick(movie);
+										onClick(media);
 										scrollToTop();
 									}}
-									data-name={movie.name || movie.title || movie.original_title}
+									data-name={media.name || media.title || media.original_title || media.original_name}
 								>
 									<img
 										loading="lazy"
-										src={movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound}
-										alt={movie.name || movie.title || movie.original_title}
+										src={media.poster_path ? `${BASE_IMG_URL}${media.poster_path}` : noImageFound}
+										alt={media.name || media.title || media.original_title || media.original_name}
 									/>
 								</li>
 							</Link>

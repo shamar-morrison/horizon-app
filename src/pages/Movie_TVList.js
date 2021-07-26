@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import tmdb from '../logic/axios';
-import requests, { BASE_IMG_URL, genreList } from '../logic/requests';
+import movieRequests, { BASE_IMG_URL, genreList } from '../logic/requests';
 import noImageFound from '../img/no-img-found.png';
 import { API_KEY } from '../logic/requests';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { convertRating, getMovieRuntime, getReleaseYear } from '../logic/helpers';
+import { convertRating, getMediaRuntime, getReleaseYear, getSelectedValue } from '../logic/helpers';
 import Runtime from '../components/Runtime';
-import MovieCardLarge from '../components/MovieCardLarge';
+import MediaCardLarge from '../components/MediaCardLarge';
 import { movieDetailsPath } from '../logic/urlPaths';
 
 const Movie_TVList = ({ match }) => {
@@ -108,14 +108,6 @@ const Movie_TVList = ({ match }) => {
 		} finally {
 			setIsNextPageLoading(false);
 		}
-	};
-
-	/**
-	 * @param {HTMLElement} select HTML 'select' element
-	 * @returns the 'value' attribute of the associated 'option' HTML element
-	 */
-	const getSelectedValue = select => {
-		return select.options[select.options.selectedIndex].getAttribute('value');
 	};
 
 	const getTitle = () => {

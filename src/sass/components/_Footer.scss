@@ -35,6 +35,7 @@
 
 .footer__links {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 25px;
 	justify-content: center;
 	align-items: center;

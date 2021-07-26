@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { BANNER_IMG_URL } from '../logic/requests';
 import noTrailerImg from '../img/no-trailer.png';
 import FsLightbox from 'fslightbox-react';
-import { fetchMovieTrailer } from '../logic/helpers';
+import { fetchMediaTrailer, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from '../logic/helpers';
 import { Link, useLocation, useHistory } from 'react-router-dom';
-import { movieDetailsPath } from '../logic/urlPaths';
+import { movieDetailsPath, tvDetailsPath } from '../logic/urlPaths';
 
-const MovieCardLarge = ({ movie, onClose }) => {
+const MediaCardLarge = ({ media, onClose, type }) => {
 	const [trailerUrl, setTrailerUrl] = useState([]);
 	const [trailerToggler, setTrailerToggler] = useState(false);
 	const [trailerKey, setTrailerKey] = useState(0);
@@ -14,12 +14,12 @@ const MovieCardLarge = ({ movie, onClose }) => {
 	// remove trailer url and error msg when switching cards
 	useEffect(() => {
 		setTrailerUrl([]);
-		fetchMovieTrailer(movie, setTrailerUrl);
+		fetchMediaTrailer(media, setTrailerUrl);
 		setTrailerKey(prev => prev + 1);
-	}, [movie]);
+	}, [media]);
 
 	const cardStyle = {
-		backgroundImage: `url(${BANNER_IMG_URL}${movie?.backdrop_path})`,
+		backgroundImage: `url(${BANNER_IMG_URL}${media?.backdrop_path})`,
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover',
 		backgroundPosition: 'center center',
@@ -32,25 +32,20 @@ const MovieCardLarge = ({ movie, onClose }) => {
 					<span className="close-card" onClick={onClose}>
 						<i class="fas fa-times"></i>
 					</span>
-					<h1 className="large__card--title">{movie.name || movie.title || movie.original_title}</h1>
-					<p className="banner__body--desc">{movie.overview || 'No summary available.'}</p>
+					<h1 className="large__card--title">{media.name || media.title || media.original_title || media.original_name}</h1>
+					<p className="banner__body--desc">{media.overview || 'No summary available.'}</p>
 					<ul className="banner__body--btns">
-						<li
-							className="btn btn-lg watch-btn"
-							onClick={() => {
-								setTrailerToggler(!trailerToggler);
-							}}
-						>
-							<i className="fas fa-play"></i>Trailer
-						</li>
-						<Link
-							to={{
-								pathname: `${movieDetailsPath}${movie.id}`,
-								state: {
-									movieDetails: movie,
-								},
-							}}
-						>
+						{type === MEDIA_TYPE_TV || (
+							<li
+								className="btn btn-lg watch-btn"
+								onClick={() => {
+									setTrailerToggler(!trailerToggler);
+								}}
+							>
+								<i className="fas fa-play"></i>Trailer
+							</li>
+						)}
+						<Link to={{ pathname: `${type === MEDIA_TYPE_MOVIE ? movieDetailsPath : tvDetailsPath}${media.id}` }}>
 							<li className="btn btn-lg add-list-btn" onClick={() => window.scrollTo(0, 0)}>
 								<i className="fas fa-plus"></i>see more
 							</li>
@@ -65,4 +60,4 @@ const MovieCardLarge = ({ movie, onClose }) => {
 	);
 };
 
-export default MovieCardLarge;
+export default MediaCardLarge;

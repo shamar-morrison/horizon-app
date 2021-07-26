@@ -7,10 +7,10 @@
 
 import { useEffect, useState, useRef } from 'react';
 import tmdb from '../logic/axios';
-import MovieCard from './MovieCard';
-import MovieCardLarge from './MovieCardLarge';
+import MediaCard from './MediaCard';
+import MediaCardLarge from './MediaCardLarge';
 import FilterCategory from './FilterCategory';
-import requests from '../logic/requests';
+import movieRequests from '../logic/requests';
 import LoadingSpinner from './LoadingSpinner';
 import swipeIcon from '../img/swipe.svg';
 
@@ -20,42 +20,44 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // Swiper JS
 SwiperCore.use([Navigation]);
 
-const MovieRow = ({ title, fetchUrl }) => {
-	const [movies, setMovies] = useState([]);
-	const [movieCardLarge, setMovieCardLarge] = useState('');
+const MediaRow = ({ title, fetchUrl, mediaType }) => {
+	const [media, setMedia] = useState([]);
+	const [mediaCardLarge, setMediaCardLarge] = useState('');
 	const [url, setUrl] = useState(fetchUrl);
 
-	// set movies
+	// set media
 	useEffect(() => {
 		let isMounted = true;
-		fetchMoviesData(url).then(data => {
-			if (isMounted) setMovies(data.results);
+		fetchMediaData(url).then(data => {
+			if (isMounted) setMedia(data.results);
+		}).catch(e => {
+			console.error(e);
 		});
-		setMovieCardLarge('');
+		setMediaCardLarge('');
 
 		return () => {
 			isMounted = false;
 		};
 	}, [url]);
 
-	// get movies data
-	const fetchMoviesData = async fetchRequestURL => {
+	// get media data
+	const fetchMediaData = async fetchRequestURL => {
 		try {
 			const { data } = await tmdb.get(fetchRequestURL);
-			if (!data.results.length || !data) throw Error('ERROR FETCHING MOVIE ROW');
+			if (!data.results.length || !data) throw Error('ERROR FETCHING MEDIA ROW');
 			return data;
 		} catch (e) {
 			// console.error('MovieRow.js', e);
-			setTimeout(() => fetchMoviesData(fetchRequestURL), 2000);
+			setTimeout(() => fetchMediaData(fetchRequestURL), 2000);
 		}
 	};
 
-	const handleMovieCardClick = mov => {
-		setMovieCardLarge(mov);
+	const handleMediaCardClick = mov => {
+		setMediaCardLarge(mov);
 	};
 
 	const handleOnClose = () => {
-		setMovieCardLarge('');
+		setMediaCardLarge('');
 	};
 
 	const toggleActiveCategory = (current, target) => {
@@ -71,102 +73,102 @@ const MovieRow = ({ title, fetchUrl }) => {
 		switch (selected.getAttribute('data-category')) {
 			case 'action': {
 				if (target.classList.contains('popular')) {
-					setUrl(requests.fetchMostPopularActionMovies);
+					setUrl(movieRequests.fetchMostPopularActionMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 				if (target.classList.contains('latest')) {
-					setUrl(requests.fetchLatestActionMovies);
+					setUrl(movieRequests.fetchLatestActionMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 				if (target.classList.contains('rating-asc')) {
-					setUrl(requests.fetchHighestRatedActionMovies);
+					setUrl(movieRequests.fetchHighestRatedActionMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 			}
 			case 'comedy': {
 				if (target.classList.contains('popular')) {
-					setUrl(requests.fetchMostPopularComedyMovies);
+					setUrl(movieRequests.fetchMostPopularComedyMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 				if (target.classList.contains('latest')) {
-					setUrl(requests.fetchLatestComedyMovies);
+					setUrl(movieRequests.fetchLatestComedyMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 				if (target.classList.contains('rating-asc')) {
-					setUrl(requests.fetchHighestRatedComedyMovies);
+					setUrl(movieRequests.fetchHighestRatedComedyMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 			}
 			case 'horror': {
 				if (target.classList.contains('popular')) {
-					setUrl(requests.fetchMostPopularHorrorMovies);
+					setUrl(movieRequests.fetchMostPopularHorrorMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 				if (target.classList.contains('latest')) {
-					setUrl(requests.fetchLatestHorrorMovies);
+					setUrl(movieRequests.fetchLatestHorrorMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 				if (target.classList.contains('rating-asc')) {
-					setUrl(requests.fetchHighestRatedHorrorMovies);
+					setUrl(movieRequests.fetchHighestRatedHorrorMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 			}
 			case 'romance': {
 				if (target.classList.contains('popular')) {
-					setUrl(requests.fetchMostPopularRomanceMovies);
+					setUrl(movieRequests.fetchMostPopularRomanceMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 				if (target.classList.contains('latest')) {
-					setUrl(requests.fetchLatestRomanceMovies);
+					setUrl(movieRequests.fetchLatestRomanceMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 				if (target.classList.contains('rating-asc')) {
-					setUrl(requests.fetchHighestRatedRomanceMovies);
+					setUrl(movieRequests.fetchHighestRatedRomanceMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 			}
 			case 'sci-fi': {
 				if (target.classList.contains('popular')) {
-					setUrl(requests.fetchMostPopularSciFiMovies);
+					setUrl(movieRequests.fetchMostPopularSciFiMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 				if (target.classList.contains('latest')) {
-					setUrl(requests.fetchLatestSciFiMovies);
+					setUrl(movieRequests.fetchLatestSciFiMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 				if (target.classList.contains('rating-asc')) {
-					setUrl(requests.fetchHighestRatedSciFiMovies);
+					setUrl(movieRequests.fetchHighestRatedSciFiMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 			}
 			case 'mystery': {
 				if (target.classList.contains('popular')) {
-					setUrl(requests.fetchMostPopularMysteryMovies);
+					setUrl(movieRequests.fetchMostPopularMysteryMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 				if (target.classList.contains('latest')) {
-					setUrl(requests.fetchLatestMysteryMovies);
+					setUrl(movieRequests.fetchLatestMysteryMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
 				if (target.classList.contains('rating-asc')) {
-					setUrl(requests.fetchHighestRatedMysteryMovies);
+					setUrl(movieRequests.fetchHighestRatedMysteryMovies);
 					toggleActiveCategory(selected, target);
 					break;
 				}
@@ -223,12 +225,12 @@ const MovieRow = ({ title, fetchUrl }) => {
 						<i className="fas fa-arrow-right"></i>
 					</li>
 				</ul>
-				{movies.length ? (
+				{media.length ? (
 					<div className="section__movies">
-						{movies.map(mov => {
+						{media.map(mov => {
 							return (
-								<SwiperSlide onClick={() => handleMovieCardClick(mov)} key={mov.id}>
-									<MovieCard movie={mov} />
+								<SwiperSlide onClick={() => handleMediaCardClick(mov)} key={mov.id}>
+									<MediaCard media={mov} type={mediaType} />
 								</SwiperSlide>
 							);
 						})}
@@ -239,9 +241,9 @@ const MovieRow = ({ title, fetchUrl }) => {
 					</div>
 				)}
 			</Swiper>
-			{movieCardLarge && <MovieCardLarge movie={movieCardLarge} onClose={handleOnClose} />}
+			{mediaCardLarge && <MediaCardLarge media={mediaCardLarge} onClose={handleOnClose} type={mediaType} />}
 		</div>
 	);
 };
 
-export default MovieRow;
+export default MediaRow;

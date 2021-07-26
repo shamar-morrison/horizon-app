@@ -3,7 +3,8 @@
 
 :root {
 	--clr-red: #e60a15;
-	--clr-primary-900: #16151a;
+	--clr-primary-1000: hsl(252, 5%, 5%);
+	--clr-primary-900: hsl(252, 11%, 9%);
 	--clr-primary-800: #1e1d22;
 	--clr-primary-500: hsl(248, 4%, 45%);
 	--clr-primary-400: hsl(248, 4%, 55%);
@@ -73,6 +74,11 @@ select,
 button,
 a {
 	cursor: pointer;
+}
+
+select {
+	appearance: none;
+	background: url(../img/select-arrows.svg) no-repeat 90% 50% var(--clr-primary-800);
 }
 
 .similar-movies--item:hover::after,

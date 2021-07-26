@@ -60,7 +60,11 @@ const OR = `%7C`;
 const AND = `%2C`;
 const currentYear = new Date().getFullYear();
 
-const requests = {
+/**
+ * MOVIE REQUESTS
+ */
+
+const movieRequests = {
 	// TRENDING
 	fetchTrendingMovies: `/trending/movie/day?api_key=${API_KEY}&language=en-US`,
 	fetchTrendingMoviesPg2: `/trending/movie/day?api_key=${API_KEY}&language=en-US&page=2`,
@@ -170,4 +174,12 @@ const requests = {
 	fetchNowPlaying: `/movie/now_playing?api_key=${API_KEY}&language=en-US`,
 };
 
-export default requests;
+/**
+ * TV SHOW REQUESTS
+ */
+export const tvRequests = {
+	fetchPopularTVShowsPg1: `/tv/popular?api_key=${API_KEY}&language=en-US&page=1`,
+	fetchPopularTVShowsPg2: `/tv/popular?api_key=${API_KEY}&language=en-US&page=2`,
+};
+
+export default movieRequests;

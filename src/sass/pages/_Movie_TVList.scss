@@ -77,11 +77,6 @@ a {
 		width: 250px;
 	}
 
-	select {
-		appearance: none;
-		background: url(../img/select-arrows.svg) no-repeat 90% 50% var(--clr-primary-800);
-	}
-
 	.search-btn {
 		border-radius: $border-radius-sm;
 		background-color: var(--clr-red);

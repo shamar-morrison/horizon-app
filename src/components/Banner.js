@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import requests, { BANNER_IMG_URL, BASE_IMG_URL } from '../logic/requests';
+import movieRequests, { BANNER_IMG_URL, BASE_IMG_URL } from '../logic/requests';
 import tmdb from '../logic/axios';
-import { fetchMovieTrailer, convertRating } from '../logic/helpers';
+import { fetchMediaTrailer, convertRating } from '../logic/helpers';
 import LoadingSpinner from './LoadingSpinner';
 import FsLightbox from 'fslightbox-react';
 import noTrailerImg from '../img/no-trailer.png';
@@ -15,15 +15,15 @@ const Banner = ({ ref }) => {
 	const [isLoading, setLoading] = useState(false);
 
 	const movieUrls = [
-		requests.fetchLatestThrillerMovies,
-		requests.fetchLatestHorrorMovies,
-		requests.fetchLatestRomanceMovies,
-		requests.fetchLatestComedyMovies,
-		requests.fetchLatestAdventureMovies,
-		requests.fetchLatestAnimationMovies,
-		requests.fetchLatestCrimeMovies,
-		requests.fetchLatestWarMovies,
-		requests.fetchLatestMysteryMovies,
+		movieRequests.fetchLatestThrillerMovies,
+		movieRequests.fetchLatestHorrorMovies,
+		movieRequests.fetchLatestRomanceMovies,
+		movieRequests.fetchLatestComedyMovies,
+		movieRequests.fetchLatestAdventureMovies,
+		movieRequests.fetchLatestAnimationMovies,
+		movieRequests.fetchLatestCrimeMovies,
+		movieRequests.fetchLatestWarMovies,
+		movieRequests.fetchLatestMysteryMovies,
 	];
 
 	// get a random movie fetch url
@@ -57,7 +57,7 @@ const Banner = ({ ref }) => {
 	}, []);
 
 	useEffect(() => {
-		fetchMovieTrailer(banner, setTrailer);
+		fetchMediaTrailer(banner, setTrailer);
 	}, [banner]);
 
 	const headerStyles = {
