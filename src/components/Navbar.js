@@ -5,26 +5,6 @@ import { Link, NavLink } from 'react-router-dom';
 import movieRequests from '../logic/requests';
 
 const Navbar = () => {
-	// const [searchVal, setSearchVal] = useState('');
-	// const [searchResults, setSearchResults] = useState([]);
-
-	// const filterSearch = async searchQuery => {
-	// 	try {
-	// 		setSearchVal(searchQuery);
-	// 		const res = await instance.get(
-	// 			`/search/movie?api_key=${API_KEY}&language=en-US&query=${searchQuery}&page=1&include_adult=false`
-	// 		);
-	// 		if (!res) throw Error('Error fetching search results.');
-	// 		setSearchResults(res.data.results);
-	// 	} catch (e) {
-	// 		console.error(e);
-	// 	}
-	// };
-
-	// const clearSearch = () => {
-	// 	setSearchVal();
-	// };
-
 	/**
 	 * Sticky navbar anim
 	 */

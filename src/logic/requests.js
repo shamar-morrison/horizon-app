@@ -167,6 +167,10 @@ const movieRequests = {
 	fetchHighestRatedSciFiMovies: `${movieUrl}${API_KEY}&sort_by=${highestRated}&${genreList.SciFiGenre}`,
 	fetchLowestRatedSciFiMovies: `${movieUrl}${API_KEY}&sort_by=${lowestRated}&${genreList.SciFiGenre}`,
 
+	// FAMILY
+	fetchFamilyMovies: `${movieUrl}${API_KEY}&${genreList.familyGenre}`,
+	fetchLatestFamilyMovies: `${movieUrl}${API_KEY}&sort_by=${latest}&${genreList.familyGenre}&primary_release_year=${currentYear}&year=${currentYear}&vote_average.gte=${minRating}&vote_average.lte=${maxRating}&${originalLanguageIsEnglish}&with_runtime.gte=100`,
+
 	// POPULAR
 	fetchPopularMovies: `/movie/popular?api_key=${API_KEY}&language=en-US`,
 

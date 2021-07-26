@@ -61,10 +61,10 @@ const MediaDetails = ({ match }) => {
 			if (status !== 200) throw Error(statusText);
 
 			setMedia(data);
-			console.log('media data', data);
 
 			if (mediaType === MEDIA_TYPE_MOVIE) {
 				fetchTorrents(data.imdb_id, setTorrents); // fetch movie torrents using IMDB ID
+				// console.log('fetching torrents');
 			}
 
 			setLoading();

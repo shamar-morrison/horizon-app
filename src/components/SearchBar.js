@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { API_KEY } from '../logic/requests';
 import tmdb from '../logic/axios';
-import { movieDetailsPath } from '../logic/urlPaths';
+import { movieDetailsPath, tvDetailsPath } from '../logic/urlPaths';
 
 const SearchBar = () => {
 	const [searchVal, setSearchVal] = useState('');
@@ -14,7 +14,8 @@ const SearchBar = () => {
 	const filterSearch = async () => {
 		try {
 			setIsSearching(true);
-			const res = await tmdb.get(`/search/movie?api_key=${API_KEY}&language=en-US&query=${searchVal}&page=1`);
+			const res = await tmdb.get(`/search/multi?api_key=${API_KEY}&language=en-US&query=${searchVal}&page=1`);
+			console.log('search result', res);
 			if (!res) throw Error('Error fetching search results.');
 			setSearchResults(res.data.results);
 		} catch (e) {
@@ -56,20 +57,31 @@ const SearchBar = () => {
 						</li>
 					) : searchResults?.length > 0 ? (
 						searchResults.slice(0, 6).map(result => {
-							return (
-								<li
-									className="search-result"
-									onMouseDown={e => {
-										history.push(`${movieDetailsPath}${result.id}`);
-										clearSearch(e);
-										window.scrollTo(0, 0);
-									}}
-									key={result.id}
-								>
-									{result.title || result.original_title || result.name}
-									{result.release_date && ` (${new Date(result.release_date).getFullYear()})`}
-								</li>
-							);
+							{
+								if (result.media_type === 'tv' || result.media_type === 'movie') {
+									return (
+										<li
+											className="search-result"
+											onMouseDown={e => {
+												history.push(
+													`${result.media_type === 'movie' ? movieDetailsPath : tvDetailsPath}${result.id}`
+												);
+												clearSearch(e);
+												window.scrollTo(0, 0);
+											}}
+											key={result.id}
+										>
+											<p className="media-title">
+												{result.title || result.original_title || result.name}
+												<span className="release-date">
+													{result.release_date && ` (${new Date(result.release_date).getFullYear()})`}
+												</span>
+											</p>
+											<span className="media-type">{result.media_type === 'movie' ? 'Movie' : 'TV'}</span>
+										</li>
+									);
+								}
+							}
 						})
 					) : (
 						!searchResults.length && <li className="search-result">No results found.</li>
