@@ -75,6 +75,7 @@
 	}
 
 	&--img {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
@@ -87,6 +88,8 @@
 		}
 
 		img {
+			position: relative;
+			z-index: -1;
 			border: 4px solid #fff;
 			max-width: 300px;
 			max-height: 430px;
@@ -94,6 +97,38 @@
 			box-shadow: $card-shadow;
 			@include filter;
 		}
+	}
+
+	.play-movie-btn {
+		position: absolute;
+		top: 180px;
+		display: grid;
+		place-items: center;
+		align-self: center;
+
+		cursor: pointer;
+		height: 85px;
+		width: 85px;
+		border-radius: 50%;
+		background-color: var(--clr-red);
+		font-size: 1.8rem;
+
+		&:hover,
+		&:focus {
+			background-color: rgb(182, 0, 0);
+		}
+	}
+
+	.play-movie-anim {
+		position: absolute;
+		display: grid;
+		place-items: center;
+		background-color: rgb(255, 255, 255);
+		height: 100px;
+		width: 100px;
+		border-radius: 50%;
+		z-index: -1;
+		animation: play-video-anim 1.2s infinite;
 	}
 
 	&--title {

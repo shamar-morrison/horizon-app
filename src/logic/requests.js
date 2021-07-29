@@ -184,6 +184,7 @@ const movieRequests = {
 export const tvRequests = {
 	fetchPopularTVShowsPg1: `/tv/popular?api_key=${API_KEY}&language=en-US&page=1`,
 	fetchPopularTVShowsPg2: `/tv/popular?api_key=${API_KEY}&language=en-US&page=2`,
+	fetchPopularTVShowsPg3: `/tv/popular?api_key=${API_KEY}&language=en-US&page=3`,
 };
 
 export default movieRequests;

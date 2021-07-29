@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from '../logic/requests';
 import { useState, useEffect, useRef } from 'react';
 import tmdb, { yts } from '../logic/axios';
@@ -159,6 +160,13 @@ const MediaDetails = ({ match }) => {
 
 	return (
 		<>
+			<Helmet>
+				{media && (
+					<title>{`Horizon - Watch ${media.title || media.original_title || media.name || media.original_name} (${getReleaseYear(
+						media
+					)}) Online Free in HD • Download in 4K HD`}</title>
+				)}
+			</Helmet>
 			{isLoading ? (
 				<div className="loading">
 					<LoadingSpinner />
@@ -174,9 +182,20 @@ const MediaDetails = ({ match }) => {
 										src={media.poster_path ? `${BASE_IMG_URL}${media.poster_path}` : noImageFound}
 										alt={media.title || media.name || media.original_title}
 									/>
+									<div
+										className="play-movie-btn"
+										onClick={e => {
+											e.preventDefault();
+											document.querySelector('#player')?.scrollIntoView();
+										}}
+									>
+										<i className="fas fa-play"></i>
+
+										<span className="play-movie-anim"></span>
+									</div>
 									{mediaType === MEDIA_TYPE_MOVIE && (
 										<button className="watch-trailer btn" onClick={() => setTrailerToggler(!trailerToggler)}>
-											<i className="fas fa-play"></i> watch trailer
+											<i className="fas fa-video"></i> watch trailer
 										</button>
 									)}
 

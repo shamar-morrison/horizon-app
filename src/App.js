@@ -1,5 +1,6 @@
 import './css/App.min.css';
 import { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import MediaRow from './components/MediaRow';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
@@ -20,6 +21,9 @@ import { MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from './logic/helpers';
 const App = () => {
 	return (
 		<>
+			<Helmet>
+				<title>Horizon - Watch & Download Movies & TV Shows in HD</title>
+			</Helmet>
 			<Router>
 				<Navbar />
 				<Switch>
@@ -33,6 +37,7 @@ const App = () => {
 							<MediaRow title="" fetchUrl={movieRequests.fetchUpcomingPg2} mediaType={MEDIA_TYPE_MOVIE} />
 							<MediaRow title="Popular TV" fetchUrl={tvRequests.fetchPopularTVShowsPg1} mediaType={MEDIA_TYPE_TV} />
 							<MediaRow title="" fetchUrl={tvRequests.fetchPopularTVShowsPg2} mediaType={MEDIA_TYPE_TV} />
+							<MediaRow title="" fetchUrl={tvRequests.fetchPopularTVShowsPg3} mediaType={MEDIA_TYPE_TV} />
 							<MediaRow title="Action" fetchUrl={movieRequests.fetchLatestActionMovies} mediaType={MEDIA_TYPE_MOVIE} />
 							<MediaRow title="Comedy" fetchUrl={movieRequests.fetchLatestComedyMovies} mediaType={MEDIA_TYPE_MOVIE} />
 							<MediaRow title="Sci-Fi" fetchUrl={movieRequests.fetchLatestSciFiMovies} mediaType={MEDIA_TYPE_MOVIE} />
