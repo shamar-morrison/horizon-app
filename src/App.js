@@ -30,20 +30,45 @@ const App = () => {
 					<Route exact path="/">
 						<Banner />
 						<section className="container">
-							<MediaRow title="Trending Now" fetchUrl={movieRequests.fetchTrendingMovies} mediaType={MEDIA_TYPE_MOVIE} />
-							<MediaRow title="" fetchUrl={movieRequests.fetchTrendingMoviesPg2} mediaType={MEDIA_TYPE_MOVIE} />
-							<MediaRow title="" fetchUrl={movieRequests.fetchTrendingMoviesPg3} mediaType={MEDIA_TYPE_MOVIE} />
-							<MediaRow title="Upcoming" fetchUrl={movieRequests.fetchUpcoming} mediaType={MEDIA_TYPE_MOVIE} />
-							<MediaRow title="" fetchUrl={movieRequests.fetchUpcomingPg2} mediaType={MEDIA_TYPE_MOVIE} />
-							<MediaRow title="Popular TV" fetchUrl={tvRequests.fetchPopularTVShowsPg1} mediaType={MEDIA_TYPE_TV} />
-							<MediaRow title="" fetchUrl={tvRequests.fetchPopularTVShowsPg2} mediaType={MEDIA_TYPE_TV} />
-							<MediaRow title="" fetchUrl={tvRequests.fetchPopularTVShowsPg3} mediaType={MEDIA_TYPE_TV} />
-							<MediaRow title="Action" fetchUrl={movieRequests.fetchLatestActionMovies} mediaType={MEDIA_TYPE_MOVIE} />
-							<MediaRow title="Comedy" fetchUrl={movieRequests.fetchLatestComedyMovies} mediaType={MEDIA_TYPE_MOVIE} />
-							<MediaRow title="Sci-Fi" fetchUrl={movieRequests.fetchLatestSciFiMovies} mediaType={MEDIA_TYPE_MOVIE} />
-							<MediaRow title="Horror" fetchUrl={movieRequests.fetchLatestHorrorMovies} mediaType={MEDIA_TYPE_MOVIE} />
-							<MediaRow title="Romance" fetchUrl={movieRequests.fetchLatestRomanceMovies} mediaType={MEDIA_TYPE_MOVIE} />
-							<MediaRow title="Mystery" fetchUrl={movieRequests.fetchLatestMysteryMovies} mediaType={MEDIA_TYPE_MOVIE} />
+							<MediaRow
+								title="Trending Now"
+								fetchUrl={movieRequests.fetchTrendingMovies}
+								mediaType={MEDIA_TYPE_MOVIE}
+								id={1}
+							/>
+							<MediaRow title="" fetchUrl={movieRequests.fetchTrendingMoviesPg2} mediaType={MEDIA_TYPE_MOVIE} id={2} />
+							<MediaRow title="" fetchUrl={movieRequests.fetchTrendingMoviesPg3} mediaType={MEDIA_TYPE_MOVIE} id={3} />
+							<MediaRow title="Upcoming" fetchUrl={movieRequests.fetchUpcoming} mediaType={MEDIA_TYPE_MOVIE} id={4} />
+							<MediaRow title="" fetchUrl={movieRequests.fetchUpcomingPg2} mediaType={MEDIA_TYPE_MOVIE} id={5} />
+							<MediaRow title="Popular TV" fetchUrl={tvRequests.fetchPopularTVShowsPg1} mediaType={MEDIA_TYPE_TV} id={6} />
+							<MediaRow title="" fetchUrl={tvRequests.fetchPopularTVShowsPg2} mediaType={MEDIA_TYPE_TV} id={7} />
+							<MediaRow title="" fetchUrl={tvRequests.fetchPopularTVShowsPg3} mediaType={MEDIA_TYPE_TV} id={8} />
+							<MediaRow title="Action" fetchUrl={movieRequests.fetchLatestActionMovies} mediaType={MEDIA_TYPE_MOVIE} id={9} />
+							<MediaRow
+								title="Comedy"
+								fetchUrl={movieRequests.fetchLatestComedyMovies}
+								mediaType={MEDIA_TYPE_MOVIE}
+								id={10}
+							/>
+							<MediaRow title="Sci-Fi" fetchUrl={movieRequests.fetchLatestSciFiMovies} mediaType={MEDIA_TYPE_MOVIE} id={11} />
+							<MediaRow
+								title="Horror"
+								fetchUrl={movieRequests.fetchLatestHorrorMovies}
+								mediaType={MEDIA_TYPE_MOVIE}
+								id={12}
+							/>
+							<MediaRow
+								title="Romance"
+								fetchUrl={movieRequests.fetchLatestRomanceMovies}
+								mediaType={MEDIA_TYPE_MOVIE}
+								id={13}
+							/>
+							<MediaRow
+								title="Mystery"
+								fetchUrl={movieRequests.fetchLatestMysteryMovies}
+								mediaType={MEDIA_TYPE_MOVIE}
+								id={14}
+							/>
 						</section>
 					</Route>
 					<Route exact path="/movie/:category" render={props => <Movie_TVList {...props} key={uuidv4()} />} />

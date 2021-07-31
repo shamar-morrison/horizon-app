@@ -21,7 +21,9 @@ const Similar = ({ similarMedia, onClick, type }) => {
 									className="similar-movies--item"
 									onClick={() => {
 										onClick(media);
-										scrollToTop();
+										setTimeout(() => {
+											scrollToTop();
+										}, 100);
 									}}
 									data-name={media.name || media.title || media.original_title || media.original_name}
 								>

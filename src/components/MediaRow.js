@@ -20,7 +20,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // Swiper JS
 SwiperCore.use([Navigation]);
 
-const MediaRow = ({ title, fetchUrl, mediaType }) => {
+const MediaRow = ({ title, fetchUrl, mediaType, id }) => {
 	const [media, setMedia] = useState([]);
 	const [mediaCardLarge, setMediaCardLarge] = useState('');
 	const [url, setUrl] = useState(fetchUrl);
@@ -28,11 +28,13 @@ const MediaRow = ({ title, fetchUrl, mediaType }) => {
 	// set media
 	useEffect(() => {
 		let isMounted = true;
-		fetchMediaData(url).then(data => {
-			if (isMounted) setMedia(data.results);
-		}).catch(e => {
-			console.error(e);
-		});
+		fetchMediaData(url)
+			.then(data => {
+				if (isMounted) setMedia(data.results);
+			})
+			.catch(e => {
+				console.error(e);
+			});
 		setMediaCardLarge('');
 
 		return () => {
@@ -230,7 +232,7 @@ const MediaRow = ({ title, fetchUrl, mediaType }) => {
 						{media.map(mov => {
 							return (
 								<SwiperSlide onClick={() => handleMediaCardClick(mov)} key={mov.id}>
-									<MediaCard media={mov} type={mediaType} />
+									<MediaCard media={mov} type={mediaType} id={id} />
 								</SwiperSlide>
 							);
 						})}
@@ -241,7 +243,7 @@ const MediaRow = ({ title, fetchUrl, mediaType }) => {
 					</div>
 				)}
 			</Swiper>
-			{mediaCardLarge && <MediaCardLarge media={mediaCardLarge} onClose={handleOnClose} type={mediaType} />}
+			{mediaCardLarge && <MediaCardLarge media={mediaCardLarge} onClose={handleOnClose} type={mediaType} id={id} />}
 		</div>
 	);
 };

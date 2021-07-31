@@ -16,7 +16,7 @@
 	}
 
 	@include xs-screens {
-		padding: 90px 25px;
+		padding: 90px 25px 50px;
 	}
 
 	&::before {
@@ -45,6 +45,13 @@
 		@include xs-screens {
 			font-size: 1.7rem;
 		}
+	}
+
+	&--scroll-to {
+		position: absolute;
+		top: -180px;
+		height: 150px;
+		width: 150px;
 	}
 
 	.close-card {

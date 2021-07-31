@@ -79,7 +79,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
-		height: max-content;
+		min-height: max-content;
 		border-radius: 4px;
 		overflow: hidden;
 

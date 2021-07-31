@@ -6,7 +6,7 @@ import { fetchMediaTrailer, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from '../logic/hel
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { movieDetailsPath, tvDetailsPath } from '../logic/urlPaths';
 
-const MediaCardLarge = ({ media, onClose, type }) => {
+const MediaCardLarge = ({ media, onClose, type, id }) => {
 	const [trailerUrl, setTrailerUrl] = useState([]);
 	const [trailerToggler, setTrailerToggler] = useState(false);
 	const [trailerKey, setTrailerKey] = useState(0);
@@ -28,6 +28,7 @@ const MediaCardLarge = ({ media, onClose, type }) => {
 	return (
 		<>
 			<div className="large__card" style={cardStyle}>
+				<span className="large__card--scroll-to" id={`card-${id}`}></span>
 				<div className="large__card--body">
 					<span className="close-card" onClick={onClose}>
 						<i class="fas fa-times"></i>

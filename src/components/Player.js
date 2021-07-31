@@ -9,7 +9,7 @@
 
 import tmdb from '../logic/axios';
 import { getReleaseYear, getSelectedValue, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from '../logic/helpers';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { API_KEY } from '../logic/requests';
 
 const Player = ({ media, type }) => {
@@ -17,6 +17,7 @@ const Player = ({ media, type }) => {
 	const [episodes, setEpisodes] = useState([]);
 	const [curSeason, setCurSeason] = useState(1); // set default season 1
 	const [curEpisode, setCurEpisode] = useState(1); // set default episode 1
+	const playerRef = useRef();
 
 	const getSelectedSeasonEpisodes = val => {
 		// find the episodes for the selected season number
@@ -42,7 +43,7 @@ const Player = ({ media, type }) => {
 						const { data } = await tmdb.get(`/tv/${media.id}/season/${season_number}?api_key=${API_KEY}&language=en-US`);
 						setTVShowSeasonDetails(prev => [...prev, { seasonNum: data.season_number, seasonEpisodes: data.episodes }]);
 					} catch (e) {
-						console.error(e);
+						// console.error(e);
 					}
 				};
 				fetchTVShowSeasonDetails();
@@ -54,6 +55,13 @@ const Player = ({ media, type }) => {
 		getSelectedSeasonEpisodes(curSeason);
 	}, [TVShowSeasonDetails]);
 
+	// scroll to player if #play-now is present in URL
+	useEffect(() => {
+		if (playerRef.current && window.location.hash.substr(1)) {
+			playerRef.current.scrollIntoView();
+		}
+	}, [playerRef]);
+
 	return (
 		<div className="movie-player">
 			<h1 className="movie-player--title">
@@ -62,6 +70,7 @@ const Player = ({ media, type }) => {
 
 			{type === MEDIA_TYPE_MOVIE ? (
 				<iframe
+					ref={playerRef}
 					id="player"
 					src={`https://fsapi.xyz/tmdb-movie/${media.id}`}
 					frameborder="0"
@@ -70,6 +79,7 @@ const Player = ({ media, type }) => {
 				></iframe>
 			) : (
 				<iframe
+					ref={playerRef}
 					id="player"
 					src={`https://fsapi.xyz/tv-tmdb/${media.id}-${curSeason}-${curEpisode}`}
 					frameborder="0"

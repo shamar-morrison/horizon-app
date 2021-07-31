@@ -179,6 +179,8 @@ const MediaDetails = ({ match }) => {
 							<div className="movie__details--main">
 								<div className="movie__details--img">
 									<img
+										// height="430px"
+										// width="300px"
 										src={media.poster_path ? `${BASE_IMG_URL}${media.poster_path}` : noImageFound}
 										alt={media.title || media.name || media.original_title}
 									/>
