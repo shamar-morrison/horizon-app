@@ -21,6 +21,7 @@ const Movie_TVList = ({ match }) => {
 	const [page, setPage] = useState(1);
 	const [mediaCardLarge, setMediaCardLarge] = useState();
 	const [mediaType, setMediaType] = useState(type);
+	const [hasChanged, setHasChanged] = useState(false);
 
 	const [filters, setFilters] = useState({
 		genre: '',
@@ -166,6 +167,7 @@ const Movie_TVList = ({ match }) => {
 									id="sort-results-by"
 									onChange={({ target }) => {
 										setFilters(prev => ({ ...prev, sort: getSelectedValue(target) }));
+										setHasChanged(true);
 									}}
 								>
 									<option value="">All</option>
@@ -183,6 +185,7 @@ const Movie_TVList = ({ match }) => {
 									id="genre"
 									onChange={({ target }) => {
 										setFilters(prev => ({ ...prev, genre: getSelectedValue(target) }));
+										setHasChanged(true);
 									}}
 								>
 									<option value=""> </option>
@@ -214,6 +217,7 @@ const Movie_TVList = ({ match }) => {
 									id="language"
 									onClick={({ target }) => {
 										setFilters(prev => ({ ...prev, language: getSelectedValue(target) }));
+										setHasChanged(true);
 									}}
 								>
 									<option value="">All</option>
@@ -236,16 +240,18 @@ const Movie_TVList = ({ match }) => {
 									onChange={({ target }) => {
 										const date = new Date(target.value).getFullYear(); // get year
 										setFilters(prev => ({ ...prev, date: date }));
+										setHasChanged(true);
 									}}
 								/>
 							</li>
 						</ul>
 						<button
-							className={isNextPageLoading || isLoading ? 'no-pointer-events search-btn' : 'search-btn'}
+							className={hasChanged ? 'search-btn' : 'search-btn-disabled'}
 							id="search-btn"
 							onClick={() => {
 								window.scrollTo(0, 0);
 								fetchSearchData();
+								setHasChanged(false);
 							}}
 						>
 							Search
