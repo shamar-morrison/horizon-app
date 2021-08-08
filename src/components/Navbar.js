@@ -29,7 +29,7 @@ const Navbar = () => {
 							<img src={logo} alt="Logo" />
 						</Link>
 					</div>
-					{/* <ul className="navbar-links" onClick={() => window.scrollTo(0, 0)}>
+					<ul className="navbar-links" onClick={() => window.scrollTo(0, 0)}>
 						<li className="nav-link">
 							Movies
 							<ul className="nav-link--dropdown">
@@ -47,8 +47,24 @@ const Navbar = () => {
 								</Link>
 							</ul>
 						</li>
-						<li className="nav-link">People</li>
-					</ul> */}
+						<li className="nav-link">
+							TV Shows
+							<ul className="nav-link--dropdown">
+								<Link to="/tv/popular">
+									<li>Popular</li>
+								</Link>
+								<Link to="/tv/airing_today">
+									<li>Airing Today</li>
+								</Link>
+								<Link to="/tv/on_the_air">
+									<li>On TV</li>
+								</Link>
+								<Link to="/tv/top_rated">
+									<li>Top Rated</li>
+								</Link>
+							</ul>
+						</li>
+					</ul>
 					<SearchBar />
 				</nav>
 			</div>

@@ -71,7 +71,7 @@ const App = () => {
 							/>
 						</section>
 					</Route>
-					<Route exact path="/movie/:category" render={props => <Movie_TVList {...props} key={uuidv4()} />} />
+					<Route exact path="/:type/:category" render={props => <Movie_TVList {...props} key={uuidv4()} />} />
 					{/* :type - movie || tv 
 					    :id   - imdb id
 					*/}

@@ -5,19 +5,22 @@ import movieRequests, { BASE_IMG_URL, genreList } from '../logic/requests';
 import noImageFound from '../img/no-img-found.png';
 import { API_KEY } from '../logic/requests';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { convertRating, getMediaRuntime, getReleaseYear, getSelectedValue } from '../logic/helpers';
+import { convertRating, getMediaRuntime, getReleaseYear, getSelectedValue, MEDIA_TYPE_MOVIE } from '../logic/helpers';
 import Runtime from '../components/Runtime';
 import MediaCardLarge from '../components/MediaCardLarge';
 import { movieDetailsPath } from '../logic/urlPaths';
 
 const Movie_TVList = ({ match }) => {
 	const category = match.params.category;
+	const type = match.params.type;
 	const [data, setData] = useState([]);
 	const [isLoading, setLoading] = useState(false);
 	const [isNextPageLoading, setIsNextPageLoading] = useState(false);
 	const [endOfResults, setEndOfResults] = useState(false);
 	const [noResultsFound, setNoResultsFound] = useState(false);
 	const [page, setPage] = useState(1);
+	const [mediaCardLarge, setMediaCardLarge] = useState();
+	const [mediaType, setMediaType] = useState(type);
 
 	const [filters, setFilters] = useState({
 		genre: '',
@@ -32,10 +35,14 @@ const Movie_TVList = ({ match }) => {
 		setNoResultsFound(false);
 	};
 
+	const closeMediaCard = () => {
+		setMediaCardLarge('');
+	};
+
 	const fetchDefaultData = async () => {
 		try {
 			setLoading(true);
-			const { status, data } = await tmdb.get(`/movie/${category}?api_key=${API_KEY}&language=en-US`);
+			const { status, data } = await tmdb.get(`/${mediaType}/${category}?api_key=${API_KEY}&language=en-US`);
 			if (status !== 200 || !data.results.length) throw Error('Error fetch data');
 			setData(data.results);
 			setLoading(false);
@@ -56,7 +63,7 @@ const Movie_TVList = ({ match }) => {
 			clearErrorMsgs();
 
 			const { status, data } = await tmdb.get(
-				`/discover/movie?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}&year=${filters.date}&page=${page}`
+				`/discover/${mediaType}?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}&year=${filters.date}&page=${page}`
 			);
 
 			if (status !== 200 || !data.results.length) {
@@ -84,14 +91,14 @@ const Movie_TVList = ({ match }) => {
 
 			// if no filters have been applied, fetch next page for selected category
 			if (!filters.sort && !filters.query && !filters.genre && !filters.language && !filters.date) {
-				const res = await tmdb.get(`/movie/${category}?api_key=${API_KEY}&page=${page}`);
+				const res = await tmdb.get(`/${mediaType}/${category}?api_key=${API_KEY}&page=${page}`);
 				status = res.status;
 				data = res.data;
 			}
 			// if filters have been applied, apply filters and fetch next page of results
 			else {
 				const res = await tmdb.get(
-					`/discover/movie?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}&year=${filters.date}&page=${page}`
+					`/discover/${mediaType}?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}&year=${filters.date}&page=${page}`
 				);
 				status = res.status;
 				data = res.data;
@@ -110,16 +117,22 @@ const Movie_TVList = ({ match }) => {
 		}
 	};
 
-	const getTitle = () => {
+	const getTitle = type => {
+		const media = type === 'movie' ? 'Movies' : 'TV Shows';
+
 		switch (category) {
 			case 'popular':
-				return 'Popular';
+				return `Popular ${media}`;
 			case 'now_playing':
-				return 'Now Playing';
+				return `Now Playing ${media}`;
 			case 'upcoming':
-				return 'Upcoming';
+				return `Upcoming ${media}`;
 			case 'top_rated':
-				return 'Top Rated';
+				return `Top Rated ${media}`;
+			case 'airing_today':
+				return `${media} Airing Today`;
+			case 'on_the_air':
+				return `Currently Airing ${media}`;
 		}
 	};
 
@@ -144,7 +157,7 @@ const Movie_TVList = ({ match }) => {
 							fetchSearchData();
 						}}
 					>
-						<h2>{`${getTitle()} Movies` || 'Search Term'}</h2>
+						<h2>{getTitle(mediaType)}</h2>
 
 						<ul className="search__grid--filter">
 							<li className="search__grid--filter-item">
@@ -245,9 +258,9 @@ const Movie_TVList = ({ match }) => {
 					) : (
 						data.length > 0 && (
 							<ul className="card__grid--list">
-								{data.map(movie => (
-									<Link to={{ pathname: `${movieDetailsPath}${movie.id}` }}>
-										<li className="card__grid--list-item" key={movie.id} onClick={() => window.scrollTo(0, 0)}>
+								<>
+									{data.map(movie => (
+										<li className="card__grid--list-item" key={movie.id} onClick={() => setMediaCardLarge(movie)}>
 											<>
 												<div className="movie__card">
 													<div className="movie__card--img">
@@ -270,7 +283,7 @@ const Movie_TVList = ({ match }) => {
 														<p className="movie__card--year">{getReleaseYear(movie)}</p>
 														<div className="movie__card--rating">
 															<div className="movie__card--runtime">
-																<Runtime movie={movie} />
+																<Runtime media={movie} mediaType={mediaType} />
 															</div>
 															<i className="fas fa-star star"></i>
 															<p className="rating">{convertRating(movie)}</p>
@@ -279,8 +292,8 @@ const Movie_TVList = ({ match }) => {
 												</div>
 											</>
 										</li>
-									</Link>
-								))}
+									))}
+								</>
 								<li style={{ margin: '0 auto', justifySelf: 'center' }}>
 									<button
 										className="btn btn-lg"
@@ -304,27 +317,23 @@ const Movie_TVList = ({ match }) => {
 						)
 					)}
 					{noResultsFound && (
-						<div style={{ alignSelf: 'center', flexBasis: '100%' }}>
-							<div
-								style={{
-									display: 'flex',
-									justifyContent: 'center',
-									alignItems: 'center',
-									fontSize: '2rem',
-									margin: '0 auto',
-									flexDirection: 'column',
-								}}
-							>
-								<i
-									class="fas fa-exclamation-circle"
-									style={{ color: 'var(--clr-red)', marginBottom: '10px', fontSize: '2.5rem' }}
-								></i>
-								<h4 style={{ fontSize: '1.5rem' }}>No results found. Please try different keywords/filters.</h4>
+						<div className="no-results-wrapper">
+							<div className="no-results-found">
+								<i class="fas fa-exclamation-circle"></i>
+								<h4>No results found. Please try different keywords/filters.</h4>
 							</div>
 						</div>
 					)}
 				</div>
 			</div>
+			{mediaCardLarge && (
+				<>
+					<span className="wrapper-bg fadeIn" onClick={closeMediaCard}></span>
+					<div className="media-card-wrapper container fadeIn">
+						<MediaCardLarge media={mediaCardLarge} onClose={closeMediaCard} type={mediaType} id={mediaCardLarge.id} />
+					</div>
+				</>
+			)}
 		</>
 	);
 };
