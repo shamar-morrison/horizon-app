@@ -99,6 +99,5 @@ export const getMediaRuntime = async (media, mediaType, setMediaRuntime) => {
  * @returns the 'value' attribute of the associated 'option' HTML element
  */
 export const getSelectedValue = select => {
-	console.log('selected Index value', select.options[select.options.selectedIndex].getAttribute('value'));
 	return select.options[select.options.selectedIndex].getAttribute('value');
 };
