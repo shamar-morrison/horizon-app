@@ -1,6 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
+@media (prefers-reduced-motion) {
+	* {
+		animation-duration: 1s;
+		transition-timing-function: linear;
+		transition-delay: 1ms;
+		transition-duration: 1ms;
+	}
+}
+
 :root {
 	--clr-red: #e60a15;
 	--clr-primary-1000: hsl(252, 5%, 5%);
@@ -81,6 +90,10 @@ select {
 	background: url(../img/select-arrows.svg) no-repeat 90% 50% var(--clr-primary-800);
 }
 
+.fadeIn {
+	animation: fadeInAnim 500ms $anim;
+}
+
 .play-movie-btn,
 .play-movie-anim,
 .similar-movies--item:hover::after,
@@ -97,7 +110,7 @@ ul,
 li,
 i,
 a {
-	transition: 700ms cubic-bezier(0.17, 0.85, 0.438, 0.99);
+	transition: 700ms $anim;
 }
 
 i.star {

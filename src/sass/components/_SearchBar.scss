@@ -60,6 +60,13 @@
 		right: 0px;
 		top: 45px;
 
+		@include xs-screens {
+			width: 100vw;
+			right: -57vw;
+			border-radius: 0;
+			transform: translateX(-50%);
+		}
+
 		.search-result {
 			display: flex;
 			justify-content: space-between;
@@ -82,11 +89,19 @@
 			&:not(:last-child) {
 				border-bottom: 1px solid rgba(255, 255, 255, 0.027);
 			}
+
+			&:last-child {
+				padding-bottom: 0;
+			}
 		}
 
 		.media-type {
 			opacity: 0.5;
 			font-style: italic;
+		}
+
+		.media-title {
+			line-height: 1.6;
 		}
 
 		.release-date {

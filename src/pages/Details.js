@@ -162,9 +162,9 @@ const MediaDetails = ({ match }) => {
 		<>
 			<Helmet>
 				{media && (
-					<title>{`Horizon - Watch ${media.title || media.original_title || media.name || media.original_name} (${getReleaseYear(
+					<title>{`Watch ${media.title || media.original_title || media.name || media.original_name} (${getReleaseYear(
 						media
-					)}) Online Free in HD • Download in 4K HD`}</title>
+					)}) Online Free in HD • Download in 4K HD | Horizon`}</title>
 				)}
 			</Helmet>
 			{isLoading ? (
