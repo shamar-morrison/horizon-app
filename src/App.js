@@ -22,7 +22,7 @@ const App = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Horizon - Watch & Download Movies & TV Shows in HD</title>
+				<title>Horizon - Watch and Download The Latest Movies and TV Shows in HD</title>
 			</Helmet>
 			<Router>
 				<Navbar />
