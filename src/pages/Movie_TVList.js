@@ -320,7 +320,7 @@ const Movie_TVList = ({ match }) => {
 						<div className="no-results-wrapper">
 							<div className="no-results-found">
 								<i class="fas fa-exclamation-circle"></i>
-								<h4>No results found. Please try different keywords/filters.</h4>
+								<h4>No results found. Please try different keywords/filters</h4>
 							</div>
 						</div>
 					)}
