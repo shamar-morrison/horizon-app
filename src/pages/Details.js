@@ -136,6 +136,44 @@ const MediaDetails = ({ match }) => {
 		}
 	};
 
+	const renderMediaCast = () => {
+		return isLoading ? (
+			<div className="loading-spinner--similar">
+				<LoadingSpinner />
+			</div>
+		) : mediaCast && mediaCast.cast.length > 0 ? (
+			<Cast movieCast={mediaCast} />
+		) : (
+			<p>No cast found.</p>
+		);
+	};
+
+	const renderMediaPhotos = () => {
+		return isLoading ? (
+			<div className="loading-spinner--similar">
+				<LoadingSpinner />
+			</div>
+		) : (
+			<Photos
+				movieImages={mediaImages}
+				photoIndx={photoIndx}
+				photosKey={photosKey}
+				photosToggler={photosToggler}
+				handleGallery={handleGallery}
+			/>
+		);
+	};
+
+	const renderMediaPlayer = () => {
+		return isLoading ? (
+			<div className="loading-spinner--similar">
+				<LoadingSpinner />
+			</div>
+		) : (
+			<Player media={media} type={mediaType} />
+		);
+	};
+
 	useEffect(() => {
 		fetchMediaData(mediaID);
 		setPhotoIndx();
@@ -179,8 +217,6 @@ const MediaDetails = ({ match }) => {
 							<div className="movie__details--main">
 								<div className="movie__details--img">
 									<img
-										// height="430px"
-										// width="300px"
 										src={media.poster_path ? `${BASE_IMG_URL}${media.poster_path}` : noImageFound}
 										alt={media.title || media.name || media.original_title}
 									/>
@@ -276,25 +312,17 @@ const MediaDetails = ({ match }) => {
 
 			<section className="container">
 				{isLoading ? (
-					<div className="loading-spinner--similar">
+					<div className="loading">
 						<LoadingSpinner />
 					</div>
 				) : (
-					<Player media={media} type={mediaType} />
+					renderMediaPlayer()
 				)}
 
 				<div className="movie__details--bottom">
 					<div className="movie__details--bottom-cast">
 						<h2 className="section__title">Main Cast</h2>
-						{isLoading ? (
-							<div className="loading-spinner--similar">
-								<LoadingSpinner />
-							</div>
-						) : mediaCast && mediaCast.cast.length > 0 ? (
-							<Cast movieCast={mediaCast} />
-						) : (
-							<p>No cast found.</p>
-						)}
+						{renderMediaCast()}
 					</div>
 					<div className="movie__details--similar-movies">
 						<h2 className="section__title">More like this</h2>
@@ -318,19 +346,7 @@ const MediaDetails = ({ match }) => {
 								<i className="fas fa-arrow-right swiper-nav-next"></i>
 							</div>
 						</div>
-						{isLoading ? (
-							<div className="loading-spinner--similar">
-								<LoadingSpinner />
-							</div>
-						) : (
-							<Photos
-								movieImages={mediaImages}
-								photoIndx={photoIndx}
-								photosKey={photosKey}
-								photosToggler={photosToggler}
-								handleGallery={handleGallery}
-							/>
-						)}
+						{renderMediaPhotos()}
 					</div>
 				</div>
 			</section>

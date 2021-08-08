@@ -19,10 +19,16 @@ const MediaCard = ({ media, type, id }) => {
 		}, 100);
 	};
 
-	const scrollToPlayer = () => {
-		const height = document.scrollHeight / 2;
-		const width = document.scrollWidth / 2;
-		return [height, width];
+	const renderMediaPoster = () => {
+		return mediaData.poster_path ? (
+			<img
+				width="175px"
+				src={mediaData.poster_path ? `${BASE_IMG_URL}${mediaData.poster_path}` : noImageFound}
+				alt={movieTitle || TVShowTitle}
+			/>
+		) : (
+			<img src={noImageFound} />
+		);
 	};
 
 	return (
@@ -35,17 +41,10 @@ const MediaCard = ({ media, type, id }) => {
 			}}
 		>
 			<div className="movie__card--img">
-				{mediaData.poster_path ? (
-					<img
-						width="175px"
-						src={mediaData.poster_path ? `${BASE_IMG_URL}${mediaData.poster_path}` : noImageFound}
-						alt={movieTitle || TVShowTitle}
-					/>
-				) : (
-					<img src={noImageFound} />
-				)}
+				{renderMediaPoster()}
 				<div className="movie__card--hover">
 					<a
+						className="movie__card--play-btn"
 						onClick={e => {
 							e.preventDefault();
 							e.stopPropagation();

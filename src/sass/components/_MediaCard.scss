@@ -12,6 +12,11 @@
 		text-overflow: ellipsis;
 	}
 
+	&--play-btn {
+		display: block;
+		pointer-events: none;
+	}
+
 	&--img {
 		position: relative;
 		height: 270px;
@@ -42,6 +47,9 @@
 				opacity: 1;
 				transform: translate(0%, -55%) scale(1);
 				transition: opacity 350ms linear;
+			}
+
+			.movie__card--play-btn {
 				pointer-events: auto;
 			}
 
@@ -127,7 +135,6 @@
 		top: -52%;
 		transform: translate(0%, -55%) scale(0.7);
 		opacity: 0;
-		pointer-events: none;
 
 		i {
 			height: 65px;
