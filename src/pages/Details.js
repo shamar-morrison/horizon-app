@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import tmdb, { yts } from '../logic/axios';
 import Cast from '../components/Cast';
 import movieTrailer from 'movie-trailer';
-import { convertRating, fetchMediaTrailer, getReleaseYear, MEDIA_TYPE_MOVIE } from '../logic/helpers';
+import { convertRating, fetchMediaTrailer, getReleaseYear, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV, months } from '../logic/helpers';
 import Similar from '../components/Similar';
 import FsLightbox from 'fslightbox-react';
 import Photos from '../components/Photos';
@@ -55,6 +55,21 @@ const MediaDetails = ({ match }) => {
 
 	const [isModalVisible, setIsModalVisible] = useState(false); // download torrent modal
 
+	const formatter = new Intl.NumberFormat(undefined, {
+		currency: 'USD',
+		style: 'currency',
+	});
+
+	const getReleaseDate = type => {
+		let date;
+		if (type === MEDIA_TYPE_MOVIE) {
+			date = new Date(media.release_date);
+		} else {
+			date = new Date(media.first_air_date);
+		}
+		return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+	};
+
 	const fetchMediaData = async id => {
 		try {
 			setLoading(true);
@@ -67,8 +82,7 @@ const MediaDetails = ({ match }) => {
 				fetchTorrents(data.imdb_id, setTorrents); // fetch movie torrents using IMDB ID
 				// console.log('fetching torrents');
 			}
-
-			setLoading();
+			setLoading(false);
 		} catch (e) {
 			// console.error('FETCH MOVIE ERROR', e);
 			setTimeout(() => fetchMediaData(mediaID), 2000);
@@ -174,6 +188,61 @@ const MediaDetails = ({ match }) => {
 		);
 	};
 
+	const renderMediaStats = () => {
+		if (mediaType === MEDIA_TYPE_MOVIE) {
+			return (
+				<div className="media__stats">
+					<div className="stat">
+						<h3 className="stat__title">Status</h3>
+						<p>{media.status || '-'}</p>
+					</div>
+					<div className="stat">
+						<h3 className="stat__title">Release Date</h3>
+						<p>{getReleaseDate(MEDIA_TYPE_MOVIE) || '-'}</p>
+					</div>
+					<div className="stat">
+						<h3 className="stat__title">Budget</h3>
+						<p>{media.budget === 0 ? '-' : formatter.format(media.budget)}</p>
+					</div>
+					<div className="stat">
+						<h3 className="stat__title">Spoken Languages</h3>
+						<p>
+							{media.spoken_languages.length
+								? media.spoken_languages.map((val, i, arr) => {
+										if (i === arr.length - 1) {
+											return val.english_name;
+										}
+										return val.english_name + ', ';
+								  })
+								: '-'}
+						</p>
+					</div>
+				</div>
+			);
+		}
+
+		return (
+			<div className="media__stats">
+				<div className="stat">
+					<h3 className="stat__title">Status</h3>
+					<p>{media.status || '-'}</p>
+				</div>
+				<div className="stat">
+					<h3 className="stat__title">First Aired</h3>
+					<p>{getReleaseDate(MEDIA_TYPE_TV)}</p>
+				</div>
+				<div className="stat">
+					<h3 className="stat__title">No. of Seasons</h3>
+					<p>{media.number_of_seasons || '-'}</p>
+				</div>
+				<div className="stat">
+					<h3 className="stat__title">No. of Episodes</h3>
+					<p>{media.number_of_episodes || '-'}</p>
+				</div>
+			</div>
+		);
+	};
+
 	useEffect(() => {
 		fetchMediaData(mediaID);
 		setPhotoIndx();
@@ -185,6 +254,7 @@ const MediaDetails = ({ match }) => {
 		fetchMediaCastData();
 		fetchMediaImages();
 		fetchSimilarMedia();
+		// console.log('media', media);
 	}, [media]);
 
 	const detailsBG = {
@@ -278,6 +348,8 @@ const MediaDetails = ({ match }) => {
 											<p className="popularity--rating">{convertRating(media)}</p>
 											<p className="popularity--text">User Rating</p>
 										</div>
+
+										{renderMediaStats()}
 									</div>
 
 									{mediaCast && (
