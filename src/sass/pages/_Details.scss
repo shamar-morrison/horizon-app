@@ -164,7 +164,8 @@
 				border-radius: 100%;
 
 				@include xs-screens {
-					top: 34px;
+					// top: 34px;
+					top: 120%;
 					left: 50%;
 					transform: translateX(-50%);
 				}
@@ -195,7 +196,7 @@
 
 	&--btns {
 		display: flex;
-		gap: 0px;
+		gap: 30px;
 		align-items: center;
 		margin-top: 40px;
 		padding-bottom: 45px;
@@ -214,6 +215,10 @@
 		display: flex;
 		align-items: center;
 		gap: 8px;
+
+		@include xs-screens {
+			justify-content: center;
+		}
 
 		&--rating {
 			display: grid;
@@ -386,5 +391,29 @@
 		&:focus {
 			@include hover-scale;
 		}
+	}
+}
+
+.media__stats {
+	display: flex;
+	gap: 40px;
+	flex-wrap: wrap;
+
+	@include md-screens {
+		justify-content: center;
+	}
+}
+
+.stat {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+
+	&__title {
+		font-size: 1rem;
+	}
+
+	p {
+		font-size: 0.95rem;
 	}
 }

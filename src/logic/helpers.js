@@ -6,6 +6,21 @@ import { API_KEY } from './requests';
 export const MEDIA_TYPE_MOVIE = 'movie';
 export const MEDIA_TYPE_TV = 'tv';
 
+export const months = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December',
+];
+
 /**
  * fetch media trailer
  *
