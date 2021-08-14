@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import movieRequests, { BANNER_IMG_URL, BASE_IMG_URL } from '../logic/requests';
+import movieRequests, { BANNER_IMG_URL, BASE_IMG_URL, tvRequests } from '../logic/requests';
 import tmdb from '../logic/axios';
-import { fetchMediaTrailer, convertRating } from '../logic/helpers';
+import { fetchMediaTrailer, convertRating, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from '../logic/helpers';
 import LoadingSpinner from './LoadingSpinner';
 import FsLightbox from 'fslightbox-react';
 import noTrailerImg from '../img/no-trailer.png';
 import { movieDetailsPath } from '../logic/urlPaths';
 
 const Banner = ({ ref }) => {
-	const [banner, setBanner] = useState({});
+	const [banner, setBanner] = useState('');
 	const [trailer, setTrailer] = useState([]);
 	const [trailerToggler, setTrailerToggler] = useState(false);
 	const [isLoading, setLoading] = useState(false);
@@ -24,6 +24,8 @@ const Banner = ({ ref }) => {
 		movieRequests.fetchLatestCrimeMovies,
 		movieRequests.fetchLatestWarMovies,
 		movieRequests.fetchLatestMysteryMovies,
+		movieRequests.fetchLatestFantasyMovies,
+		movieRequests.fetchLatestDramaMovies,
 	];
 
 	// get a random movie fetch url
@@ -57,7 +59,7 @@ const Banner = ({ ref }) => {
 	}, []);
 
 	useEffect(() => {
-		fetchMediaTrailer(banner, setTrailer);
+		fetchMediaTrailer(banner, MEDIA_TYPE_MOVIE, setTrailer);
 	}, [banner]);
 
 	const headerStyles = {
@@ -89,32 +91,30 @@ const Banner = ({ ref }) => {
 								{banner.name || banner.original_name || banner.title || 'Error fetching banner :('}
 							</h1>
 							<p className="banner__body--desc">{banner.overview || 'No summary available.'}</p>
-							{banner.name ||
-								banner.original_name ||
-								(banner.title && (
-									<ul className="banner__body--btns">
-										<li
-											className="btn btn-lg watch-btn"
-											onClick={() => {
-												setTrailerToggler(!trailerToggler);
-											}}
-										>
-											<i className="fas fa-play"></i>Trailer
+							{banner && (
+								<ul className="banner__body--btns">
+									<li
+										className="btn btn-lg watch-btn"
+										onClick={() => {
+											setTrailerToggler(!trailerToggler);
+										}}
+									>
+										<i className="fas fa-play"></i>Trailer
+									</li>
+									<Link
+										to={{
+											pathname: `${movieDetailsPath}${banner.id}`,
+											state: {
+												movieDetails: banner,
+											},
+										}}
+									>
+										<li className="btn btn-lg add-list-btn" onClick={() => window.scrollTo(0, 0)}>
+											<i className="fas fa-plus"></i>see more
 										</li>
-										<Link
-											to={{
-												pathname: `${movieDetailsPath}${banner.id}`,
-												state: {
-													movieDetails: banner,
-												},
-											}}
-										>
-											<li className="btn btn-lg add-list-btn" onClick={() => window.scrollTo(0, 0)}>
-												<i className="fas fa-plus"></i>see more
-											</li>
-										</Link>
-									</ul>
-								))}
+									</Link>
+								</ul>
+							)}
 						</div>
 					</div>
 				</header>

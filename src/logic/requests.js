@@ -170,6 +170,20 @@ const movieRequests = {
 	// FAMILY
 	fetchFamilyMovies: `${movieUrl}${API_KEY}&${genreList.familyGenre}`,
 	fetchLatestFamilyMovies: `${movieUrl}${API_KEY}&sort_by=${latest}&${genreList.familyGenre}&primary_release_year=${currentYear}&year=${currentYear}&vote_average.gte=${minRating}&vote_average.lte=${maxRating}&${originalLanguageIsEnglish}&with_runtime.gte=100`,
+	fetchMostPopularFamilyMovies: `${movieUrl}${API_KEY}&sort_by=${mostPopular}&${genreList.familyGenre}`,
+	fetchHighestRatedFamilyMovies: `${movieUrl}${API_KEY}&sort_by=${highestRated}&${genreList.familyGenre}`,
+
+	// DRAMA
+	fetchDramaMovies: `${movieUrl}${API_KEY}&${genreList.dramaGenre}`,
+	fetchLatestDramaMovies: `${movieUrl}${API_KEY}&sort_by=${latest}&${genreList.dramaGenre}&primary_release_year=${currentYear}&year=${currentYear}&vote_average.gte=${minRating}&vote_average.lte=${maxRating}&${originalLanguageIsEnglish}&with_runtime.gte=100`,
+	fetchMostPopularDramaMovies: `${movieUrl}${API_KEY}&sort_by=${mostPopular}&${genreList.dramaGenre}`,
+	fetchHighestRatedDramaMovies: `${movieUrl}${API_KEY}&sort_by=${highestRated}&${genreList.dramaGenre}`,
+
+	// FANTASY
+	fetchFantasyMovies: `${movieUrl}${API_KEY}&${genreList.fantasyGenre}`,
+	fetchLatestFantasyMovies: `${movieUrl}${API_KEY}&sort_by=${latest}&${genreList.fantasyGenre}&primary_release_year=${currentYear}&year=${currentYear}&vote_average.gte=${minRating}&vote_average.lte=${maxRating}&${originalLanguageIsEnglish}&with_runtime.gte=100`,
+	fetchMostPopularFantasyMovies: `${movieUrl}${API_KEY}&sort_by=${mostPopular}&${genreList.fantasyGenre}`,
+	fetchHighestRatedFantasyMovies: `${movieUrl}${API_KEY}&sort_by=${highestRated}&${genreList.fantasyGenre}`,
 
 	// POPULAR
 	fetchPopularMovies: `/movie/popular?api_key=${API_KEY}&language=en-US`,
@@ -182,9 +196,15 @@ const movieRequests = {
  * TV SHOW REQUESTS
  */
 export const tvRequests = {
+	// POPULAR TV
 	fetchPopularTVShowsPg1: `/tv/popular?api_key=${API_KEY}&language=en-US&page=1`,
 	fetchPopularTVShowsPg2: `/tv/popular?api_key=${API_KEY}&language=en-US&page=2`,
 	fetchPopularTVShowsPg3: `/tv/popular?api_key=${API_KEY}&language=en-US&page=3`,
+
+	// TRENDING TV
+	fetchTrendingTVShowsPg1: `/trending/tv/day?api_key=${API_KEY}&language=en-US&page=1`,
+	fetchTrendingTVShowsPg2: `/trending/tv/day?api_key=${API_KEY}&language=en-US&page=2`,
+	fetchTrendingTVShowsPg3: `/trending/tv/day?api_key=${API_KEY}&language=en-US&page=3`,
 };
 
 export default movieRequests;

@@ -175,6 +175,57 @@ const MediaRow = ({ title, fetchUrl, mediaType, id }) => {
 					break;
 				}
 			}
+			case 'family': {
+				if (target.classList.contains('popular')) {
+					setUrl(movieRequests.fetchMostPopularFamilyMovies);
+					toggleActiveCategory(selected, target);
+					break;
+				}
+				if (target.classList.contains('latest')) {
+					setUrl(movieRequests.fetchLatestFamilyMovies);
+					toggleActiveCategory(selected, target);
+					break;
+				}
+				if (target.classList.contains('rating-asc')) {
+					setUrl(movieRequests.fetchHighestRatedFamilyMovies);
+					toggleActiveCategory(selected, target);
+					break;
+				}
+			}
+			case 'crime': {
+				if (target.classList.contains('popular')) {
+					setUrl(movieRequests.fetchMostPopularCrimeMovies);
+					toggleActiveCategory(selected, target);
+					break;
+				}
+				if (target.classList.contains('latest')) {
+					setUrl(movieRequests.fetchLatestCrimeMovies);
+					toggleActiveCategory(selected, target);
+					break;
+				}
+				if (target.classList.contains('rating-asc')) {
+					setUrl(movieRequests.fetchHighestRatedCrimeMovies);
+					toggleActiveCategory(selected, target);
+					break;
+				}
+			}
+			case 'drama': {
+				if (target.classList.contains('popular')) {
+					setUrl(movieRequests.fetchMostPopularDramaMovies);
+					toggleActiveCategory(selected, target);
+					break;
+				}
+				if (target.classList.contains('latest')) {
+					setUrl(movieRequests.fetchLatestDramaMovies);
+					toggleActiveCategory(selected, target);
+					break;
+				}
+				if (target.classList.contains('rating-asc')) {
+					setUrl(movieRequests.fetchHighestRatedDramaMovies);
+					toggleActiveCategory(selected, target);
+					break;
+				}
+			}
 		}
 	};
 
@@ -195,6 +246,9 @@ const MediaRow = ({ title, fetchUrl, mediaType, id }) => {
 				{title.startsWith('Romance') && <FilterCategory category={'romance'} onFilter={filterCategories} />}
 				{title.startsWith('Sci-Fi') && <FilterCategory category={'sci-fi'} onFilter={filterCategories} />}
 				{title.startsWith('Mystery') && <FilterCategory category={'mystery'} onFilter={filterCategories} />}
+				{title.startsWith('Drama') && <FilterCategory category={'drama'} onFilter={filterCategories} />}
+				{title.startsWith('Crime') && <FilterCategory category={'crime'} onFilter={filterCategories} />}
+				{title.startsWith('Family') && <FilterCategory category={'family'} onFilter={filterCategories} />}
 			</div>
 			<Swiper
 				slidesPerView={'auto'}
