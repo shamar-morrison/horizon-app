@@ -28,12 +28,24 @@ export const months = [
  * @param {useState} setTrailer useState hook function to set the trailer object
  */
 
-export const fetchMediaTrailer = async (media, setTrailer) => {
+export const fetchMediaTrailer = async (media, type, setTrailer) => {
 	try {
-		const res = await movieTrailer(null, { multi: true, tmdbId: media.id });
-		if (!res) throw Error('Error fetching trailer');
+		if (type === MEDIA_TYPE_MOVIE) {
+			const res = await movieTrailer(null, { multi: true, tmdbId: media.id });
+			if (!res) throw Error('Error fetching trailer');
 
-		setTrailer(res); // set media trailer
+			setTrailer(res); // set media trailer
+		} else {
+			const videos = [];
+			const { data } = await tmdb.get(`/tv/${media.id}/videos?api_key=${API_KEY}&language=en-US`);
+			// console.log(data.results);
+			data.results.forEach(res => {
+				if (res.site === 'YouTube') {
+					videos.push(`https://www.youtube.com/watch?v=${res.key}`);
+				}
+			});
+			setTrailer(videos);
+		}
 	} catch (error) {
 		// console.error('media TRAILER ERROR', error);
 	}

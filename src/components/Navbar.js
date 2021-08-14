@@ -29,7 +29,13 @@ const Navbar = () => {
 							<img src={logo} alt="Logo" />
 						</Link>
 					</div>
-					<ul className="navbar-links" onClick={() => window.scrollTo(0, 0)}>
+					<ul
+						className="navbar-links"
+						onClick={e => {
+							if (e.target.localName !== 'li') return;
+							window.scrollTo(0, 0);
+						}}
+					>
 						<li className="nav-link">
 							Movies
 							<ul className="nav-link--dropdown">

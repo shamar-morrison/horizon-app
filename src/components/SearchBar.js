@@ -15,7 +15,6 @@ const SearchBar = () => {
 		try {
 			setIsSearching(true);
 			const res = await tmdb.get(`/search/multi?api_key=${API_KEY}&language=en-US&query=${searchVal}&page=1`);
-			console.log('search result', res);
 			if (!res) throw Error('Error fetching search results.');
 			setSearchResults(res.data.results);
 		} catch (e) {
