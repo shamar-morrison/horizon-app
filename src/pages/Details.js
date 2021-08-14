@@ -250,7 +250,7 @@ const MediaDetails = ({ match }) => {
 	}, [triggerUpdate]);
 
 	useEffect(() => {
-		fetchMediaTrailer(media, setTrailer);
+		fetchMediaTrailer(media, mediaType, setTrailer);
 		fetchMediaCastData();
 		fetchMediaImages();
 		fetchSimilarMedia();
@@ -301,11 +301,10 @@ const MediaDetails = ({ match }) => {
 
 										<span className="play-movie-anim"></span>
 									</div>
-									{mediaType === MEDIA_TYPE_MOVIE && (
-										<button className="watch-trailer btn" onClick={() => setTrailerToggler(!trailerToggler)}>
-											<i className="fas fa-video"></i> watch trailer
-										</button>
-									)}
+
+									<button className="watch-trailer btn" onClick={() => setTrailerToggler(!trailerToggler)}>
+										<i className="fas fa-video"></i> watch trailer
+									</button>
 
 									{mediaType === MEDIA_TYPE_MOVIE && (
 										<button
@@ -364,6 +363,18 @@ const MediaDetails = ({ match }) => {
 											})}
 										</ul>
 									)}
+									<p className="keywords">
+										Keywords: watch {media.name || media.original_name || media.title || media.original_title} free,{' '}
+										watch {media.name || media.original_name || media.title || media.original_title} hd,{' '}
+										{media.name || media.original_name || media.title || media.original_title} online, where to watch{' '}
+										{media.name || media.original_name || media.title || media.original_title},{' '}
+										{media.name || media.original_name || media.title || media.original_title} free online,{' '}
+										{media.name || media.original_name || media.title || media.original_title}, download{' '}
+										{media.name || media.original_name || media.title || media.original_title} 4k,{' '}
+										{media.name || media.original_name || media.title || media.original_title} torrent,{' '}
+										{media.name || media.original_name || media.title || media.original_title} cast,{' '}
+										<Genres genres={media.genres} />
+									</p>
 								</div>
 							</div>
 						)}
