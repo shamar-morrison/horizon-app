@@ -11,7 +11,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Details from './pages/Details';
 import Movie_TVList from './pages/Movie_TVList';
-import Watch from './pages/Watch';
 import PageNotFound from './pages/PageNotFound';
 import UserAgreement from './pages/UserAgreement';
 import ContactForm from './pages/ContactForm';

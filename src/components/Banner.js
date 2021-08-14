@@ -93,14 +93,6 @@ const Banner = ({ ref }) => {
 							<p className="banner__body--desc">{banner.overview || 'No summary available.'}</p>
 							{banner && (
 								<ul className="banner__body--btns">
-									<li
-										className="btn btn-lg watch-btn"
-										onClick={() => {
-											setTrailerToggler(!trailerToggler);
-										}}
-									>
-										<i className="fas fa-play"></i>Trailer
-									</li>
 									<Link
 										to={{
 											pathname: `${movieDetailsPath}${banner.id}`,
@@ -109,10 +101,18 @@ const Banner = ({ ref }) => {
 											},
 										}}
 									>
-										<li className="btn btn-lg add-list-btn" onClick={() => window.scrollTo(0, 0)}>
-											<i className="fas fa-plus"></i>see more
+										<li className="btn btn-lg watch-btn" onClick={() => window.scrollTo(0, 0)}>
+											<i className="fas fa-play"></i>watch
 										</li>
 									</Link>
+									<li
+										className="btn btn-lg trailer-btn"
+										onClick={() => {
+											setTrailerToggler(!trailerToggler);
+										}}
+									>
+										<i className="fas fa-video"></i> Trailer
+									</li>
 								</ul>
 							)}
 						</div>

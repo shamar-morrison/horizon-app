@@ -70,6 +70,7 @@ const Navbar = () => {
 								</Link>
 							</ul>
 						</li>
+						<li className="nav-link">4K</li>
 					</ul>
 					<SearchBar />
 				</nav>

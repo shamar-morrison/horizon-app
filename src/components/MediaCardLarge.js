@@ -37,20 +37,19 @@ const MediaCardLarge = ({ media, onClose, type, id }) => {
 					<h1 className="large__card--title">{media.name || media.title || media.original_title || media.original_name}</h1>
 					<p className="banner__body--desc">{media.overview || 'No summary available.'}</p>
 					<ul className="banner__body--btns">
+						<Link to={{ pathname: `${type === MEDIA_TYPE_MOVIE ? movieDetailsPath : tvDetailsPath}${media.id}` }}>
+							<li className="btn btn-lg watch-btn" onClick={() => window.scrollTo(0, 0)}>
+								<i className="fas fa-play"></i>watch
+							</li>
+						</Link>
 						<li
-							className="btn btn-lg watch-btn"
+							className="btn btn-lg trailer-btn"
 							onClick={() => {
 								setTrailerToggler(!trailerToggler);
 							}}
 						>
-							<i className="fas fa-play"></i>Trailer
+							<i className="fas fa-video"></i>Trailer
 						</li>
-
-						<Link to={{ pathname: `${type === MEDIA_TYPE_MOVIE ? movieDetailsPath : tvDetailsPath}${media.id}` }}>
-							<li className="btn btn-lg add-list-btn" onClick={() => window.scrollTo(0, 0)}>
-								<i className="fas fa-plus"></i>see more
-							</li>
-						</Link>
 					</ul>
 				</div>
 			</div>
