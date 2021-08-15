@@ -7,6 +7,12 @@ a {
 	margin-top: 180px;
 	gap: 50px;
 
+	@media (max-width: 510px) {
+		flex-wrap: wrap;
+		gap: 0px;
+		justify-content: center;
+	}
+
 	&--title {
 		position: relative;
 		top: -8px;
@@ -47,6 +53,15 @@ a {
 	gap: 10px;
 	flex-basis: 20%;
 
+	@media (max-width: 510px) {
+		position: relative;
+		top: -52px;
+		transform: translateY(0);
+		display: flex;
+		flex-direction: column;
+		flex-basis: auto;
+	}
+
 	h2 {
 		font-size: 1.5rem;
 	}
@@ -61,6 +76,16 @@ a {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 15px;
+
+		@media (max-width: 510px) {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+		}
+
+		@media (max-width: 358px) {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 
 	.filter-title {
@@ -75,6 +100,10 @@ a {
 		padding-left: 10px;
 		color: #fff;
 		width: 250px;
+
+		@media (max-width: 510px) {
+			width: 100%;
+		}
 	}
 
 	.search-btn {
@@ -135,9 +164,23 @@ a {
 .card__grid--list {
 	display: flex;
 	flex-wrap: wrap;
-	// justify-content: space-between;
 	gap: 30px;
 	row-gap: 0;
+
+	@media (max-width: 510px) {
+		justify-content: center;
+		gap: 10px;
+	}
+
+	.movie__card {
+		@media (max-width: 510px) {
+			margin-bottom: 40px;
+		}
+
+		@include xs-screens {
+			max-width: 170px;
+		}
+	}
 
 	&-item {
 		max-width: 200px;
@@ -157,7 +200,7 @@ a {
 // MEDIA CARD WRAPPER
 .media-card-wrapper {
 	position: fixed;
-	top: 40vh;
+	// top: 40vh;
 	left: 0;
 	bottom: 0;
 	right: 0;
@@ -165,6 +208,14 @@ a {
 	width: 100%;
 	margin: auto;
 	z-index: 9999;
+
+	.large__card {
+		max-height: 100vh;
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+		margin-bottom: 0;
+	}
 }
 
 .wrapper-bg {

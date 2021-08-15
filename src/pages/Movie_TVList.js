@@ -311,10 +311,10 @@ const Movie_TVList = ({ match }) => {
 									>
 										{isNextPageLoading ? (
 											<>
-												Loading <i class="fas fa-spinner fa-pulse" style={{ marginLeft: '2px' }}></i>
+												Loading <i className="fas fa-spinner fa-pulse" style={{ marginLeft: '2px' }}></i>
 											</>
 										) : (
-											<i class="fas fa-plus-circle"></i>
+											<i className="fas fa-plus-circle"></i>
 										)}
 									</button>
 									{endOfResults && <h3 style={{ marginTop: '20px' }}>No more results found.</h3>}

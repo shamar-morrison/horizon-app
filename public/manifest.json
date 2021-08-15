@@ -1,6 +1,6 @@
 {
-	"short_name": "Horizon",
-	"name": "Horizon - Download Movies in HD",
+	"short_name": "Horizon - Movies & TV Shows",
+	"name": "Horizon - Watch & Download Movies & TV Shows in HD",
 	"icons": [
 		{
 			"src": "favicon.png",
@@ -10,6 +10,6 @@
 	],
 	"start_url": ".",
 	"display": "standalone",
-	"theme_color": "#000000",
-	"background_color": "#ffffff"
+	"theme_color": "#fff",
+	"background_color": "#000"
 }

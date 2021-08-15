@@ -140,7 +140,7 @@ const MediaDetails = ({ match }) => {
 			return (
 				<>
 					Checking
-					<i class="fas fa-spinner fa-pulse" style={{ marginLeft: '6px' }}></i>
+					<i className="fas fa-spinner fa-pulse" style={{ marginLeft: '6px' }}></i>
 				</>
 			);
 		} else if (torrents.length > 0) {
@@ -315,7 +315,7 @@ const MediaDetails = ({ match }) => {
 												}
 											}}
 										>
-											<i class="fas fa-download"></i> {renderTorrentBtn()}
+											<i className="fas fa-download"></i> {renderTorrentBtn()}
 										</button>
 									)}
 								</div>

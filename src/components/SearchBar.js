@@ -5,13 +5,15 @@ import { API_KEY } from '../logic/requests';
 import tmdb from '../logic/axios';
 import { movieDetailsPath, tvDetailsPath } from '../logic/urlPaths';
 
-const SearchBar = () => {
+const SearchBar = ({ onBlur, assignFocus }) => {
 	const [searchVal, setSearchVal] = useState('');
 	const [searchResults, setSearchResults] = useState('');
 	const [isSearching, setIsSearching] = useState(false);
+	const [isFocused, setIsFocused] = useState(assignFocus || false);
 	const history = useHistory();
 
 	const filterSearch = async () => {
+		if (!searchVal) return;
 		try {
 			setIsSearching(true);
 			const res = await tmdb.get(`/search/multi?api_key=${API_KEY}&language=en-US&query=${searchVal}&page=1`);
@@ -46,13 +48,20 @@ const SearchBar = () => {
 				onChange={({ target }) => {
 					setSearchVal(target.value);
 				}}
-				onBlur={clearSearch}
+				onBlur={() => {
+					clearSearch();
+					if (onBlur) {
+						onBlur();
+					}
+				}}
+				autoFocus={isFocused}
 			/>
+
 			{searchVal && (
 				<ul className="search-results" id="search-results">
 					{isSearching ? (
 						<li className="loading-search">
-							<i class="fas fa-spinner fa-pulse"></i>
+							<i className="fas fa-spinner fa-pulse"></i>
 						</li>
 					) : searchResults?.length > 0 ? (
 						searchResults.slice(0, 6).map(result => {
@@ -83,7 +92,7 @@ const SearchBar = () => {
 							}
 						})
 					) : (
-						!searchResults.length && <li className="search-result">No results found.</li>
+						!searchResults.length && <li className="search-result no-pointer-events">No results found.</li>
 					)}
 				</ul>
 			)}

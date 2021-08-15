@@ -1,4 +1,6 @@
 .navbar {
+	position: relative;
+	color: rgba(255, 255, 255, 0.527);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -26,11 +28,6 @@
 	background-color: #000;
 	padding: 25px 7%;
 	box-shadow: $navbar-shadow;
-
-	.navbar-links {
-		transform: translateY(-5px);
-		transition-property: transform;
-	}
 }
 
 .navbar-brand {
@@ -42,7 +39,7 @@
 		max-width: 150px;
 
 		@include xs-screens {
-			max-width: 90px;
+			max-width: 125px;
 			// transform: translateY(5px);
 		}
 	}
@@ -50,17 +47,16 @@
 
 .navbar-links {
 	display: flex;
-
 	gap: 45px;
 	font-size: 0.95rem;
-	color: rgba(255, 255, 255, 0.527);
+
 	transition-property: color;
 
 	@include xl-screens {
 		gap: 35px;
 	}
 
-	@media (max-width: 920px) {
+	@include mobile-menu {
 		display: none;
 	}
 

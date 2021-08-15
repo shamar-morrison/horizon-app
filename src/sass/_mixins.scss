@@ -98,3 +98,9 @@
 		@content;
 	}
 }
+
+@mixin mobile-menu {
+	@media (max-width: 700px) {
+		@content;
+	}
+}

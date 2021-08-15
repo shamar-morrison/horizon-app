@@ -3,6 +3,8 @@ import logo from '../img/logo.png';
 import SearchBar from './SearchBar';
 import { Link, NavLink } from 'react-router-dom';
 import movieRequests from '../logic/requests';
+import NavbarLinks from './NavbarLinks';
+import MobileMenu from './MobileMenu';
 
 const Navbar = () => {
 	/**
@@ -29,50 +31,9 @@ const Navbar = () => {
 							<img src={logo} alt="Logo" />
 						</Link>
 					</div>
-					<ul
-						className="navbar-links"
-						onClick={e => {
-							if (e.target.localName !== 'li') return;
-							window.scrollTo(0, 0);
-						}}
-					>
-						<li className="nav-link">
-							Movies
-							<ul className="nav-link--dropdown">
-								<Link to="/movie/popular">
-									<li>Popular</li>
-								</Link>
-								<Link to="/movie/now_playing">
-									<li>Now Playing</li>
-								</Link>
-								<Link to="/movie/upcoming">
-									<li>Upcoming</li>
-								</Link>
-								<Link to="/movie/top_rated">
-									<li>Top Rated</li>
-								</Link>
-							</ul>
-						</li>
-						<li className="nav-link">
-							TV Shows
-							<ul className="nav-link--dropdown">
-								<Link to="/tv/popular">
-									<li>Popular</li>
-								</Link>
-								<Link to="/tv/airing_today">
-									<li>Airing Today</li>
-								</Link>
-								<Link to="/tv/on_the_air">
-									<li>On TV</li>
-								</Link>
-								<Link to="/tv/top_rated">
-									<li>Top Rated</li>
-								</Link>
-							</ul>
-						</li>
-						{/* <li className="nav-link">4K</li> */}
-					</ul>
+					<NavbarLinks />
 					<SearchBar />
+					<MobileMenu />
 				</nav>
 			</div>
 		</div>
