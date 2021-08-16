@@ -9,8 +9,8 @@
 
 @mixin default-spinner {
 	background-color: transparent;
-	border: 6px solid var(--clr-red);
-	border-top: 6px solid transparent;
+	border-top: 6px solid var(--clr-red);
+	border-right: 6px solid transparent;
 	border-radius: 50%;
 	animation: rotate 700ms linear infinite;
 }

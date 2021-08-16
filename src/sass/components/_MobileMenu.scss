@@ -13,20 +13,22 @@
 	}
 
 	.navbar-links {
+		--width: 50vw;
+
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
 		position: fixed;
 		right: 0;
 		top: 80px;
-
 		padding: 20px;
-		width: 50vw;
+
+		width: var(--width);
 		height: 100vh;
 		text-align: right;
 		background-color: var(--clr-primary-900);
 		font-size: 1rem;
-		transform: translateX(50vw);
+		transform: translateX(var(--width));
 	}
 
 	.nav-link {

@@ -8,7 +8,8 @@ a {
 	gap: 50px;
 
 	@media (max-width: 510px) {
-		flex-wrap: wrap;
+		// flex-wrap: wrap;
+		flex-direction: column;
 		gap: 0px;
 		justify-content: center;
 	}
@@ -60,6 +61,7 @@ a {
 		display: flex;
 		flex-direction: column;
 		flex-basis: auto;
+		margin: auto;
 	}
 
 	h2 {

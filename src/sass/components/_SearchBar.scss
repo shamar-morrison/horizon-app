@@ -40,7 +40,8 @@
 
 	.search-icon {
 		position: absolute;
-		top: 9px;
+		top: 50%;
+		transform: translateY(-50%);
 		left: 9px;
 		font-size: 0.85rem;
 		color: inherit;
