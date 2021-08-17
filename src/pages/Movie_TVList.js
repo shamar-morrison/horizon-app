@@ -21,11 +21,10 @@ const Movie_TVList = ({ match }) => {
 	const [page, setPage] = useState(1);
 	const [mediaCardLarge, setMediaCardLarge] = useState();
 	const [mediaType, setMediaType] = useState(type);
-	const [hasChanged, setHasChanged] = useState(false);
+	const [enableSearchBtn, setEnableSearchBtn] = useState(false);
 
 	const [filters, setFilters] = useState({
 		genre: '',
-		query: '',
 		sort: '',
 		date: '',
 		language: '',
@@ -58,13 +57,12 @@ const Movie_TVList = ({ match }) => {
 	};
 
 	const fetchSearchData = async () => {
+		setData([]);
+		setLoading(true);
+		clearErrorMsgs();
 		try {
-			setData([]);
-			setLoading(true);
-			clearErrorMsgs();
-
 			const { status, data } = await tmdb.get(
-				`/discover/${mediaType}?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}&year=${filters.date}&page=${page}`
+				`/discover/${mediaType}?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}${filters.date}&page=1`
 			);
 
 			if (status !== 200 || !data.results.length) {
@@ -91,7 +89,7 @@ const Movie_TVList = ({ match }) => {
 			clearErrorMsgs();
 
 			// if no filters have been applied, fetch next page for selected category
-			if (!filters.sort && !filters.query && !filters.genre && !filters.language && !filters.date) {
+			if (!filters.sort && !filters.genre && !filters.language && !filters.date) {
 				const res = await tmdb.get(`/${mediaType}/${category}?api_key=${API_KEY}&page=${page}`);
 				status = res.status;
 				data = res.data;
@@ -99,7 +97,7 @@ const Movie_TVList = ({ match }) => {
 			// if filters have been applied, apply filters and fetch next page of results
 			else {
 				const res = await tmdb.get(
-					`/discover/${mediaType}?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}&year=${filters.date}&page=${page}`
+					`/discover/${mediaType}?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}${filters.date}&page=${page}`
 				);
 				status = res.status;
 				data = res.data;
@@ -112,7 +110,7 @@ const Movie_TVList = ({ match }) => {
 
 			setData(prev => [...prev, ...data.results]);
 		} catch (e) {
-			console.error(e);
+			// console.error(e);
 		} finally {
 			setIsNextPageLoading(false);
 		}
@@ -139,8 +137,14 @@ const Movie_TVList = ({ match }) => {
 
 	useEffect(() => {
 		loadNextPage();
-		// console.log('load next page triggered');
 	}, [page]);
+
+	// useEffect(() => {
+	// 	console.log(filters);
+	// 	console.log(
+	// 		`/discover/${mediaType}?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}${filters.date}&page=${page}`
+	// 	);
+	// }, [filters]);
 
 	useEffect(() => {
 		setPage(1); // set initial page to first
@@ -167,7 +171,7 @@ const Movie_TVList = ({ match }) => {
 									id="sort-results-by"
 									onChange={({ target }) => {
 										setFilters(prev => ({ ...prev, sort: getSelectedValue(target) }));
-										setHasChanged(true);
+										setEnableSearchBtn(true);
 									}}
 								>
 									<option value="">All</option>
@@ -185,7 +189,7 @@ const Movie_TVList = ({ match }) => {
 									id="genre"
 									onChange={({ target }) => {
 										setFilters(prev => ({ ...prev, genre: getSelectedValue(target) }));
-										setHasChanged(true);
+										setEnableSearchBtn(true);
 									}}
 								>
 									<option value=""> </option>
@@ -217,7 +221,7 @@ const Movie_TVList = ({ match }) => {
 									id="language"
 									onClick={({ target }) => {
 										setFilters(prev => ({ ...prev, language: getSelectedValue(target) }));
-										setHasChanged(true);
+										setEnableSearchBtn(true);
 									}}
 								>
 									<option value="">All</option>
@@ -239,19 +243,21 @@ const Movie_TVList = ({ match }) => {
 									id="year"
 									onChange={({ target }) => {
 										const date = new Date(target.value).getFullYear(); // get year
-										setFilters(prev => ({ ...prev, date: date }));
-										setHasChanged(true);
+										const mediaDate = mediaType === MEDIA_TYPE_MOVIE ? `&year=${date}` : `&first_air_date_year=${date}`;
+										setFilters(prev => ({ ...prev, date: mediaDate }));
+										setEnableSearchBtn(true);
 									}}
 								/>
 							</li>
 						</ul>
 						<button
-							className={hasChanged ? 'search-btn' : 'search-btn-disabled'}
+							className={enableSearchBtn ? 'search-btn' : 'search-btn-disabled'}
 							id="search-btn"
 							onClick={() => {
 								window.scrollTo(0, 0);
 								fetchSearchData();
-								setHasChanged(false);
+								setEnableSearchBtn(false);
+								// console.log(filters, 'after search');
 							}}
 						>
 							Search
@@ -276,14 +282,16 @@ const Movie_TVList = ({ match }) => {
 																src={
 																	movie.poster_path ? `${BASE_IMG_URL}${movie.poster_path}` : noImageFound
 																}
-																alt={movie.title || movie.original_title || movie.name}
+																alt={
+																	movie.title || movie.original_title || movie.name || movie.original_name
+																}
 															/>
 														) : (
 															<img src={noImageFound} />
 														)}
 													</div>
 													<h3 className="movie__card--title">
-														{movie.title || movie.name || movie.original_title}
+														{movie.title || movie.name || movie.original_title || movie.original_name}
 													</h3>
 													<div className="movie__card--bottom">
 														<p className="movie__card--year">{getReleaseYear(movie)}</p>

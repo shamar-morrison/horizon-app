@@ -26,6 +26,12 @@ const configURL = `/configuration?api_key=${API_KEY}`;
 // MOVIE ENDPOINT
 const movieUrl = '/discover/movie?api_key=';
 
+// LANGUAGES
+const getLangs = async () => {
+	const data = await tmdb.get(`/configuration/languages?api_key=${API_KEY}`);
+	console.log(data, 'langs');
+};
+
 // SORT QUERIES
 const mostPopular = 'popularity.desc';
 const latest = 'release_date.asc';
