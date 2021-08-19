@@ -251,7 +251,7 @@ const Movie_TVList = ({ match }) => {
 							</li>
 						</ul>
 						<button
-							className={enableSearchBtn ? 'search-btn' : 'search-btn-disabled'}
+							className={enableSearchBtn ? 'search-btn' : 'search-btn btn-disabled'}
 							id="search-btn"
 							onClick={() => {
 								window.scrollTo(0, 0);
@@ -308,7 +308,7 @@ const Movie_TVList = ({ match }) => {
 										</li>
 									))}
 								</>
-								<li style={{ margin: '0 auto', justifySelf: 'center' }}>
+								<li style={{ margin: '0 auto', justifySelf: 'center', textAlign: 'center' }}>
 									<button
 										className="btn btn-lg"
 										style={{

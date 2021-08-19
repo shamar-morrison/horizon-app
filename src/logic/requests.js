@@ -4,6 +4,7 @@
  * https://developers.themoviedb.org/3/getting-started/introduction
  */
 
+import axios from 'axios';
 import tmdb from './axios';
 
 export const API_KEY = '276dbe36838cf9f1737fd88bce2c5bd9';
@@ -31,6 +32,7 @@ const getLangs = async () => {
 	const data = await tmdb.get(`/configuration/languages?api_key=${API_KEY}`);
 	console.log(data, 'langs');
 };
+
 
 // SORT QUERIES
 const mostPopular = 'popularity.desc';

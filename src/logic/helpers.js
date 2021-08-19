@@ -22,6 +22,17 @@ export const months = [
 ];
 
 /**
+ * Convert media title to url slug
+ */
+
+export const makeSlug = title => {
+	return title
+		.toLowerCase()
+		.replace(/[^\w ]+/g, '')
+		.replace(/ +/g, '-');
+};
+
+/**
  * fetch media trailer
  *
  * @param {Object} media media object
@@ -62,7 +73,7 @@ export const fetchMediaTrailer = async (media, type, setTrailer) => {
 export const fetchTorrents = async (id, setTorrents) => {
 	try {
 		const { data } = await yts.get(`?query_term=${id}`);
-		if (data.status !== 'ok') return;
+		if (data.status !== 'ok') throw Error(data.status_message);
 
 		// if no torrents found
 		if (!data.data.movie_count) {
@@ -118,6 +129,22 @@ export const getMediaRuntime = async (media, mediaType, setMediaRuntime) => {
 		}
 	} catch (e) {
 		// console.error(e);
+	}
+};
+/**
+ *
+ * Calculate media runtime
+ */
+export const calcMediaRuntime = runtime => {
+	if (!runtime) return 'N/A';
+	// if runtime is an hour or more
+	else if (runtime > 60) {
+		const hours = Math.floor(runtime / 60);
+		const min = runtime % 60;
+		return `${hours}hr ${min}m`;
+		// if runtime is less than an hour AND is not 0 mins or less
+	} else if (runtime <= 60 && runtime !== 0) {
+		return `${runtime} m`;
 	}
 };
 

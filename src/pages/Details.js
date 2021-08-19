@@ -1,25 +1,20 @@
-import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
-import { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from '../logic/requests';
-import { useState, useEffect, useRef } from 'react';
-import tmdb, { yts } from '../logic/axios';
-import Cast from '../components/Cast';
-import movieTrailer from 'movie-trailer';
-import { convertRating, fetchMediaTrailer, getReleaseYear, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV, months } from '../logic/helpers';
-import Similar from '../components/Similar';
 import FsLightbox from 'fslightbox-react';
-import Photos from '../components/Photos';
-import Downloads from '../components/Downloads';
-import noTrailerImg from '../img/no-trailer.png';
+import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import noImageFound from '../img/no-img-found.png';
-import LoadingSpinner from '../components/LoadingSpinner';
-import Runtime from '../components/Runtime';
+import Cast from '../components/Cast';
+import Downloads from '../components/Downloads';
 import Genres from '../components/Genres';
-import { useLocation } from 'react-router-dom';
-import { fetchTorrents } from '../logic/helpers';
+import LoadingSpinner from '../components/LoadingSpinner';
+import Photos from '../components/Photos';
 import Player from '../components/Player';
+import Runtime from '../components/Runtime';
+import Similar from '../components/Similar';
+import noImageFound from '../img/no-img-found.png';
+import noTrailerImg from '../img/no-trailer.png';
+import tmdb from '../logic/axios';
+import { convertRating, fetchMediaTrailer, fetchTorrents, getReleaseYear, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV, months } from '../logic/helpers';
+import { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from '../logic/requests';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -179,13 +174,7 @@ const MediaDetails = ({ match }) => {
 	};
 
 	const renderMediaPlayer = () => {
-		return isLoading ? (
-			<div className="loading-spinner--similar">
-				<LoadingSpinner />
-			</div>
-		) : (
-			<Player media={media} type={mediaType} />
-		);
+		return <Player media={media} type={mediaType} />;
 	};
 
 	const renderMediaStats = () => {
@@ -254,7 +243,6 @@ const MediaDetails = ({ match }) => {
 		fetchMediaCastData();
 		fetchMediaImages();
 		fetchSimilarMedia();
-		// console.log('media', media);
 	}, [media]);
 
 	const detailsBG = {
@@ -321,7 +309,7 @@ const MediaDetails = ({ match }) => {
 								</div>
 								<div className="movie__details--body">
 									<h1 className="movie__details--title">
-										{media.title || media.name || media.original_title}
+										{media.title || media.name || media.original_title || media.original_name}
 										<span className="movie__details--lang" tooltip={media.spoken_languages[0]?.english_name || 'N/A'}>
 											{media.original_language}
 										</span>
@@ -395,7 +383,7 @@ const MediaDetails = ({ match }) => {
 
 			<section className="container">
 				{isLoading ? (
-					<div className="loading">
+					<div className="loading-spinner--similar">
 						<LoadingSpinner />
 					</div>
 				) : (

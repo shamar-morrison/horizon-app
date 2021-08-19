@@ -16,6 +16,7 @@ import UserAgreement from './pages/UserAgreement';
 import ContactForm from './pages/ContactForm';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import { MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from './logic/helpers';
+import HDTorrents from './pages/HDTorrents';
 
 const App = () => {
 	return (
@@ -89,8 +90,10 @@ const App = () => {
 					<Route exact path="/:type/:category" render={props => <Movie_TVList {...props} key={uuidv4()} />} />
 					{/* :type - movie || tv 
 					    :id   - imdb id
+						:title - media title
 					*/}
-					<Route exact path="/details/:type/:id" render={props => <Details {...props} key={uuidv4()} />} />
+					<Route exact path={`/details/:type/:id-:title`} render={props => <Details {...props} key={uuidv4()} />} />
+					<Route exact path="/4k" render={props => <HDTorrents {...props} />} />
 					<Route exact path="/terms" component={UserAgreement} />
 					<Route exact path="/contact" component={ContactForm} />
 					<Route exact path="/privacy-policy" component={PrivacyPolicy} />

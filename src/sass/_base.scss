@@ -13,9 +13,9 @@
 :root {
 	--clr-red: #e60a15;
 	--clr-primary-1000: hsl(252, 5%, 5%);
-	--clr-primary-900: hsl(252, 11%, 9%);
+	--clr-primary-900: #151419;
 	--clr-primary-800: #1e1d22;
-	--clr-primary-500: hsl(248, 4%, 45%);
+	--clr-primary-500: #6f6e77;
 	--clr-primary-400: hsl(248, 4%, 55%);
 	--clr-primary-600: #292830;
 	--clr-yellow: #ffb70c;
@@ -186,8 +186,20 @@ i.star {
 	width: auto;
 }
 
-// TODO: this rule doesn't work
-.swiper-button-disabled {
-	cursor: not-allowed !important;
-	opacity: 0.3 !important;
+// // TODO: this rule doesn't work
+// .swiper-button-disabled {
+// 	cursor: not-allowed !important;
+// 	opacity: 0.3 !important;
+// }
+
+.error-icon {
+	color: var(--clr-red);
+	font-size: 2.5rem;
+}
+
+.btn-disabled {
+	background-color: var(--clr-primary-500) !important;
+	color: var(--clr-primary-800);
+	opacity: 0.6;
+	pointer-events: none;
 }

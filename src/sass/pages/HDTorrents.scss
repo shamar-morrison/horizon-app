@@ -1,0 +1,63 @@
+.torrent__search {
+	&--form {
+		display: flex;
+		gap: 20px;
+		flex-wrap: wrap;
+		justify-content: center;
+
+		input {
+			flex-basis: 50%;
+
+			&::placeholder {
+				font-style: italic;
+				opacity: 0.6;
+			}
+
+			@include xs-screens {
+				flex-basis: 100%;
+			}
+		}
+
+		.search-torrents {
+			border-radius: $border-radius-sm;
+			background-color: var(--clr-red);
+			padding: 12px 35px;
+			text-align: center;
+
+			@include xs-screens {
+				flex-basis: 100%;
+			}
+		}
+	}
+
+	&--title {
+		font-weight: 500;
+		text-align: center;
+		margin-bottom: 40px;
+	}
+
+	&--error {
+		font-size: 1.5rem;
+		text-align: center;
+	}
+
+	i.error-icon {
+		margin-bottom: 10px;
+	}
+
+	.movie__card {
+		margin-bottom: 50px;
+	}
+}
+
+.torrent__grid {
+	display: flex;
+	gap: 30px;
+	flex-wrap: wrap;
+	margin-top: 80px;
+	justify-content: center;
+}
+
+span.red {
+	color: var(--clr-red);
+}

@@ -49,6 +49,10 @@
 				opacity: 1;
 				transform: translate(0%, -55%) scale(1);
 				transition: opacity 350ms linear;
+
+				@media xs-screens, (pointer: none) {
+					pointer-events: auto;
+				}
 			}
 
 			.movie__card--play-btn {
@@ -137,6 +141,10 @@
 		top: -52%;
 		transform: translate(0%, -55%) scale(0.7);
 		opacity: 0;
+
+		@media xs-screens, (pointer: none) {
+			pointer-events: none;
+		}
 
 		i {
 			height: 65px;

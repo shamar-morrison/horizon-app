@@ -13,9 +13,9 @@ const API_KEY = `276dbe36838cf9f1737fd88bce2c5bd9`;
 const numOfPages = 500;
 
 async function generateSitemap() {
+	const movieIDs = [];
 	// get movie ID's for dynamic routes
 	try {
-		const movieIDs = [];
 		for (let i = 1; i <= numOfPages; ++i) {
 			const { data } = await tmdb.get(`/discover/movie?api_key=${API_KEY}&page=${i}`);
 			if (!data.results.length) throw Error(`error fething movie id's for sitemap-builder.js`);

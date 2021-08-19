@@ -67,7 +67,10 @@ const NavbarLinks = () => {
 					</Link>
 				</ul>
 			</li>
-			{/* <li className="nav-link">4K</li> */}
+			<Link to="/4k">
+				<li className="nav-link">4K</li>
+			</Link>
+			{/* <li className="nav-link">Anime</li> */}
 		</ul>
 	);
 };

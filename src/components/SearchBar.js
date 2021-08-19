@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
-import { useRef, useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { API_KEY } from '../logic/requests';
 import tmdb from '../logic/axios';
+import { makeSlug } from '../logic/helpers';
+import { API_KEY } from '../logic/requests';
 import { movieDetailsPath, tvDetailsPath } from '../logic/urlPaths';
 
 const SearchBar = ({ onBlur, assignFocus }) => {
@@ -67,12 +67,15 @@ const SearchBar = ({ onBlur, assignFocus }) => {
 						searchResults.slice(0, 6).map(result => {
 							{
 								if (result.media_type === 'tv' || result.media_type === 'movie') {
+									const resultTitle = result.title || result.original_title || result.name || result.original_name;
 									return (
 										<li
 											className="search-result"
 											onMouseDown={e => {
 												history.push(
-													`${result.media_type === 'movie' ? movieDetailsPath : tvDetailsPath}${result.id}`
+													`${result.media_type === 'movie' ? movieDetailsPath : tvDetailsPath}${
+														result.id
+													}-${makeSlug(resultTitle)}`
 												);
 												clearSearch(e);
 												window.scrollTo(0, 0);
@@ -80,7 +83,7 @@ const SearchBar = ({ onBlur, assignFocus }) => {
 											key={result.id}
 										>
 											<p className="media-title">
-												{result.title || result.original_title || result.name}
+												{resultTitle}
 												<span className="release-date">
 													{result.release_date && ` (${new Date(result.release_date).getFullYear()})`}
 												</span>

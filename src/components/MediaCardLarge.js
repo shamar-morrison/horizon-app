@@ -2,21 +2,23 @@ import { useState, useEffect } from 'react';
 import { API_KEY, BANNER_IMG_URL } from '../logic/requests';
 import noTrailerImg from '../img/no-trailer.png';
 import FsLightbox from 'fslightbox-react';
-import { fetchMediaTrailer, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from '../logic/helpers';
+import { fetchMediaTrailer, makeSlug, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from '../logic/helpers';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { movieDetailsPath, tvDetailsPath } from '../logic/urlPaths';
-import tmdb from '../logic/axios';
+import { motion } from 'framer-motion';
 
 const MediaCardLarge = ({ media, onClose, type, id }) => {
 	const [trailerUrl, setTrailerUrl] = useState([]);
 	const [trailerToggler, setTrailerToggler] = useState(false);
 	const [trailerKey, setTrailerKey] = useState(0);
+	const [mediaTitle, setMediaTitle] = useState(media.name || media.title || media.original_title || media.original_name);
 
 	// remove trailer url and error msg when switching cards
 	useEffect(() => {
 		setTrailerUrl([]);
 		fetchMediaTrailer(media, type, setTrailerUrl);
 		setTrailerKey(prev => prev + 1);
+		setMediaTitle(media.name || media.title || media.original_title || media.original_name);
 	}, [media]);
 
 	const cardStyle = {
@@ -37,7 +39,13 @@ const MediaCardLarge = ({ media, onClose, type, id }) => {
 					<h1 className="large__card--title">{media.name || media.title || media.original_title || media.original_name}</h1>
 					<p className="banner__body--desc">{media.overview || 'No summary available.'}</p>
 					<ul className="banner__body--btns">
-						<Link to={{ pathname: `${type === MEDIA_TYPE_MOVIE ? movieDetailsPath : tvDetailsPath}${media.id}` }}>
+						<Link
+							to={{
+								pathname: `${type === MEDIA_TYPE_MOVIE ? movieDetailsPath : tvDetailsPath}${media.id}-${makeSlug(
+									mediaTitle
+								)}`,
+							}}
+						>
 							<li className="btn btn-lg watch-btn" onClick={() => window.scrollTo(0, 0)}>
 								<i className="fas fa-play"></i>watch
 							</li>

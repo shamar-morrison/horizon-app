@@ -1,18 +1,19 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import movieRequests, { BANNER_IMG_URL, BASE_IMG_URL, tvRequests } from '../logic/requests';
-import tmdb from '../logic/axios';
-import { fetchMediaTrailer, convertRating, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from '../logic/helpers';
-import LoadingSpinner from './LoadingSpinner';
 import FsLightbox from 'fslightbox-react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import noTrailerImg from '../img/no-trailer.png';
+import tmdb from '../logic/axios';
+import { convertRating, fetchMediaTrailer, makeSlug, MEDIA_TYPE_MOVIE } from '../logic/helpers';
+import movieRequests, { BANNER_IMG_URL } from '../logic/requests';
 import { movieDetailsPath } from '../logic/urlPaths';
+import LoadingSpinner from './LoadingSpinner';
 
 const Banner = ({ ref }) => {
 	const [banner, setBanner] = useState('');
 	const [trailer, setTrailer] = useState([]);
 	const [trailerToggler, setTrailerToggler] = useState(false);
 	const [isLoading, setLoading] = useState(false);
+	const [bannerTitle, setBannerTitle] = useState();
 
 	const movieUrls = [
 		movieRequests.fetchLatestThrillerMovies,
@@ -60,6 +61,7 @@ const Banner = ({ ref }) => {
 
 	useEffect(() => {
 		fetchMediaTrailer(banner, MEDIA_TYPE_MOVIE, setTrailer);
+		setBannerTitle(banner.name || banner.original_name || banner.title || banner.original_title);
 	}, [banner]);
 
 	const headerStyles = {
@@ -88,19 +90,12 @@ const Banner = ({ ref }) => {
 								{convertRating(banner)}
 							</p>
 							<h1 className="banner__body--title">
-								{banner.name || banner.original_name || banner.title || 'Error fetching banner :('}
+								{banner.name || banner.original_name || banner.title || banner.original_title}
 							</h1>
 							<p className="banner__body--desc">{banner.overview || 'No summary available.'}</p>
 							{banner && (
 								<ul className="banner__body--btns">
-									<Link
-										to={{
-											pathname: `${movieDetailsPath}${banner.id}`,
-											state: {
-												movieDetails: banner,
-											},
-										}}
-									>
+									<Link to={`${movieDetailsPath}${banner.id}-${makeSlug(bannerTitle)}`}>
 										<li className="btn btn-lg watch-btn" onClick={() => window.scrollTo(0, 0)}>
 											<i className="fas fa-play"></i>watch
 										</li>
