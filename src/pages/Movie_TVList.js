@@ -45,14 +45,11 @@ const Movie_TVList = ({ match }) => {
 			const { status, data } = await tmdb.get(`/${mediaType}/${category}?api_key=${API_KEY}&language=en-US`);
 			if (status !== 200 || !data.results.length) throw Error('Error fetch data');
 			setData(data.results);
-			setLoading(false);
 			// console.log(data, 'DATA RESULTS');
 		} catch (e) {
 			// console.error(e);
-			// retry after 2 secs
-			setTimeout(() => {
-				fetchDefaultData();
-			}, 2000);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -228,12 +225,17 @@ const Movie_TVList = ({ match }) => {
 									<option value="&with_original_language=en">English</option>
 									<option value="&with_original_language=es">Spanish</option>
 									<option value="&with_original_language=nl">Dutch</option>
-									<option value="&with_original_language=ko">Korean</option>
 									<option value="&with_original_language=ja">Japanese</option>
 									<option value="&with_original_language=id">Indonesian</option>
 									<option value="&with_original_language=ru">Russian</option>
 									<option value="&with_original_language=sr">Serbian</option>
 									<option value="&with_original_language=pl">Polish</option>
+									<option value="&with_original_language=ko">Korean</option>
+									<option value="&with_original_language=de">German</option>
+									<option value="&with_original_language=it">Italian</option>
+									<option value="&with_original_language=uk">Ukranian</option>
+									<option value="&with_original_language=th">Thai</option>
+									<option value="&with_original_language=da">Danish</option>
 								</select>
 							</li>
 							<li className="search__grid--filter-item">

@@ -33,7 +33,6 @@ const getLangs = async () => {
 	console.log(data, 'langs');
 };
 
-
 // SORT QUERIES
 const mostPopular = 'popularity.desc';
 const latest = 'release_date.asc';
@@ -80,9 +79,6 @@ const movieRequests = {
 
 	// GENRES
 	fetchGenreList: `/genre/movie/list?api_key=${API_KEY}&language=en-US`,
-
-	// LANGUAGES
-	fetchLanguages: `/configuration/languages?api_key=${API_KEY}`,
 
 	// UPCOMING
 	fetchUpcoming: `/movie/upcoming?api_key=${API_KEY}&language=en-US`,

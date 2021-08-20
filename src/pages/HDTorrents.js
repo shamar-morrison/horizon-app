@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Downloads from '../components/Downloads';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { yts } from '../logic/axios';
@@ -12,6 +12,7 @@ const HDTorrents = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
 	const [isModalVisible, setIsModalVisible] = useState(false);
+	const searchInput = useRef();
 
 	const fetchDefaultData = async () => {
 		if (isError) setIsError(false);
@@ -54,7 +55,7 @@ const HDTorrents = () => {
 	}, []);
 
 	return (
-		<div className="container torrent__search" style={{ marginTop: '25vh' }}>
+		<div className="container torrent__search">
 			<h2 className="torrent__search--title">
 				{mediaCount} <span className="red">4K</span> Movies found
 			</h2>
@@ -65,12 +66,14 @@ const HDTorrents = () => {
 					placeholder="Search for 4K movies..."
 					value={searchQuery}
 					onChange={({ target }) => setSearchQuery(target.value)}
+					ref={searchInput}
 				/>
 				<button
 					className={searchQuery ? 'search-torrents btn' : 'search-torrents btn btn-disabled'}
 					onClick={e => {
 						e.preventDefault();
 						fetchSearchData(searchQuery);
+						searchInput.current.blur();
 					}}
 				>
 					search

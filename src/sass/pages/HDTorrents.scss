@@ -1,4 +1,6 @@
 .torrent__search {
+	margin-top: 25vh;
+
 	&--form {
 		display: flex;
 		gap: 20px;
@@ -43,10 +45,15 @@
 
 	i.error-icon {
 		margin-bottom: 10px;
+		text-align: center;
 	}
 
 	.movie__card {
 		margin-bottom: 50px;
+
+		@media (max-width: 510px) {
+			margin-bottom: 40px;
+		}
 	}
 }
 
