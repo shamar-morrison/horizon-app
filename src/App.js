@@ -7,7 +7,7 @@ import MediaRow from './components/layout/MediaRow';
 import Navbar from './components/layout/Navbar';
 import './css/App.min.css';
 import { MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from './logic/helpers';
-import movieRequests, { tvRequests } from './logic/requests';
+import movieRequests, { API_KEY, tvRequests } from './logic/requests';
 import ContactForm from './components/pages/ContactForm';
 import Details from './components/pages/Details';
 import HDTorrents from './components/pages/HDTorrents';
@@ -15,8 +15,27 @@ import Movie_TVList from './components/pages/Movie_TVList';
 import PageNotFound from './components/pages/PageNotFound';
 import PrivacyPolicy from './components/pages/PrivacyPolicy';
 import UserAgreement from './components/pages/UserAgreement';
+import { useState, useEffect } from 'react';
+import tmdb from './logic/axios';
 
 const App = () => {
+	const [TVGenres, setTVGenres] = useState();
+
+	useEffect(() => {
+		// TV SHOW GENRES
+		const fetchTVGenres = async () => {
+			try {
+				const { data, status } = await tmdb.get(`/genre/tv/list?api_key=${API_KEY}&language=en-US`);
+				if (status !== 200) throw Error('Error fetching TV show genres');
+				setTVGenres(data);
+			} catch (er) {
+				console.error(er);
+				setTimeout(() => fetchTVGenres(), 2000); // retry after 2s
+			}
+		};
+		fetchTVGenres();
+	}, []);
+
 	return (
 		<>
 			<Helmet>
@@ -85,7 +104,7 @@ const App = () => {
 							<MediaRow title="Drama" fetchUrl={movieRequests.fetchLatestDramaMovies} mediaType={MEDIA_TYPE_MOVIE} id={20} />
 						</section>
 					</Route>
-					<Route exact path="/:type/:category" render={props => <Movie_TVList {...props} key={uuidv4()} />} />
+					<Route exact path="/:type/:category" render={props => <Movie_TVList {...props} key={uuidv4()} TVGenres={TVGenres} />} />
 					{/* :type - movie || tv 
 					    :id   - imdb id
 						:title - media title

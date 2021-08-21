@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getSelectedValue, MEDIA_TYPE_MOVIE } from '../../logic/helpers';
-import { genreList } from '../../logic/requests';
+import { genreList, TVShowGenres } from '../../logic/requests';
 
-const FilterPanel = ({ setFilters, type, fetchSearchData, category }) => {
+const FilterPanel = ({ setFilters, type, fetchSearchData, category, genres }) => {
 	const [mediaType, setMediaType] = useState(type);
 	const [enableSearchBtn, setEnableSearchBtn] = useState(false);
 	let oneYearFromNow = new Date();
@@ -27,6 +27,7 @@ const FilterPanel = ({ setFilters, type, fetchSearchData, category }) => {
 				return `Currently Airing ${media}`;
 		}
 	};
+
 	return (
 		<form
 			className="search__grid"
@@ -60,32 +61,49 @@ const FilterPanel = ({ setFilters, type, fetchSearchData, category }) => {
 				</li>
 				<li className="search__grid--filter-item">
 					<h3 className="filter-title">Genre:</h3>
-					<select
-						id="genre"
-						onChange={({ target }) => {
-							setFilters(prev => ({ ...prev, genre: getSelectedValue(target) }));
-							setEnableSearchBtn(true);
-						}}
-					>
-						<option value=""> </option>
-						<option value={`&${genreList.actionGenre}`}>Action</option>
-						<option value={`&${genreList.adventureGenre}`}>Adventure</option>
-						<option value={`&${genreList.animationGenre}`}>Animation</option>
-						<option value={`&${genreList.comedyGenre}`}>Comedy</option>
-						<option value={`&${genreList.crimeGenre}`}>Crime</option>
-						<option value={`&${genreList.documentaryGenre}`}>Documentary</option>
-						<option value={`&${genreList.dramaGenre}`}>Drama</option>
-						<option value={`&${genreList.familyGenre}`}>Family</option>
-						<option value={`&${genreList.fantasyGenre}`}>Fantasy</option>
-						<option value={`&${genreList.historyGenre}`}>History</option>
-						<option value={`&${genreList.horrorGenre}`}>Horror</option>
-						<option value={`&${genreList.musicGenre}`}>Music</option>
-						<option value={`&${genreList.mysteryGenre}`}>Mystery</option>
-						<option value={`&${genreList.romanceGenre}`}>Romance</option>
-						<option value={`&${genreList.thrillerGenre}`}>Thriller</option>
-						<option value={`&${genreList.warGenre}`}>War</option>
-						<option value={`&${genreList.westernGenre}`}>Western</option>
-					</select>
+					{type === MEDIA_TYPE_MOVIE ? (
+						<select
+							id="genre"
+							onChange={({ target }) => {
+								setFilters(prev => ({ ...prev, genre: getSelectedValue(target) }));
+								setEnableSearchBtn(true);
+							}}
+						>
+							<option value=""> </option>
+							<option value={`&${genreList.actionGenre}`}>Action</option>
+							<option value={`&${genreList.adventureGenre}`}>Adventure</option>
+							<option value={`&${genreList.animationGenre}`}>Animation</option>
+							<option value={`&${genreList.comedyGenre}`}>Comedy</option>
+							<option value={`&${genreList.crimeGenre}`}>Crime</option>
+							<option value={`&${genreList.documentaryGenre}`}>Documentary</option>
+							<option value={`&${genreList.dramaGenre}`}>Drama</option>
+							<option value={`&${genreList.familyGenre}`}>Family</option>
+							<option value={`&${genreList.fantasyGenre}`}>Fantasy</option>
+							<option value={`&${genreList.historyGenre}`}>History</option>
+							<option value={`&${genreList.horrorGenre}`}>Horror</option>
+							<option value={`&${genreList.musicGenre}`}>Music</option>
+							<option value={`&${genreList.mysteryGenre}`}>Mystery</option>
+							<option value={`&${genreList.romanceGenre}`}>Romance</option>
+							<option value={`&${genreList.thrillerGenre}`}>Thriller</option>
+							<option value={`&${genreList.warGenre}`}>War</option>
+							<option value={`&${genreList.westernGenre}`}>Western</option>
+						</select>
+					) : (
+						<>
+							<select
+								id="genre"
+								onChange={({ target }) => {
+									setFilters(prev => ({ ...prev, genre: getSelectedValue(target) }));
+									setEnableSearchBtn(true);
+								}}
+							>
+								<option value=""> </option>
+								{genres.genres.map(genre => {
+									return <option value={`&with_genres=${genre.id}`}>{genre.name}</option>;
+								})}
+							</select>
+						</>
+					)}
 				</li>
 				<li className="search__grid--filter-item">
 					<h3 className="filter-title">

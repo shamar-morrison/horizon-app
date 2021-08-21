@@ -3,6 +3,7 @@
 	min-height: 100vh;
 	min-width: 100vw;
 	margin-bottom: 70px;
+
 	@include filter;
 
 	@include xs-screens {
@@ -19,7 +20,7 @@
 
 	&__logo {
 		img {
-			max-width: 650px;
+			max-width: 500px;
 			width: 100%;
 			margin-top: 8px;
 		}

@@ -8,7 +8,7 @@ import movieRequests, { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from '../../logi
 import { movieDetailsPath } from '../../logic/urlPaths';
 import LoadingSpinner from './LoadingSpinner';
 
-const Banner = ({ ref }) => {
+const Banner = () => {
 	const [banner, setBanner] = useState('');
 	const [bannerLogo, setBannerLogo] = useState();
 	const [bannerBackdrop, setBannerBackdrop] = useState();
@@ -62,14 +62,14 @@ const Banner = ({ ref }) => {
 		setBannerBackdrop();
 		try {
 			const { data } = await tmdb.get(`/movie/${banner.id}/images?api_key=${API_KEY}&language=en-US&include_image_language=en,null`);
-			// console.log(data, 'img test');
+			console.log(data, 'img test');
 
 			// if logos are available
 			if (data.logos.length > 0) {
 				const logoPaths = [];
 
 				for (let i = 0; i <= data.logos.length - 1; i++) {
-					// if the aspect ratio of the logo is >=2 its a landscape img
+					// if the aspect ratio of the logo is >=2 its (probably) a landscape img
 					if (data.logos[i].aspect_ratio >= 2) {
 						logoPaths.push(data.logos[i].file_path);
 					}

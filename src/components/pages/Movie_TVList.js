@@ -8,7 +8,7 @@ import LoadingSpinner from '../layout/LoadingSpinner';
 import MediaCardLarge from '../layout/MediaCardLarge';
 import Runtime from '../layout/Runtime';
 
-const Movie_TVList = ({ match }) => {
+const Movie_TVList = ({ match, TVGenres }) => {
 	const category = match.params.category;
 	const type = match.params.type;
 	const [data, setData] = useState([]);
@@ -114,23 +114,30 @@ const Movie_TVList = ({ match }) => {
 		loadNextPage();
 	}, [page]);
 
-	useEffect(() => {
-		console.log(filters);
-		console.log(
-			`/discover/${mediaType}?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}${filters.date}&page=${page}`
-		);
-	}, [filters]);
+	// useEffect(() => {
+	// 	console.log(filters);
+	// 	console.log(
+	// 		`/discover/${mediaType}?api_key=${API_KEY}${filters.language}${filters.sort}${filters.genre}${filters.date}&page=${page}`
+	// 	);
+	// }, [filters]);
 
 	useEffect(() => {
 		setPage(1); // set initial page to first
 		fetchDefaultData();
+		console.log(TVGenres, 'tv genres');
 	}, []);
 
 	return (
 		<>
 			<div className="container">
 				<div className="card__grid">
-					<FilterPanel setFilters={setFilters} type={mediaType} category={category} fetchSearchData={fetchSearchData} />
+					<FilterPanel
+						setFilters={setFilters}
+						type={mediaType}
+						category={category}
+						fetchSearchData={fetchSearchData}
+						genres={TVGenres}
+					/>
 					{isLoading ? (
 						<div style={{ margin: '0 auto', justifySelf: 'center', alignSelf: 'center' }}>
 							<LoadingSpinner />
@@ -201,7 +208,7 @@ const Movie_TVList = ({ match }) => {
 					{noResultsFound && (
 						<div className="no-results-wrapper">
 							<div className="no-results-found">
-								<i class="fas fa-exclamation-circle"></i>
+								<i className="fas fa-exclamation-circle"></i>
 								<h4>No results found. Please try different keywords/filters.</h4>
 							</div>
 						</div>
