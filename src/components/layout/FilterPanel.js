@@ -69,7 +69,7 @@ const FilterPanel = ({ setFilters, type, fetchSearchData, category, genres }) =>
 								setEnableSearchBtn(true);
 							}}
 						>
-							<option value=""> </option>
+							<option value="">All</option>
 							<option value={`&${genreList.actionGenre}`}>Action</option>
 							<option value={`&${genreList.adventureGenre}`}>Adventure</option>
 							<option value={`&${genreList.animationGenre}`}>Animation</option>
@@ -97,7 +97,7 @@ const FilterPanel = ({ setFilters, type, fetchSearchData, category, genres }) =>
 									setEnableSearchBtn(true);
 								}}
 							>
-								<option value=""> </option>
+								<option value="">All</option>
 								{genres.genres.map(genre => {
 									return <option value={`&with_genres=${genre.id}`}>{genre.name}</option>;
 								})}

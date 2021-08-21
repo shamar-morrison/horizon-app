@@ -3,15 +3,16 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import noTrailerImg from '../../img/no-trailer.png';
 import tmdb from '../../logic/axios';
-import { convertRating, fetchMediaTrailer, makeSlug, MEDIA_TYPE_MOVIE } from '../../logic/helpers';
-import movieRequests, { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from '../../logic/requests';
-import { movieDetailsPath } from '../../logic/urlPaths';
+import { convertRating, fetchMediaTrailer, makeSlug, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from '../../logic/helpers';
+import movieRequests, { API_KEY, BANNER_IMG_URL, BASE_IMG_URL, tvRequests } from '../../logic/requests';
+import { movieDetailsPath, tvDetailsPath } from '../../logic/urlPaths';
 import LoadingSpinner from './LoadingSpinner';
 
 const Banner = () => {
 	const [banner, setBanner] = useState('');
 	const [bannerLogo, setBannerLogo] = useState();
 	const [bannerBackdrop, setBannerBackdrop] = useState();
+	const [mediaType, setMediaType] = useState();
 	const [trailer, setTrailer] = useState([]);
 	const [trailerToggler, setTrailerToggler] = useState(false);
 	const [isLoading, setLoading] = useState(false);
@@ -29,6 +30,12 @@ const Banner = () => {
 		movieRequests.fetchLatestMysteryMovies,
 		movieRequests.fetchLatestFantasyMovies,
 		movieRequests.fetchLatestDramaMovies,
+		tvRequests.fetchPopularTVShowsPg1,
+		tvRequests.fetchPopularTVShowsPg2,
+		tvRequests.fetchPopularTVShowsPg3,
+		tvRequests.fetchTrendingTVShowsPg1,
+		tvRequests.fetchTrendingTVShowsPg2,
+		tvRequests.fetchTrendingTVShowsPg3,
 	];
 
 	// get a random movie fetch url
@@ -60,9 +67,13 @@ const Banner = () => {
 	const fetchBannerImgs = async banner => {
 		setBannerLogo();
 		setBannerBackdrop();
+		// movie objects use title || original title while tv shows use name || original_name
+		const type = banner.original_title || banner.title ? MEDIA_TYPE_MOVIE : MEDIA_TYPE_TV;
 		try {
-			const { data } = await tmdb.get(`/movie/${banner.id}/images?api_key=${API_KEY}&language=en-US&include_image_language=en,null`);
-			console.log(data, 'img test');
+			const { data } = await tmdb.get(
+				`/${type}/${banner.id}/images?api_key=${API_KEY}&language=en-US&include_image_language=en,null`
+			);
+			console.log(data, 'backdrops');
 
 			// if logos are available
 			if (data.logos.length > 0) {
@@ -105,9 +116,20 @@ const Banner = () => {
 	}, []);
 
 	useEffect(() => {
-		fetchMediaTrailer(banner, MEDIA_TYPE_MOVIE, setTrailer);
+		/**
+		 * movie objects use title || original title
+		 * while TV shows use name || original name
+		 */
+		let type;
+		if (banner.title || banner.original_title) {
+			type = MEDIA_TYPE_MOVIE;
+		} else {
+			type = MEDIA_TYPE_TV;
+		}
+
 		setBannerTitle(banner.name || banner.original_name || banner.title || banner.original_title);
 		fetchBannerImgs(banner);
+		fetchMediaTrailer(banner, type, setTrailer);
 	}, [banner]);
 
 	const headerStyles = {
@@ -139,7 +161,11 @@ const Banner = () => {
 							<p className="banner__body--desc">{banner.overview || 'No summary available.'}</p>
 							{banner && (
 								<ul className="banner__body--btns">
-									<Link to={`${movieDetailsPath}${banner.id}-${makeSlug(bannerTitle)}`}>
+									<Link
+										to={`${banner.title || banner.original_title ? movieDetailsPath : tvDetailsPath}${
+											banner.id
+										}-${makeSlug(bannerTitle)}`}
+									>
 										<li className="btn btn-lg watch-btn" onClick={() => window.scrollTo(0, 0)}>
 											<i className="fas fa-play"></i>watch
 										</li>
