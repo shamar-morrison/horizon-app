@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import logo from '../img/logo.png';
+import logo from '../../img/logo.png';
 import SearchBar from './SearchBar';
 import { Link, NavLink } from 'react-router-dom';
-import movieRequests from '../logic/requests';
+import movieRequests from '../../logic/requests';
 import NavbarLinks from './NavbarLinks';
 import MobileMenu from './MobileMenu';
 

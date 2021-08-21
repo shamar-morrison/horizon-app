@@ -1,15 +1,17 @@
 import FsLightbox from 'fslightbox-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import noTrailerImg from '../img/no-trailer.png';
-import tmdb from '../logic/axios';
-import { convertRating, fetchMediaTrailer, makeSlug, MEDIA_TYPE_MOVIE } from '../logic/helpers';
-import movieRequests, { BANNER_IMG_URL } from '../logic/requests';
-import { movieDetailsPath } from '../logic/urlPaths';
+import noTrailerImg from '../../img/no-trailer.png';
+import tmdb from '../../logic/axios';
+import { convertRating, fetchMediaTrailer, makeSlug, MEDIA_TYPE_MOVIE } from '../../logic/helpers';
+import movieRequests, { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from '../../logic/requests';
+import { movieDetailsPath } from '../../logic/urlPaths';
 import LoadingSpinner from './LoadingSpinner';
 
 const Banner = ({ ref }) => {
 	const [banner, setBanner] = useState('');
+	const [bannerLogo, setBannerLogo] = useState();
+	const [bannerBackdrop, setBannerBackdrop] = useState();
 	const [trailer, setTrailer] = useState([]);
 	const [trailerToggler, setTrailerToggler] = useState(false);
 	const [isLoading, setLoading] = useState(false);
@@ -55,6 +57,49 @@ const Banner = ({ ref }) => {
 		}
 	};
 
+	const fetchBannerImgs = async banner => {
+		setBannerLogo();
+		setBannerBackdrop();
+		try {
+			const { data } = await tmdb.get(`/movie/${banner.id}/images?api_key=${API_KEY}&language=en-US&include_image_language=en,null`);
+			// console.log(data, 'img test');
+
+			// if logos are available
+			if (data.logos.length > 0) {
+				const logoPaths = [];
+
+				for (let i = 0; i <= data.logos.length - 1; i++) {
+					// if the aspect ratio of the logo is >=2 its a landscape img
+					if (data.logos[i].aspect_ratio >= 2) {
+						logoPaths.push(data.logos[i].file_path);
+					}
+				}
+				if (logoPaths.length > 0) {
+					const randLogo = Math.floor(Math.random() * (logoPaths.length - 1)); // fetch rand logo
+					setBannerLogo(`${BASE_IMG_URL}${logoPaths[randLogo]}`);
+				}
+			}
+
+			// if backdrops are available
+			if (data.backdrops.length > 0) {
+				const randBackdrop = Math.floor(Math.random() * (data.backdrops.length - 1)); // fetch rand backdrop
+				setBannerBackdrop(`${BANNER_IMG_URL}${data.backdrops[randBackdrop].file_path}`);
+			}
+		} catch (er) {
+			console.error(er);
+		}
+	};
+
+	const renderBannerTitle = () => {
+		return bannerLogo ? (
+			<div className="banner__logo">
+				<img src={bannerLogo} alt={bannerTitle} />
+			</div>
+		) : (
+			<h1 className="banner__body--title">{bannerTitle}</h1>
+		);
+	};
+
 	useEffect(() => {
 		fetchRandMovie();
 	}, []);
@@ -62,10 +107,11 @@ const Banner = ({ ref }) => {
 	useEffect(() => {
 		fetchMediaTrailer(banner, MEDIA_TYPE_MOVIE, setTrailer);
 		setBannerTitle(banner.name || banner.original_name || banner.title || banner.original_title);
+		fetchBannerImgs(banner);
 	}, [banner]);
 
 	const headerStyles = {
-		backgroundImage: `url(${BANNER_IMG_URL}${banner.backdrop_path || banner.poster_path})`,
+		backgroundImage: `url(${bannerBackdrop || `${BANNER_IMG_URL}${banner.backdrop_path || banner.poster_path}`})`,
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover',
 		backgroundPosition: 'center center',
@@ -89,9 +135,7 @@ const Banner = ({ ref }) => {
 								<i className="fas fa-star star"></i>
 								{convertRating(banner)}
 							</p>
-							<h1 className="banner__body--title">
-								{banner.name || banner.original_name || banner.title || banner.original_title}
-							</h1>
+							{renderBannerTitle()}
 							<p className="banner__body--desc">{banner.overview || 'No summary available.'}</p>
 							{banner && (
 								<ul className="banner__body--btns">

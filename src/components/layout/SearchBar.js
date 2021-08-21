@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import tmdb from '../logic/axios';
-import { makeSlug } from '../logic/helpers';
-import { API_KEY } from '../logic/requests';
-import { movieDetailsPath, tvDetailsPath } from '../logic/urlPaths';
+import tmdb from '../../logic/axios';
+import { makeSlug } from '../../logic/helpers';
+import { API_KEY } from '../../logic/requests';
+import { movieDetailsPath, tvDetailsPath } from '../../logic/urlPaths';
 
 const SearchBar = ({ onBlur, assignFocus }) => {
 	const [searchVal, setSearchVal] = useState('');

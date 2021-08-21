@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
-import Downloads from '../components/Downloads';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { yts } from '../logic/axios';
-import { calcMediaRuntime } from '../logic/helpers';
+import Downloads from '../layout/Downloads';
+import LoadingSpinner from '../layout/LoadingSpinner';
+import { yts } from '../../logic/axios';
+import { calcMediaRuntime } from '../../logic/helpers';
 
 const HDTorrents = () => {
 	const [media, setMedia] = useState();

@@ -1,22 +1,20 @@
-import './css/App.min.css';
-import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import MediaRow from './components/MediaRow';
-import Footer from './components/Footer';
-import Navbar from './components/Navbar';
-import Banner from './components/Banner';
-import movieRequests, { tvRequests } from './logic/requests';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Details from './pages/Details';
-import Movie_TVList from './pages/Movie_TVList';
-import PageNotFound from './pages/PageNotFound';
-import UserAgreement from './pages/UserAgreement';
-import ContactForm from './pages/ContactForm';
-import PrivacyPolicy from './pages/PrivacyPolicy';
+import Banner from './components/layout/Banner';
+import Footer from './components/layout/Footer';
+import MediaRow from './components/layout/MediaRow';
+import Navbar from './components/layout/Navbar';
+import './css/App.min.css';
 import { MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from './logic/helpers';
-import HDTorrents from './pages/HDTorrents';
+import movieRequests, { tvRequests } from './logic/requests';
+import ContactForm from './components/pages/ContactForm';
+import Details from './components/pages/Details';
+import HDTorrents from './components/pages/HDTorrents';
+import Movie_TVList from './components/pages/Movie_TVList';
+import PageNotFound from './components/pages/PageNotFound';
+import PrivacyPolicy from './components/pages/PrivacyPolicy';
+import UserAgreement from './components/pages/UserAgreement';
 
 const App = () => {
 	return (

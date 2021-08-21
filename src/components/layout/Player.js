@@ -7,10 +7,10 @@
  * links which are then stored into our database and served to you through our API service.
  */
 
-import tmdb from '../logic/axios';
-import { getReleaseYear, getSelectedValue, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from '../logic/helpers';
+import tmdb from '../../logic/axios';
+import { getReleaseYear, getSelectedValue, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from '../../logic/helpers';
 import { useState, useEffect, useRef } from 'react';
-import { API_KEY } from '../logic/requests';
+import { API_KEY } from '../../logic/requests';
 
 const Player = ({ media, type }) => {
 	const [TVShowSeasonDetails, setTVShowSeasonDetails] = useState([]);

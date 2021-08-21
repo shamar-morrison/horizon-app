@@ -2,19 +2,27 @@ import FsLightbox from 'fslightbox-react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
-import Cast from '../components/Cast';
-import Downloads from '../components/Downloads';
-import Genres from '../components/Genres';
-import LoadingSpinner from '../components/LoadingSpinner';
-import Photos from '../components/Photos';
-import Player from '../components/Player';
-import Runtime from '../components/Runtime';
-import Similar from '../components/Similar';
-import noImageFound from '../img/no-img-found.png';
-import noTrailerImg from '../img/no-trailer.png';
-import tmdb from '../logic/axios';
-import { convertRating, fetchMediaTrailer, fetchTorrents, getReleaseYear, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV, months } from '../logic/helpers';
-import { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from '../logic/requests';
+import Cast from '../layout/Cast';
+import Downloads from '../layout/Downloads';
+import Genres from '../layout/Genres';
+import LoadingSpinner from '../layout/LoadingSpinner';
+import Photos from '../layout/Photos';
+import Player from '../layout/Player';
+import Runtime from '../layout/Runtime';
+import Similar from '../layout/Similar';
+import noImageFound from '../../img/no-img-found.png';
+import noTrailerImg from '../../img/no-trailer.png';
+import tmdb from '../../logic/axios';
+import {
+	convertRating,
+	fetchMediaTrailer,
+	fetchTorrents,
+	getReleaseYear,
+	MEDIA_TYPE_MOVIE,
+	MEDIA_TYPE_TV,
+	months,
+} from '../../logic/helpers';
+import { API_KEY, BANNER_IMG_URL, BASE_IMG_URL } from '../../logic/requests';
 
 SwiperCore.use([Navigation, Pagination]);
 

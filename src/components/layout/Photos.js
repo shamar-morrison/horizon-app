@@ -4,7 +4,7 @@
  * FS Lightbox: https://fslightbox.com/
  */
 
-import { BASE_IMG_URL } from '../logic/requests';
+import { BASE_IMG_URL } from '../../logic/requests';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
 import FsLightbox from 'fslightbox-react';

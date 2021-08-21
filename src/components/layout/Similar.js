@@ -1,8 +1,8 @@
-import { BASE_IMG_URL } from '../logic/requests';
-import noImageFound from '../img/no-img-found.png';
+import { BASE_IMG_URL } from '../../logic/requests';
+import noImageFound from '../../img/no-img-found.png';
 import { Link } from 'react-router-dom';
-import { movieDetailsPath, tvDetailsPath } from '../logic/urlPaths';
-import { makeSlug, MEDIA_TYPE_MOVIE } from '../logic/helpers';
+import { movieDetailsPath, tvDetailsPath } from '../../logic/urlPaths';
+import { makeSlug, MEDIA_TYPE_MOVIE } from '../../logic/helpers';
 
 const Similar = ({ similarMedia, onClick, type }) => {
 	const scrollToTop = () => {

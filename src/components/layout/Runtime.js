@@ -1,4 +1,4 @@
-import { getMediaRuntime, calcMediaRuntime } from '../logic/helpers';
+import { getMediaRuntime, calcMediaRuntime } from '../../logic/helpers';
 import { useState, useEffect } from 'react';
 
 const Runtime = ({ media, mediaType }) => {

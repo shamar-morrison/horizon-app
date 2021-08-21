@@ -6,13 +6,13 @@
  */
 
 import { useEffect, useState, useRef } from 'react';
-import tmdb from '../logic/axios';
+import tmdb from '../../logic/axios';
 import MediaCard from './MediaCard';
 import MediaCardLarge from './MediaCardLarge';
 import FilterCategory from './FilterCategory';
-import movieRequests from '../logic/requests';
+import movieRequests from '../../logic/requests';
 import LoadingSpinner from './LoadingSpinner';
-import swipeIcon from '../img/swipe.svg';
+import swipeIcon from '../../img/swipe.svg';
 
 import SwiperCore, { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';

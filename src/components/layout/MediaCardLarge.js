@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
-import { API_KEY, BANNER_IMG_URL } from '../logic/requests';
-import noTrailerImg from '../img/no-trailer.png';
 import FsLightbox from 'fslightbox-react';
-import { fetchMediaTrailer, makeSlug, MEDIA_TYPE_MOVIE, MEDIA_TYPE_TV } from '../logic/helpers';
-import { Link, useLocation, useHistory } from 'react-router-dom';
-import { movieDetailsPath, tvDetailsPath } from '../logic/urlPaths';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { fetchMediaTrailer, makeSlug, MEDIA_TYPE_MOVIE } from '../../logic/helpers';
+import { BANNER_IMG_URL } from '../../logic/requests';
+import { movieDetailsPath, tvDetailsPath } from '../../logic/urlPaths';
+import noTrailerImg from '../../img/no-trailer.png';
 
 const MediaCardLarge = ({ media, onClose, type, id }) => {
 	const [trailerUrl, setTrailerUrl] = useState([]);

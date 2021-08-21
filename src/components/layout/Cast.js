@@ -1,5 +1,5 @@
-import { BASE_IMG_URL } from '../logic/requests';
-import noCastFound from '../img/no-cast-found.png';
+import { BASE_IMG_URL } from '../../logic/requests';
+import noCastFound from '../../img/no-cast-found.png';
 
 const Cast = ({ movieCast }) => {
 	return (

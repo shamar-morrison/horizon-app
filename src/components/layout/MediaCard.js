@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router';
-import noImageFound from '../img/no-img-found.png';
-import { convertRating, getReleaseYear, makeSlug, MEDIA_TYPE_MOVIE } from '../logic/helpers';
-import { BASE_IMG_URL } from '../logic/requests';
-import { movieDetailsPath, tvDetailsPath } from '../logic/urlPaths';
+import noImageFound from '../../img/no-img-found.png';
+import { convertRating, getReleaseYear, makeSlug, MEDIA_TYPE_MOVIE } from '../../logic/helpers';
+import { BASE_IMG_URL } from '../../logic/requests';
+import { movieDetailsPath, tvDetailsPath } from '../../logic/urlPaths';
 import Runtime from './Runtime';
 
 const MediaCard = ({ media, type, id }) => {
