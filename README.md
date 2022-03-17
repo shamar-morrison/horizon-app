@@ -4,6 +4,8 @@ This project was built with [React](https://reactjs.org/).
 
 Horizon is a web app that lets you watch the latest Movies, TV Shows, and Anime online for Free.
 
+[Preview](https://www.horizonmovies.xyz/)
+
 ## Available Scripts
 
 In the project directory, you can run:
